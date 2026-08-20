@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--app-head-->
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f7f7f5;
+      }
+      @media (prefers-color-scheme: dark) {
+        html[data-aag-theme="dark"],
+        html[data-aag-theme="dark"] body {
+          background: #121212;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.tsx"></script>
+  </body>
+</html>

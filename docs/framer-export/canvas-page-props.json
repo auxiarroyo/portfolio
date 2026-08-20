@@ -1,0 +1,247 @@
+{
+ "/": {
+  "pageName": "Home",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/sdpCfpU:default",
+    "display": "HomePage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "portfolio": "https://auxiarroyo.framer.website",
+     "contactPage": "/contact",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/about": {
+  "pageName": "/about",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/plXKMx6:default",
+    "display": "AboutPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "portfolio": "https://auxiarroyo.framer.website",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/404": {
+  "pageName": "/404",
+  "fill": "white",
+  "childTypes": [],
+  "instances": []
+ },
+ "/projects": {
+  "pageName": "/projects",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/WFN5HNZ:default",
+    "display": "ProjectsPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "portfolio": "https://auxiarroyo.framer.website",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/for-fun": {
+  "pageName": "/for-fun",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/ISJ5X_K:default",
+    "display": "ForFunPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/explicación-proyecto": {
+  "pageName": "/explicación-proyecto",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/p0IV6lc:default",
+    "display": "ProjectDetailPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "projectsPage": "/projects",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/digital-garden": {
+  "pageName": "/digital-garden",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/ycCrSQg:default",
+    "display": "DigitalGardenPage",
+    "controls": {
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/contact": {
+  "pageName": "/contact",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/YOL9AIy:default",
+    "display": "ContactPage",
+    "controls": {
+     "email": "auxiliadoraarroyo123@gmail.com",
+     "phone": "+34 640 147 444",
+     "location": "España",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "portfolio": "https://auxiarroyo.framer.website",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/youicy": {
+  "pageName": "/youicy",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/GZ2dcQn:default",
+    "display": "YouicyPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "projectsPage": "/projects",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/nailing": {
+  "pageName": "/nailing",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/SjeqlIB:default",
+    "display": "NailingPage",
+    "controls": {
+     "email": "carreque45@gmail.com",
+     "linkedIn": "https://www.linkedin.com/in/auxiarroyo/",
+     "projectsPage": "/projects",
+     "accent": "#ff654d",
+     "defaultLang": "Español"
+    }
+   }
+  ]
+ },
+ "/charging-page": {
+  "pageName": "/charging-page",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/PeVOzRM:default",
+    "display": "ChargingPage",
+    "controls": {
+     "homePage": "/",
+     "heartbeats": "3",
+     "accent": "#ff654d",
+     "playOnce": "true"
+    }
+   }
+  ]
+ },
+ "/chroma": {
+  "pageName": "/chroma",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/vVzXgZL:ChromaPage",
+    "display": "ChromaPage",
+    "controls": {}
+   }
+  ]
+ },
+ "/the-neon-museum": {
+  "pageName": "/the-neon-museum",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/vVzXgZL:NeonMuseumPage",
+    "display": "NeonMuseumPage",
+    "controls": {}
+   }
+  ]
+ },
+ "/bokoba": {
+  "pageName": "/bokoba",
+  "fill": "#f7f7f5",
+  "childTypes": [
+   "ComponentInstanceNode"
+  ],
+  "instances": [
+   {
+    "component": "codeFile/vVzXgZL:BokobaPage",
+    "display": "BokobaPage",
+    "controls": {}
+   }
+  ]
+ }
+}

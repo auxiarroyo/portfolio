@@ -1,0 +1,324 @@
+{
+ "AboutPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "portfolioUrl",
+   "title": "Portfolio",
+   "type": "Link"
+  },
+  {
+   "prop": "contactUrl",
+   "title": "Contact Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "ProjectsPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "portfolioUrl",
+   "title": "Portfolio",
+   "type": "Link"
+  },
+  {
+   "prop": "contactUrl",
+   "title": "Contact Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "HomePage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "portfolioUrl",
+   "title": "Portfolio",
+   "type": "Link"
+  },
+  {
+   "prop": "contactUrl",
+   "title": "Contact Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "ContactPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "contactImage",
+   "title": "Contact Image",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "phone",
+   "title": "Phone",
+   "type": "String"
+  },
+  {
+   "prop": "location",
+   "title": "Location",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "portfolioUrl",
+   "title": "Portfolio",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "ProjectDetailPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "projectsUrl",
+   "title": "Projects Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "ForFunPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  }
+ ],
+ "DigitalGardenPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  }
+ ],
+ "YouicyPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "projectsUrl",
+   "title": "Projects Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "NailingPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "projectsUrl",
+   "title": "Projects Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ],
+ "ChargingPage": [
+  {
+   "prop": "homeUrl",
+   "title": "Home Page",
+   "type": "Link"
+  },
+  {
+   "prop": "beats",
+   "title": "Heartbeats",
+   "type": "Number"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "playOncePerSession",
+   "title": "Play Once",
+   "type": "Boolean"
+  }
+ ],
+ "CaseStudyPage": [
+  {
+   "prop": "profileImage",
+   "title": "Profile Photo",
+   "type": "ResponsiveImage"
+  },
+  {
+   "prop": "email",
+   "title": "Email",
+   "type": "String"
+  },
+  {
+   "prop": "linkedinUrl",
+   "title": "LinkedIn",
+   "type": "Link"
+  },
+  {
+   "prop": "projectsUrl",
+   "title": "Projects Page",
+   "type": "Link"
+  },
+  {
+   "prop": "accent",
+   "title": "Accent",
+   "type": "Color"
+  },
+  {
+   "prop": "defaultLanguage",
+   "title": "Default Lang",
+   "type": "Enum"
+  }
+ ]
+}
