@@ -1042,23 +1042,6 @@ export default function ProjectsPage(props: ProjectsPageProps) {
                             })
                         )}
                     </div>
-
-                    {/* ---------- VIEW ALL PROJECTS ---------- */}
-                    <div className="aag-proj-viewall-wrap">
-                        <a
-                            className="aag-viewall"
-                            href={portfolioUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            {t.viewAll}
-                            <span className="aag-proj-viewall-arrow" aria-hidden="true">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M7 17L17 7M8 7h9v9" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
                 </section>
 
                 {/* ---------- CONTACT / FOOTER (identical to About) ---------- */}
