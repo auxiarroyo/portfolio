@@ -13,7 +13,7 @@
  * If you later move the site to a user site or a custom domain served at the
  * domain root, set BASE = "/" and run the same two commands.
  */
-export const BASE = "/portfolio-auxi-arroyo/"
+export const BASE = "/portfolio/"
 
 /** Site-wide metadata, harvested verbatim from the previously published site. */
 export const SITE = {

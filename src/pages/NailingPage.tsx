@@ -212,25 +212,25 @@ const CONTACT_URL = "/contact"
 --------------------------------------------------------------------------- */
 const IMG = {
     showcase: [
-        "/portfolio-auxi-arroyo/assets/02P9lU9glcDSf4Dy8oMUUaxco.png", // nail artist swipe card
-        "/portfolio-auxi-arroyo/assets/JyJznDuFATRiIbntuPj3mRwQkw.png", // Nailing main — hero (centre)
-        "/portfolio-auxi-arroyo/assets/GCP0jPuSYH8R1cKuyZJp36jTqQ.png", // choose service
+        "/portfolio/assets/02P9lU9glcDSf4Dy8oMUUaxco.png", // nail artist swipe card
+        "/portfolio/assets/JyJznDuFATRiIbntuPj3mRwQkw.png", // Nailing main — hero (centre)
+        "/portfolio/assets/GCP0jPuSYH8R1cKuyZJp36jTqQ.png", // choose service
     ],
     screens: [
-        "/portfolio-auxi-arroyo/assets/IlvNarm0PO3MiyH7k0SjJxRbI.png", // red nails detail
-        "/portfolio-auxi-arroyo/assets/SzToDeBe0NBcSdJNKEfpcbBWFes.png", // studio map search
-        "/portfolio-auxi-arroyo/assets/MuaEfuqOhBcnGnr1nvn2SCGZ4g.png", // studio detail
-        "/portfolio-auxi-arroyo/assets/VRnIwI3XQgVS5TMr1ofzRpQ.png", // nail artist profile
-        "/portfolio-auxi-arroyo/assets/LiIy2RiAwHRJ1DzmwDMN8Gb2ryk.png", // select time
-        "/portfolio-auxi-arroyo/assets/wf30Tr70xfsDFkvvbMkNYah1f1U.png", // booking options
-        "/portfolio-auxi-arroyo/assets/VtHkwTHj1vBc0ztmt13vXTv4.png", // brand splash
+        "/portfolio/assets/IlvNarm0PO3MiyH7k0SjJxRbI.png", // red nails detail
+        "/portfolio/assets/SzToDeBe0NBcSdJNKEfpcbBWFes.png", // studio map search
+        "/portfolio/assets/MuaEfuqOhBcnGnr1nvn2SCGZ4g.png", // studio detail
+        "/portfolio/assets/VRnIwI3XQgVS5TMr1ofzRpQ.png", // nail artist profile
+        "/portfolio/assets/LiIy2RiAwHRJ1DzmwDMN8Gb2ryk.png", // select time
+        "/portfolio/assets/wf30Tr70xfsDFkvvbMkNYah1f1U.png", // booking options
+        "/portfolio/assets/VtHkwTHj1vBc0ztmt13vXTv4.png", // brand splash
     ],
     wires: [
-        "/portfolio-auxi-arroyo/assets/x38cWOITN20WaKFBD7ankzA.png",
-        "/portfolio-auxi-arroyo/assets/dK6D69BuNJVUNsxDhT5D2gyiEQ.png",
-        "/portfolio-auxi-arroyo/assets/wo77S9HdfQ1t1lPNJwdLtXBmLEg.png",
-        "/portfolio-auxi-arroyo/assets/0SzGtKrXU5We1humKDdC1foch94.png",
-        "/portfolio-auxi-arroyo/assets/JNiwt29poG7Qln9drzJohJ08I.png",
+        "/portfolio/assets/x38cWOITN20WaKFBD7ankzA.png",
+        "/portfolio/assets/dK6D69BuNJVUNsxDhT5D2gyiEQ.png",
+        "/portfolio/assets/wo77S9HdfQ1t1lPNJwdLtXBmLEg.png",
+        "/portfolio/assets/0SzGtKrXU5We1humKDdC1foch94.png",
+        "/portfolio/assets/JNiwt29poG7Qln9drzJohJ08I.png",
     ],
 }
 /* Every project screen, in reading order, for the fullscreen lightbox. */
@@ -254,7 +254,7 @@ const CAP = {
 /* Header avatar — identical circular portrait used across the site. The
    "Profile Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 type Bi = { es: string; en: string }
@@ -484,7 +484,7 @@ const RELATED: {
         title: { es: "Youicy", en: "Youicy" },
         info: { es: "App de empleabilidad · 2025", en: "Employability app · 2025" },
         href: "/youicy",
-        img: "/portfolio-auxi-arroyo/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png",
+        img: "/portfolio/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png",
     },
     {
         key: "neon",
@@ -492,7 +492,7 @@ const RELATED: {
         title: { es: "The Neon Museum", en: "The Neon Museum" },
         info: { es: "Rebranding · 2024", en: "Rebranding · 2024" },
         href: "/the-neon-museum",
-        img: "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
+        img: "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
     },
 ]
 

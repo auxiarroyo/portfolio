@@ -19,7 +19,7 @@ import { addPropertyControls, ControlType, useIsStaticRenderer } from "framer"
 
 /* @positivo brand flower (same asset used across the site), inlined as a data
    URI so the intro never waits on a network request. */
-const FLOWER_SRC = "/portfolio-auxi-arroyo/assets/xFoqHrXNDyzuwBC6VbJT53CWzlI.png"
+const FLOWER_SRC = "/portfolio/assets/xFoqHrXNDyzuwBC6VbJT53CWzlI.png"
 
 const HOME_URL = "/"
 

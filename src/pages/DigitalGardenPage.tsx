@@ -198,7 +198,7 @@ const PORTFOLIO_URL = "/"
 const RECOMMEND_EMAIL = "auxiliadora.arroyo123@gmail.com"
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${RECOMMEND_EMAIL}`
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 
@@ -484,7 +484,7 @@ type CategoryMeta = {
 const CATEGORY_ORDER = ["portfolios", "posters", "books", "movies", "series", "designers", "resources", "visual", "websites"] as const
 const CATEGORY_META: Record<string, CategoryMeta> = {
     portfolios: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1634084462412-b54873c0a56d.jpg",
+        image: "/portfolio/assets/photo-1634084462412-b54873c0a56d.jpg",
         blurb: {
             es: "Portfolios de diseñadores cuya forma de contar su trabajo me marca el listón.",
             en: "Designer portfolios whose way of telling their work sets my bar.",
@@ -499,7 +499,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     posters: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1563050860-87d45eaaeabb.jpg",
+        image: "/portfolio/assets/photo-1563050860-87d45eaaeabb.jpg",
         blurb: {
             es: "Carteles y escuelas gráficas donde una sola imagen tiene que decirlo todo.",
             en: "Posters and graphic schools where a single image has to say it all.",
@@ -514,7 +514,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     books: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1658842042844-eeb5ad17b7d3.jpg",
+        image: "/portfolio/assets/photo-1658842042844-eeb5ad17b7d3.jpg",
         blurb: {
             es: "Libros que vuelvo a abrir cuando necesito reordenar cómo pienso el diseño.",
             en: "Books I reopen whenever I need to reorder how I think about design.",
@@ -529,7 +529,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     movies: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1746157981411-05e0b952d3ec.jpg",
+        image: "/portfolio/assets/photo-1746157981411-05e0b952d3ec.jpg",
         blurb: {
             es: "Películas donde la dirección de arte, el color y el encuadre son puro diseño.",
             en: "Films where art direction, colour and framing are pure design.",
@@ -544,7 +544,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     series: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1777714221034-0d5152d676df.jpg",
+        image: "/portfolio/assets/photo-1777714221034-0d5152d676df.jpg",
         blurb: {
             es: "Series con una identidad visual tan fuerte que se reconocen en un fotograma.",
             en: "Series with a visual identity so strong you recognise them in one frame.",
@@ -559,7 +559,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     designers: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1621111848501-8d3634f82336.jpg",
+        image: "/portfolio/assets/photo-1621111848501-8d3634f82336.jpg",
         blurb: {
             es: "Diseñadores cuyo criterio y trayectoria son una brújula para mí.",
             en: "Designers whose judgement and body of work are a compass for me.",
@@ -574,7 +574,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     resources: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1759910546841-526487211a19.jpg",
+        image: "/portfolio/assets/photo-1759910546841-526487211a19.jpg",
         blurb: {
             es: "Recursos y herramientas que uso para pasar de la idea al detalle final.",
             en: "Resources and tools I use to go from the idea to the final detail.",
@@ -589,7 +589,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     visual: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1666152680666-78b4c07c3f38.jpg",
+        image: "/portfolio/assets/photo-1666152680666-78b4c07c3f38.jpg",
         blurb: {
             es: "Archivos y moodboards donde guardo lo que me para en seco.",
             en: "Archives and moodboards where I keep whatever stops me in my tracks.",
@@ -604,7 +604,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
         },
     },
     websites: {
-        image: "/portfolio-auxi-arroyo/assets/photo-1542744095-291d1f67b221.jpg",
+        image: "/portfolio/assets/photo-1542744095-291d1f67b221.jpg",
         blurb: {
             es: "Webs y galerías que sigo para no perder el pulso de lo que se está haciendo.",
             en: "Websites and galleries I follow to keep a pulse on what's being made.",

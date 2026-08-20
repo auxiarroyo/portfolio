@@ -72,7 +72,7 @@ Only four Framer APIs are used across the whole site:
 
 GitHub Pages serves a project site from `https://<user>.github.io/<repo>/`, so
 the base path has to match the repository name. It is currently
-`/portfolio-auxi-arroyo/`. If you rename the repo:
+`/portfolio/`, matching the `portfolio` repository. If you rename the repo:
 
 1. Edit `BASE` in `site.config.js`.
 2. `npm run rebase` — rewrites the hardcoded asset paths in `src/pages`.

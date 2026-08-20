@@ -190,24 +190,24 @@ const CONTACT_URL = ""
 
 /* Circular portrait (Auxi Arroyo círculo) — shared nav avatar across the site */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 /* Curated moodboard photos */
 /* Homepage showcase — real project visuals (mockups & applications) so the
    hero immediately communicates the work, spread across all five projects. */
 const MOOD: string[] = [
-    "/portfolio-auxi-arroyo/assets/JyJznDuFATRiIbntuPj3mRwQkw.png", // Nailing — app in hand
-    "/portfolio-auxi-arroyo/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png", // Chroma — magazine spread
-    "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png", // Neon Museum — business card
-    "/portfolio-auxi-arroyo/assets/ZvVJzscSPoMVUG5ZFUFy6aTWbhQ.png", // Bokobá — cans by the pool
-    "/portfolio-auxi-arroyo/assets/TEKuG4iwmIVaNvgghhuT4kVlp6g.svg", // Youicy — product showcase
-    "/portfolio-auxi-arroyo/assets/vg7dAC7GmT5LYuRqtDWWGdA.png",    // Neon Museum — tote bag
-    "/portfolio-auxi-arroyo/assets/oKNB9NMgXDHp6WaLbMhkfKzytrE.png", // Chroma — covers & index
-    "/portfolio-auxi-arroyo/assets/p9K6BS5VmQWZQkTTdhx56LKrKtY.png", // Bokobá — box & can system
-    "/portfolio-auxi-arroyo/assets/aXAUVJUcd798CEqdyomdT1ntW0.png",  // Neon Museum — map & wayfinding
-    "/portfolio-auxi-arroyo/assets/BwkRvu4AgJEbaVDwIE0ecpSRPn8.png", // Chroma — magazine stack
-    "/portfolio-auxi-arroyo/assets/ghIL9IQcAWdzZdvlcOjizF1Mn58.png", // Neon Museum — textile
-    "/portfolio-auxi-arroyo/assets/feUwmzYzB8LofqNsakHhNDAUiY.png",  // Neon Museum — brand manual
+    "/portfolio/assets/JyJznDuFATRiIbntuPj3mRwQkw.png", // Nailing — app in hand
+    "/portfolio/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png", // Chroma — magazine spread
+    "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png", // Neon Museum — business card
+    "/portfolio/assets/ZvVJzscSPoMVUG5ZFUFy6aTWbhQ.png", // Bokobá — cans by the pool
+    "/portfolio/assets/TEKuG4iwmIVaNvgghhuT4kVlp6g.svg", // Youicy — product showcase
+    "/portfolio/assets/vg7dAC7GmT5LYuRqtDWWGdA.png",    // Neon Museum — tote bag
+    "/portfolio/assets/oKNB9NMgXDHp6WaLbMhkfKzytrE.png", // Chroma — covers & index
+    "/portfolio/assets/p9K6BS5VmQWZQkTTdhx56LKrKtY.png", // Bokobá — box & can system
+    "/portfolio/assets/aXAUVJUcd798CEqdyomdT1ntW0.png",  // Neon Museum — map & wayfinding
+    "/portfolio/assets/BwkRvu4AgJEbaVDwIE0ecpSRPn8.png", // Chroma — magazine stack
+    "/portfolio/assets/ghIL9IQcAWdzZdvlcOjizF1Mn58.png", // Neon Museum — textile
+    "/portfolio/assets/feUwmzYzB8LofqNsakHhNDAUiY.png",  // Neon Museum — brand manual
 ]
 
 type Lang = "es" | "en"
@@ -686,7 +686,7 @@ export default function HomePage(props: HomePageProps) {
                 >
                     <span className="aag-intro-flower" aria-hidden="true">
                         <img
-                            src="/portfolio-auxi-arroyo/assets/xFoqHrXNDyzuwBC6VbJT53CWzlI.png"
+                            src="/portfolio/assets/xFoqHrXNDyzuwBC6VbJT53CWzlI.png"
                             alt=""
                             width={132}
                             height={132}

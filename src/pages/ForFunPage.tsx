@@ -158,7 +158,7 @@ function SiteLink({ href, children }: { href?: string; children: any }) {
 
 const EMAIL = "carreque45@gmail.com"
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/u93idApkziW9L6NOU8M3hTzMQ5s.png"
+    "/portfolio/assets/u93idApkziW9L6NOU8M3hTzMQ5s.png"
 
 type Lang = "es" | "en"
 

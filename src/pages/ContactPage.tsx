@@ -163,11 +163,11 @@ const LINKEDIN_URL = "https://www.linkedin.com/in/auxiarroyo/"
 const PORTFOLIO_URL = "/"
 
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 /* Editorial visual that replaces the contact form (horizontal, object-fit cover) */
 const CONTACT_IMG =
-    "/portfolio-auxi-arroyo/assets/RxEXlSbPNwdS4SM1dE4F0J1y5I.jpg"
+    "/portfolio/assets/RxEXlSbPNwdS4SM1dE4F0J1y5I.jpg"
 
 type Lang = "es" | "en"
 

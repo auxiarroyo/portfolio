@@ -201,20 +201,20 @@ const CONTACT_URL = ""
 /* Header avatar — circular portrait, uploaded to the project. The "Profile
    Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 /* The avatar portrait is already a centred circular crop. */
 const PROFILE_POSITION = "center"
 
 /* Hero (left-column) portrait — rectangular photo shown in the rounded frame.
    Optimised from Auxi Arroyo.JPG. */
 const HERO_PHOTO_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 /* The círculo portrait is already a centred circular crop. */
 const HERO_PHOTO_POSITION = "center"
 
 /* Personal logo (coral quatrefoil) — sits beside the name in the hero. */
 const LOGO_SRC =
-    "/portfolio-auxi-arroyo/assets/VGeZrk4sKDih6EDNaKuAgI853FY.png"
+    "/portfolio/assets/VGeZrk4sKDih6EDNaKuAgI853FY.png"
 
 /* ---------------------------------------------------------------------------
    PROFESSIONAL EXPERIENCE (structured data, paired ES / EN)
@@ -883,10 +883,10 @@ const TOOL_INK = "#1a1a17"
    a `src` to any entry (the component renders the image instead of the text).
 --------------------------------------------------------------------------- */
 const LOGOS: { name: string; src?: string; big?: boolean }[] = [
-    { name: "Adobe", src: "/portfolio-auxi-arroyo/assets/CtbVBDhBotXnKJtHKhMtcUqOY.png", big: true },
+    { name: "Adobe", src: "/portfolio/assets/CtbVBDhBotXnKJtHKhMtcUqOY.png", big: true },
     { name: "Google", src: "data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEzOS45IDQ0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMzkuOSA0NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgogPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KICAuc3Qwe2ZpbGw6IzQyODVGNDt9Cgkuc3Qxe2ZpbGw6I0VBNDMzNTt9Cgkuc3Qye2ZpbGw6I0ZCQkMwNTt9Cgkuc3Qze2ZpbGw6IzM0QTg1Mzt9CiA8L3N0eWxlPgogPGc+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTE3LjUsMTUuN3Y0LjdoMTEuM2MtMC4zLDIuNi0xLjIsNC42LTIuNiw1LjljLTEuNiwxLjYtNC4yLDMuNC04LjcsMy40Yy02LjksMC0xMi4zLTUuNi0xMi4zLTEyLjUKCQlTMTAuNSw0LjcsMTcuNSw0LjdjMy43LDAsNi41LDEuNSw4LjUsMy40bDMuMy0zLjNDMjYuNSwyLjEsMjIuNywwLDE3LjUsMEM4LDAsMCw3LjcsMCwxNy4yczgsMTcuMiwxNy41LDE3LjJjNS4xLDAsOS0xLjcsMTItNC44CgkJYzMuMS0zLjEsNC4xLTcuNSw0LjEtMTFjMC0xLjEtMC4xLTIuMS0wLjItMi45SDE3LjV6Ij4KICA8L3BhdGg+CiAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTQ3LjYsMTEuOGMtNi4xLDAtMTEuMiw0LjctMTEuMiwxMS4xYzAsNi40LDUsMTEuMSwxMS4yLDExLjFTNTguOCwyOS40LDU4LjgsMjMKCQlDNTguOCwxNi41LDUzLjgsMTEuOCw0Ny42LDExLjh6IE00Ny42LDI5LjdjLTMuNCwwLTYuMy0yLjgtNi4zLTYuN2MwLTQsMi45LTYuNyw2LjMtNi43YzMuNCwwLDYuMywyLjcsNi4zLDYuNwoJCUM1My45LDI2LjksNTEsMjkuNyw0Ny42LDI5Ljd6Ij4KICA8L3BhdGg+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTEwMi4zLDE0LjNoLTAuMmMtMS4xLTEuMy0zLjItMi41LTUuOS0yLjVjLTUuNiwwLTEwLjQsNC44LTEwLjQsMTEuMWMwLDYuMiw0LjgsMTEuMSwxMC40LDExLjEKCQljMi43LDAsNC44LTEuMiw1LjktMi41aDAuMnYxLjZjMCw0LjItMi4zLDYuNS01LjksNi41Yy0zLDAtNC44LTIuMS01LjYtNGwtNC4yLDEuOGMxLjIsMi45LDQuNSw2LjYsOS45LDYuNgoJCWM1LjcsMCwxMC42LTMuNCwxMC42LTExLjZ2LTIwaC00LjZWMTQuM3ogTTk2LjcsMjkuN2MtMy40LDAtNS45LTIuOS01LjktNi43YzAtMy45LDIuNi02LjcsNS45LTYuN2MzLjMsMCw1LjksMi45LDUuOSw2LjgKCQlDMTAyLjcsMjYuOSwxMDAuMSwyOS43LDk2LjcsMjkuN3oiPgogIDwvcGF0aD4KICA8cGF0aCBjbGFzcz0ic3QyIiBkPSJNNzIuNSwxMS44Yy02LjEsMC0xMS4yLDQuNy0xMS4yLDExLjFjMCw2LjQsNSwxMS4xLDExLjIsMTEuMVM4My43LDI5LjQsODMuNywyMwoJCUM4My43LDE2LjUsNzguNywxMS44LDcyLjUsMTEuOHogTTcyLjUsMjkuN2MtMy40LDAtNi4zLTIuOC02LjMtNi43YzAtNCwyLjktNi43LDYuMy02LjdzNi4zLDIuNyw2LjMsNi43CgkJQzc4LjgsMjYuOSw3NS45LDI5LjcsNzIuNSwyOS43eiI+CiAgPC9wYXRoPgogIDxwYXRoIGNsYXNzPSJzdDMiIGQ9Ik0xMTAuOCwwLjVoNC44djMzLjZoLTQuOFYwLjV6Ij4KICA8L3BhdGg+CiAgPHBhdGggY2xhc3M9InN0MSIgZD0iTTEzMC40LDI5LjdjLTIuNSwwLTQuMi0xLjEtNS40LTMuNGwxNC45LTYuMWwtMC41LTEuM2MtMC45LTIuNS0zLjgtNy4xLTkuNS03LjFjLTUuNywwLTEwLjUsNC41LTEwLjUsMTEuMQoJCWMwLDYuMiw0LjcsMTEuMSwxMSwxMS4xYzUuMSwwLDgtMy4xLDkuMy00LjlsLTMuOC0yLjVDMTM0LjYsMjguNSwxMzIuOSwyOS43LDEzMC40LDI5LjdMMTMwLjQsMjkuN3ogTTEzMC4xLDE2YzIsMCwzLjcsMSw0LjIsMi40CgkJbC0xMCw0LjJDMTI0LjIsMTgsMTI3LjYsMTYsMTMwLjEsMTZ6Ij4KICA8L3BhdGg+CiA8L2c+Cjwvc3ZnPg==" },
     { name: "McKinsey & Company", src: "data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxuczp4PSJuc19leHRlbmQ7IiB4bWxuczppPSJuc19haTsiIHhtbG5zOmdyYXBoPSJuc19ncmFwaHM7IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDE3MS41IDUzLjMiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE3MS41IDUzLjM7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KIDxtZXRhZGF0YT4KICA8c2Z3IHhtbG5zPSJuc19zZnc7Ij4KICAgPHNsaWNlcz4KICAgPC9zbGljZXM+CiAgIDxzbGljZVNvdXJjZUJvdW5kcyBib3R0b21MZWZ0T3JpZ2luPSJ0cnVlIiBoZWlnaHQ9IjUzLjMiIHdpZHRoPSIxNzEuNSIgeD0iMTE0LjUiIHk9Ii0yMjYuOCI+CiAgIDwvc2xpY2VTb3VyY2VCb3VuZHM+CiAgPC9zZnc+CiA8L21ldGFkYXRhPgogPGc+CiAgPGc+CiAgIDxwYXRoIGQ9Ik0yLjUsMi41QzIuNSwyLjEsMS40LDEsMSwxSDBWMGg1LjhsNiwxNS4xaDAuMUwxOC4yLDBoNS4ydjFoLTFjLTAuNCwwLTEuNSwxLjEtMS41LDEuNXYxNWMwLDAuNCwxLjIsMS41LDEuNSwxLjVoMXYxCgkJCWgtNy43di0xaDFjMC40LDAsMS41LTEuMSwxLjUtMS41VjIuOUwxMSwyMC4zTDMuNywyLjZ2MTQuOGMwLDAuNCwxLjIsMS41LDEuNSwxLjVoMXYxSDB2LTFoMWMwLjQsMCwxLjUtMS4xLDEuNS0xLjVWMi41eiI+CiAgIDwvcGF0aD4KICAgPHBhdGggZD0iTTMxLjksMTEuNGMwLjQtMiwwLTMuOC0yLjItMy44Yy0yLjYsMC0zLjgsMi4xLTMuOCw1LjFjMCwyLjksMS44LDUuMyw0LjgsNS4zYzIuMiwwLDMuMi0wLjgsNC4xLTIuM2gwLjgKCQkJYy0wLjgsMi44LTIuNiw0LjYtNS44LDQuNmMtMy42LDAtNS45LTMuMS01LjktNi43YzAtNC4yLDIuOC02LjksNi4yLTYuOWMyLDAsMy40LDAuNiw0LjYsMS44bC0xLjksMi45TDMxLjksMTEuNHoiPgogICA8L3BhdGg+CiAgIDxwYXRoIGQ9Ik01OCwzLjljMSwwLDEuNy0wLjcsMS43LTEuN1M1OC45LDAuNiw1OCwwLjZjLTEsMC0xLjcsMC42LTEuNywxLjZTNTcsMy45LDU4LDMuOSI+CiAgIDwvcGF0aD4KICAgPHBhdGggZD0iTTc2LjMsMTljLTAuNCwwLTEuNC0wLjktMS40LTEuNHYtNy4yYzAtMi4yLTEuNi0zLjctMy42LTMuN2MtMi4zLDAtMy41LDEuMy01LjEsMi45TDY1LjcsN2gtNC4xdjFoMC44CgkJCWMwLjQsMCwxLjQsMSwxLjQsMS40djguM2MwLDAuNC0xLDEuNC0xLjQsMS40aC0wLjhoLTAuOGMtMC40LDAtMS40LTAuOS0xLjQtMS40VjdoLTQuNnYxaDAuOEM1Niw4LDU3LDguOSw1Nyw5LjN2OC4zCgkJCWMwLDAuNC0xLDEuNC0xLjQsMS40aC0wLjhoLTAuN2MtMC40LDAtMi0xLjItMi40LTEuN2wtNy05LjNsNC45LTUuMkM0OS45LDIuNSw1MS44LDEsNTIuMiwxaDFWMGgtNy4ydjFoMWMwLjQsMCwxLjUsMS40LDEuMiwxLjcKCQkJbC03LjEsOFYyLjVjMC0wLjQsMS4yLTEuNSwxLjUtMS41aDFWMGgtNy44djFoMWMwLjQsMCwxLjUsMS4xLDEuNSwxLjV2MTVjMCwwLjQtMS4yLDEuNS0xLjUsMS41aC0xdjFoNy44di0xaC0xCgkJCWMtMC40LDAtMS41LTEuMS0xLjUtMS41di01LjNsMi0yLjJsNi45LDEwaDQuOWg2LjloNi44di0xaC0wLjdjLTAuNCwwLTEuNC0wLjktMS40LTEuNFYxMWMwLTAuOSwyLjQtMi43LDQuMi0yLjcKCQkJYzEuNCwwLDIuMSwxLDIuMSwyLjJ2Ny4xYzAsMC40LTEsMS40LTEuNCwxLjRoLTAuN3YxSDc3di0xSDc2LjN6Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNNzguNywxNS40YzAsMS4yLDEuOCwzLjgsNC42LDMuOGMxLjYsMCwyLjUtMC42LDIuNS0xLjhjMC0xLjUtMS4zLTEuOS0yLjQtMi40Yy0wLjktMC40LTEuNi0wLjctMi43LTEuMgoJCQljLTEuNi0wLjctMi43LTEuOC0yLjctMy41YzAtMi4zLDEuNC0zLjcsMy45LTMuN2MxLjQsMCwyLjIsMC43LDMuMiwwLjdjMC40LDAsMC42LTAuMSwwLjctMC40aDAuN3Y0aC0wLjhjMC0xLjEtMS41LTMuMy0zLjktMy4zCgkJCWMtMS41LDAtMi4yLDAuNy0yLjIsMS43YzAsMS4xLDAuOCwxLjUsMi4xLDIuMWMxLDAuNCwxLjcsMC43LDIuOCwxLjJjMS40LDAuNSwzLDEuNywzLDMuOGMwLDIuNS0xLjcsMy45LTQuMSwzLjkKCQkJYy0xLjYsMC0yLjYtMC44LTMuNy0wLjhjLTAuNSwwLTAuNywwLjEtMSwwLjRoLTAuNnYtNC42SDc4Ljd6Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNODguMiwxMy41YzAtMy44LDIuNi02LjgsNi02LjhjMi45LDAsNC42LDIsNC43LDQuNmwwLjEsMC45bC04LjYsMC43YzAsMi42LDEuOCw1LjIsNC43LDUuMmMyLjIsMCwzLjItMC44LDQtMi4zaDAuOAoJCQljLTAuOSwyLjgtMi41LDQuNi01LjYsNC42QzkwLjYsMjAuMyw4OC4yLDE3LjEsODguMiwxMy41IE05Ni43LDExLjRjMC4yLTEuOC0wLjEtMy43LTIuNi0zLjdjLTIuNywwLTMuOCwyLjItMy44LDQuMkw5Ni43LDExLjR6Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNMTAxLjIsOS40QzEwMSw5LDk5LjgsOCw5OS41LDhoLTAuNlY3aDYuOXYxSDEwNWMtMC40LDAtMS4yLDAuOS0xLjIsMS40bDMsNi45bDMtNi45YzAtMC41LTAuOC0xLjQtMS4xLTEuNGgtMC44VjdoNS4ydjEKCQkJaC0wLjZjLTAuMywwLTEuMiwxLTEuNSwxLjRsLTQuNCwxMGwtMy4zLDcuMmwtMS4yLTAuNWwzLjUtNy4xTDEwMS4yLDkuNHoiPgogICA8L3BhdGg+CiAgIDxwYXRoIGQ9Ik0zOC42LDMwLjNjMCwxLjYsMS4xLDIuOSwyLjgsMy41YzIuNiwyLjgsNS43LDUuNyw4LjQsOC4xYzAuOC0xLjMsMS0yLjYsMS00LjNjMC0xLjgtMS4yLTIuOS0zLjItM3YtMWg3LjF2MUg1NAoJCQljLTAuNCwwLTEuOCwxLjYtMS44LDIuMmMtMC4xLDEuNy0wLjUsMy44LTEuOCw1LjZjMS41LDEuMywyLjksMi40LDQuMSwzLjJoMS4ydjFoLTIuMmMtMS45LDAtMy4zLTAuNS01LTIKCQkJYy0xLjYsMS41LTMuNiwyLjQtNi42LDIuNGMtMy4yLDAtNi4zLTIuNC02LjMtNS45YzAtMi44LDEuNC00LjgsMy4yLTYuMWMtMS0xLjItMS42LTIuNC0xLjYtNC4yYzAtMi45LDEuOS00LjQsNC44LTQuNAoJCQljMS44LDAsMi44LDAuNiwzLjYsMC42YzAuNCwwLDAuNywwLDAuOS0wLjRoMC45djQuN2gtMC45YzAtMS4zLTItNC00LjYtNEMzOS45LDI3LjQsMzguNiwyOC41LDM4LjYsMzAuMyBNMzcuNywzOS45CgkJCWMwLDIuOSwzLDUuNiw1LjksNS42YzEuOCwwLDMuMi0wLjUsNC4zLTEuM2MtMi45LTIuNS02LjEtNS42LTguNi04LjVDMzguMywzNi43LDM3LjcsMzcuOCwzNy43LDM5LjkiPgogICA8L3BhdGg+CiAgIDxwYXRoIGQ9Ik03Ni4yLDMzLjhjMC0yLjEtMi4zLTYuMi02LjEtNi4yYy0zLjUsMC01LjUsMS45LTUuOSw2LjRjLTAuMSwxLjgtMC4xLDMuMywwLjEsNS4xYzAuMywzLjUsMi43LDYuNCw2LjgsNi40CgkJCWMzLjUsMCw1LjEtMS41LDYuNC00LjFoMWMtMS4zLDMuNi00LjEsNS43LTguMSw1LjdjLTUuNywwLTkuNC00LjctOS40LTEwLjRjMC01LjcsMy4zLTEwLjMsOC45LTEwLjNjMi4xLDAsMy41LDAuOSw1LDAuOQoJCQljMC42LDAsMC45LTAuMiwxLjItMC41SDc3djcuMUg3Ni4yeiI+CiAgIDwvcGF0aD4KICAgPHBhdGggZD0iTTc5LjksNDAuMmMwLTQuMiwzLTYuOCw2LjQtNi44YzMuNCwwLDYuNCwyLjYsNi40LDYuOGMwLDQuMi0zLDYuOS02LjQsNi45QzgyLjksNDcuMSw3OS45LDQ0LjQsNzkuOSw0MC4yIE05MC4yLDQyLjQKCQkJYzAuMi0xLjMsMC4yLTMuMSwwLTQuNGMtMC4yLTIuMS0xLjQtMy41LTMuOC0zLjVjLTIuMywwLTMuNSwxLjQtMy44LDMuNWMtMC4yLDEuMy0wLjIsMy4xLDAsNC40YzAuMywyLDEuNCwzLjUsMy44LDMuNQoJCQlDODguOCw0NS44LDkwLDQ0LjQsOTAuMiw0Mi40Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNMTEzLjgsNDQuM2MwLDAuNCwxLDEuNCwxLjQsMS40aDAuNnYxaC02LjV2LTFoMC43YzAuNCwwLDEuNC0wLjksMS40LTEuNHYtNy4yYzAtMS4zLTAuNi0yLjEtMi0yLjEKCQkJYy0xLjcsMC0zLjgsMS42LTMuOCwyLjV2Ni44YzAsMC40LDEsMS40LDEuNCwxLjRoMC43djFoLTYuNnYtMWgwLjdjMC40LDAsMS40LTAuOSwxLjQtMS40di03LjJjMC0xLjMtMC43LTIuMS0yLjEtMi4xCgkJCWMtMS43LDAtMy44LDEuNy0zLjgsMi42djYuN2MwLDAuNCwxLDEuNCwxLjQsMS40aDAuN3YxaC02LjZ2LTFoMC43YzAuNCwwLDEuNC0wLjksMS40LTEuNHYtOC4zYzAtMC40LTEtMS40LTEuNC0xLjRoLTAuN3YtMWg0CgkJCWwwLjUsMi41YzEuNS0xLjYsMi40LTIuOCw0LjctMi44YzEuNywwLDMuMiwwLjksMy40LDIuN2MxLjYtMS42LDIuNi0yLjcsNC44LTIuN2MxLjksMCwzLjUsMS4zLDMuNSwzLjdWNDQuM3oiPgogICA8L3BhdGg+CiAgIDxwYXRoIGQ9Ik0xMTkuNiwzMy43bDAuNCwyLjdjMS4xLTIuMSwyLjUtMyw0LjctM2MzLjIsMCw1LjEsMi43LDUuMSw2LjZzLTIuMiw3LTUuMyw3Yy0yLjMsMC0zLjUtMC45LTQuNC0yLjZ2Ni4yCgkJCWMwLDAuNCwxLDEuNCwxLjQsMS40aDAuOXYxaC02Ljl2LTFoMC45YzAuNCwwLDEuNC0wLjksMS40LTEuNFYzNi4xYzAtMC40LTEtMS40LTEuNC0xLjRoLTAuOXYtMUgxMTkuNnogTTEyMC4xLDM4LjR2My40CgkJCWMwLDIsMS42LDMuOCwzLjgsMy44YzIuMiwwLDMuMy0xLjQsMy41LTMuNWMwLjItMS4yLDAuMi0yLjcsMC0zLjljLTAuMy0yLjEtMS40LTMuNC0zLjMtMy40QzEyMS45LDM0LjksMTIwLjcsMzYuNCwxMjAuMSwzOC40Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNMTU4LDQ1LjdjLTAuNCwwLTEuNC0wLjktMS40LTEuNHYtNy4yYzAtMi4yLTEuNi0zLjctMy42LTMuN2MtMi4zLDAtMy41LDEuMy01LjEsMi45bC0wLjUtMi43aC00LjF2MWgwLjgKCQkJYzAuNCwwLDEuNCwxLDEuNCwxLjR2OC4zYzAsMC40LTEsMS40LTEuNCwxLjRoLTAuOGgtMC44Yy0wLjQsMC0xLjQtMC45LTEuNC0xLjR2LTcuMWMwLTIuNi0yLjEtMy45LTQuOS0zLjljLTIuNiwwLTQuMSwwLjktNS4yLDIKCQkJbDEuNywyLjZoMC45Yy0xLTIuMi0wLjItMy42LDItMy42YzIuMywwLDMuMSwxLDMsMi45bDAsMS42bC0zLjMsMC43Yy0xLjgsMC40LTQuMiwxLjMtNC4yLDMuOWMwLDIuMSwxLjUsMy41LDMuMywzLjUKCQkJYzEuOSwwLDMuMy0xLjUsNC4zLTIuOWwwLjMsMi42aDQuMmg2Ljh2LTFoLTAuN2MtMC40LDAtMS40LTAuOS0xLjQtMS40di02LjZjMC0wLjksMi40LTIuNyw0LjItMi43YzEuNCwwLDIuMSwxLDIuMSwyLjJ2Ny4xCgkJCWMwLDAuNC0xLDEuNC0xLjQsMS40SDE1MnYxaDYuNnYtMUgxNTh6IE0xMzguNyw0Mi45Yy0wLjUsMS0xLjksMi4zLTMuMiwyLjNjLTEuMywwLTIuMS0xLTIuMS0yLjFjMC0xLjMsMC41LTIuMiwyLjItMi42bDMuMS0wLjgKCQkJVjQyLjl6Ij4KICAgPC9wYXRoPgogICA8cGF0aCBkPSJNMTU5LjYsMzYuMmMtMC4yLTAuNC0xLjMtMS41LTEuNy0xLjVoLTAuNnYtMWg2Ljl2MWgtMC44Yy0wLjQsMC0xLjIsMC45LTEuMiwxLjRsMyw2LjlsMy02LjljMC0wLjUtMC44LTEuNC0xLjEtMS40aC0wLjgKCQkJdi0xaDUuMnYxaC0wLjZjLTAuMywwLTEuMiwxLTEuNSwxLjRsLTQuNCwxMGwtMy4zLDcuMmwtMS4yLTAuNWwzLjUtNy4xTDE1OS42LDM2LjJ6Ij4KICAgPC9wYXRoPgogIDwvZz4KIDwvZz4KPC9zdmc+" },
-    { name: "Domestika", src: "/portfolio-auxi-arroyo/assets/DL8jgkbtSHZ4dBqE0dXnf0sz56I.png" },
+    { name: "Domestika", src: "/portfolio/assets/DL8jgkbtSHZ4dBqE0dXnf0sz56I.png" },
 ]
 
 /* ---------------------------------------------------------------------------
@@ -988,18 +988,18 @@ const CERT_DETAILS: Record<string, { es: CertContent; en: CertContent }> = {
    repeated here, so no photo appears twice on the page.
 --------------------------------------------------------------------------- */
 const PHILOSOPHY_IMAGES: { src?: string; alt?: string }[] = [
-    { src: "/portfolio-auxi-arroyo/assets/S5JZRYpwur6Kve2TV4ESYARMs.jpg", alt: "Foto 1" },
-    { src: "/portfolio-auxi-arroyo/assets/vfPvLCHzfHQ8lfG7uZZeDDU.jpg", alt: "Foto 2" },
-    { src: "/portfolio-auxi-arroyo/assets/2wbvYeAPvI2DVKI6OGMCQiTTbR8.jpg", alt: "Foto 3" },
-    { src: "/portfolio-auxi-arroyo/assets/FL5nYqJ6wXKZiEZEEeyWZsuYBpg.jpg", alt: "Foto 4" },
-    { src: "/portfolio-auxi-arroyo/assets/lsvpJw7kwNHDheTPfFPjEVml3E.jpg", alt: "Foto 6" },
-    { src: "/portfolio-auxi-arroyo/assets/2uTnyYRui7O1vM1yYzipX7pdc.jpg", alt: "Foto 8" },
-    { src: "/portfolio-auxi-arroyo/assets/1gk8n9yga84ciQ9s0IbmWe473T8.jpg", alt: "Foto 9" },
-    { src: "/portfolio-auxi-arroyo/assets/ZwOzKTesBAN9fHla1POafKF2c.jpg", alt: "Foto 12" },
-    { src: "/portfolio-auxi-arroyo/assets/CzQJVwoIOeWwU1Mn0gLDM1miow.jpg", alt: "Foto 13" },
-    { src: "/portfolio-auxi-arroyo/assets/06FreWvlMhalIy8DNqkUY1X0aBw.jpg", alt: "Foto 14" },
-    { src: "/portfolio-auxi-arroyo/assets/H1qliyU9a7F9lFr1xT1cpIrEO4.jpg", alt: "Foto 15" },
-    { src: "/portfolio-auxi-arroyo/assets/ZOxcraSCOtjFPGPXBp0eXnsTUo0.jpg", alt: "Foto 16" },
+    { src: "/portfolio/assets/S5JZRYpwur6Kve2TV4ESYARMs.jpg", alt: "Foto 1" },
+    { src: "/portfolio/assets/vfPvLCHzfHQ8lfG7uZZeDDU.jpg", alt: "Foto 2" },
+    { src: "/portfolio/assets/2wbvYeAPvI2DVKI6OGMCQiTTbR8.jpg", alt: "Foto 3" },
+    { src: "/portfolio/assets/FL5nYqJ6wXKZiEZEEeyWZsuYBpg.jpg", alt: "Foto 4" },
+    { src: "/portfolio/assets/lsvpJw7kwNHDheTPfFPjEVml3E.jpg", alt: "Foto 6" },
+    { src: "/portfolio/assets/2uTnyYRui7O1vM1yYzipX7pdc.jpg", alt: "Foto 8" },
+    { src: "/portfolio/assets/1gk8n9yga84ciQ9s0IbmWe473T8.jpg", alt: "Foto 9" },
+    { src: "/portfolio/assets/ZwOzKTesBAN9fHla1POafKF2c.jpg", alt: "Foto 12" },
+    { src: "/portfolio/assets/CzQJVwoIOeWwU1Mn0gLDM1miow.jpg", alt: "Foto 13" },
+    { src: "/portfolio/assets/06FreWvlMhalIy8DNqkUY1X0aBw.jpg", alt: "Foto 14" },
+    { src: "/portfolio/assets/H1qliyU9a7F9lFr1xT1cpIrEO4.jpg", alt: "Foto 15" },
+    { src: "/portfolio/assets/ZOxcraSCOtjFPGPXBp0eXnsTUo0.jpg", alt: "Foto 16" },
 ]
 
 /* ---------------------------------------------------------------------------
@@ -1726,53 +1726,53 @@ interface AboutPageProps {
    (places, objects, moments) stays in that carousel; nothing is shown twice.
 --------------------------------------------------------------------------- */
 const GALLERY: string[] = [
-    "/portfolio-auxi-arroyo/assets/elmWo6V87sktLAuc86LJRzZK1g.jpg", // Foto 5
-    "/portfolio-auxi-arroyo/assets/i0DI8ZzQFIPfwCpa2tkQzeGUDg.jpg", // Foto 7
-    "/portfolio-auxi-arroyo/assets/h8c86hEkWihIAPYnQq2I8VzTxY.jpg", // Foto 10
-    "/portfolio-auxi-arroyo/assets/EGazJ8dZDogyddKsKyLM9WtWE.jpg",  // Foto 11
+    "/portfolio/assets/elmWo6V87sktLAuc86LJRzZK1g.jpg", // Foto 5
+    "/portfolio/assets/i0DI8ZzQFIPfwCpa2tkQzeGUDg.jpg", // Foto 7
+    "/portfolio/assets/h8c86hEkWihIAPYnQq2I8VzTxY.jpg", // Foto 10
+    "/portfolio/assets/EGazJ8dZDogyddKsKyLM9WtWE.jpg",  // Foto 11
 ]
 
 /* Horizontal images used as elegant card banners on Experience / Education
    (a per-card `img` on the data wins; otherwise these cycle as a fallback). */
 const EXP_IMAGES: string[] = [
-    "/portfolio-auxi-arroyo/assets/m7YPXSHxqMQfqy0LqjPvQR60Ew.jpg",
-    "/portfolio-auxi-arroyo/assets/UQnLyAkaIlNnebuU0146RU6hMzk.jpg",
-    "/portfolio-auxi-arroyo/assets/8JQsufSMs6IDpA3j7xWsNPMBKI.jpg",
-    "/portfolio-auxi-arroyo/assets/i0DI8ZzQFIPfwCpa2tkQzeGUDg.jpg",
-    "/portfolio-auxi-arroyo/assets/9rr6CF5bCn2hJiZG4hubsbEmV4M.jpg",
+    "/portfolio/assets/m7YPXSHxqMQfqy0LqjPvQR60Ew.jpg",
+    "/portfolio/assets/UQnLyAkaIlNnebuU0146RU6hMzk.jpg",
+    "/portfolio/assets/8JQsufSMs6IDpA3j7xWsNPMBKI.jpg",
+    "/portfolio/assets/i0DI8ZzQFIPfwCpa2tkQzeGUDg.jpg",
+    "/portfolio/assets/9rr6CF5bCn2hJiZG4hubsbEmV4M.jpg",
 ]
 const EDU_IMAGES: string[] = [
-    "/portfolio-auxi-arroyo/assets/EGazJ8dZDogyddKsKyLM9WtWE.jpg",
-    "/portfolio-auxi-arroyo/assets/HiCBfYljtFme6saAnqLlJs9nLK8.jpg",
-    "/portfolio-auxi-arroyo/assets/2t2B5gPUOamsIlklxHvREITjP8s.jpg",
-    "/portfolio-auxi-arroyo/assets/ey7P3z6KnVTxuKdvyBsfbZ78ZM.jpg",
+    "/portfolio/assets/EGazJ8dZDogyddKsKyLM9WtWE.jpg",
+    "/portfolio/assets/HiCBfYljtFme6saAnqLlJs9nLK8.jpg",
+    "/portfolio/assets/2t2B5gPUOamsIlklxHvREITjP8s.jpg",
+    "/portfolio/assets/ey7P3z6KnVTxuKdvyBsfbZ78ZM.jpg",
 ]
 
 /* ESCO — the school behind both the Alternativa Comunicación placement and the
    Marketing & Advertising master's. A single asset is shared by the Experience
    and Education cards so the two instances are pixel-identical. */
-const ESCO_LOGO = "/portfolio-auxi-arroyo/assets/Bno3V3qU5v0sreJHlzEjlYYlc7U.png"
+const ESCO_LOGO = "/portfolio/assets/Bno3V3qU5v0sreJHlzEjlYYlc7U.png"
 
 /* Brand logos per experience / education id. Rendered "contain" on a uniform
    tile so every entry aligns identically and aspect ratio is preserved. Any id
    without a logo falls back to a clean wordmark, keeping the layout uniform. */
 const EXP_LOGOS: Record<string, string> = {
-    "taller-uxui": "/portfolio-auxi-arroyo/assets/5Ii8ibv7mBCMR87q4iN7mp8w7Ps.png",
-    "taller-graphic": "/portfolio-auxi-arroyo/assets/DOZYT5sI592n1qf9XvBP7CIm7Q.png",
-    magtel: "/portfolio-auxi-arroyo/assets/OaNZw9n5Dpog8MiZMvUaiQsbuY.webp",
-    vidext: "/portfolio-auxi-arroyo/assets/vdauw3Pf5XPjvH5FUDaz1H3GI.svg",
-    candela: "/portfolio-auxi-arroyo/assets/UuNWb0hJSyrZNGZwemJZTvcqo.png",
-    antonita: "/portfolio-auxi-arroyo/assets/Gp6BEQFNdyW9r8iDmYZtEnTc7VY.png",
-    omibu: "/portfolio-auxi-arroyo/assets/Uy2CwA9X3DPFHVYZgp15wnVb9Do.webp",
+    "taller-uxui": "/portfolio/assets/5Ii8ibv7mBCMR87q4iN7mp8w7Ps.png",
+    "taller-graphic": "/portfolio/assets/DOZYT5sI592n1qf9XvBP7CIm7Q.png",
+    magtel: "/portfolio/assets/OaNZw9n5Dpog8MiZMvUaiQsbuY.webp",
+    vidext: "/portfolio/assets/vdauw3Pf5XPjvH5FUDaz1H3GI.svg",
+    candela: "/portfolio/assets/UuNWb0hJSyrZNGZwemJZTvcqo.png",
+    antonita: "/portfolio/assets/Gp6BEQFNdyW9r8iDmYZtEnTc7VY.png",
+    omibu: "/portfolio/assets/Uy2CwA9X3DPFHVYZgp15wnVb9Do.webp",
     esco: ESCO_LOGO,
-    salmon: "/portfolio-auxi-arroyo/assets/6Q9TI2pJPjHWiXRd0UHXTThqg.png",
-    box: "/portfolio-auxi-arroyo/assets/NgxnIAFPtELhAj34ukqAj71xH8.png",
+    salmon: "/portfolio/assets/6Q9TI2pJPjHWiXRd0UHXTThqg.png",
+    box: "/portfolio/assets/NgxnIAFPtELhAj34ukqAj71xH8.png",
 }
 const EDU_LOGOS: Record<string, string> = {
-    emprendeuco: "/portfolio-auxi-arroyo/assets/6NeY482OJDHCqHlZSXgHy8E6Fo.png",
-    labasad: "/portfolio-auxi-arroyo/assets/ETkgQJJiFd03QTzWjktHmtOHI.svg",
+    emprendeuco: "/portfolio/assets/6NeY482OJDHCqHlZSXgHy8E6Fo.png",
+    labasad: "/portfolio/assets/ETkgQJJiFd03QTzWjktHmtOHI.svg",
     "esco-master": ESCO_LOGO,
-    "us-grado": "/portfolio-auxi-arroyo/assets/j6dhYiRRljLfZPzPQqF9vLM1Vo.png",
+    "us-grado": "/portfolio/assets/j6dhYiRRljLfZPzPQqF9vLM1Vo.png",
 }
 
 /* A few marks are supplied as full-bleed brand cards (a wordmark reversed out

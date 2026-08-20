@@ -202,7 +202,7 @@ const CONTACT_URL = ""
 /* Header avatar — identical circular portrait used on the About page. The
    "Profile Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 
@@ -253,7 +253,7 @@ const PROJECTS: Project[] = [
         catLabel: { es: "UX/UI · Product Design", en: "UX/UI · Product Design" },
         /* Same product mock-up and light identity used inside the Youicy case
            study, so the card and the story clearly read as one project. */
-        cover: "/portfolio-auxi-arroyo/assets/TEKuG4iwmIVaNvgghhuT4kVlp6g.svg",
+        cover: "/portfolio/assets/TEKuG4iwmIVaNvgghhuT4kVlp6g.svg",
         href: "/youicy",
         es: {
             title: "Youicy",
@@ -268,7 +268,7 @@ const PROJECTS: Project[] = [
         id: "nailly",
         category: "uiux",
         catLabel: { es: "UX/UI · App móvil", en: "UX/UI · Mobile App" },
-        cover: "/portfolio-auxi-arroyo/assets/JyJznDuFATRiIbntuPj3mRwQkw.png",
+        cover: "/portfolio/assets/JyJznDuFATRiIbntuPj3mRwQkw.png",
         href: "/nailing",
         es: {
             title: "Nailing",
@@ -283,7 +283,7 @@ const PROJECTS: Project[] = [
         id: "chroma",
         category: "editorial",
         catLabel: { es: "Editorial · Print", en: "Editorial · Print" },
-        cover: "/portfolio-auxi-arroyo/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
+        cover: "/portfolio/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
         href: "/chroma",
         es: {
             title: "Chroma",
@@ -298,7 +298,7 @@ const PROJECTS: Project[] = [
         id: "neon",
         category: "branding",
         catLabel: { es: "Branding · Rebranding", en: "Branding · Rebranding" },
-        cover: "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
+        cover: "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
         href: "/the-neon-museum",
         es: {
             title: "The Neon Museum",
@@ -313,7 +313,7 @@ const PROJECTS: Project[] = [
         id: "bokoba",
         category: "graphic",
         catLabel: { es: "Branding · Packaging", en: "Branding · Packaging" },
-        cover: "/portfolio-auxi-arroyo/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
+        cover: "/portfolio/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
         href: "/bokoba",
         es: {
             title: "Bokobá",

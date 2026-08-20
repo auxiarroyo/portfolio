@@ -209,7 +209,7 @@ const CONTACT_URL = "/contact"
 /* Backdrop for the pinned intro (behind the title, category and scroll cue).
    Kept separate from IMG.showcase so the three-phone product preview further
    down the page is unaffected: only the hero backdrop uses this one. */
-const HERO_BG = "/portfolio-auxi-arroyo/assets/bEdX4OCdL8ojO3bULTcPmDKHga4.jpg"
+const HERO_BG = "/portfolio/assets/bEdX4OCdL8ojO3bULTcPmDKHga4.jpg"
 
 /* ---------------------------------------------------------------------------
    PROJECT IMAGERY — real UI screens & wireframes for this case study, uploaded
@@ -217,25 +217,25 @@ const HERO_BG = "/portfolio-auxi-arroyo/assets/bEdX4OCdL8ojO3bULTcPmDKHga4.jpg"
 --------------------------------------------------------------------------- */
 const IMG = {
     showcase: [
-        "/portfolio-auxi-arroyo/assets/sNsupo81JSex5w4t67rZqpUjvS4.png", // onboarding
-        "/portfolio-auxi-arroyo/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png", // home dashboard (hero, centre)
-        "/portfolio-auxi-arroyo/assets/WTYIXJG1g1UjyD82Qsq91gS4q4.png", // brand splash
+        "/portfolio/assets/sNsupo81JSex5w4t67rZqpUjvS4.png", // onboarding
+        "/portfolio/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png", // home dashboard (hero, centre)
+        "/portfolio/assets/WTYIXJG1g1UjyD82Qsq91gS4q4.png", // brand splash
     ],
     screens: [
-        "/portfolio-auxi-arroyo/assets/GVpk9IDWrLBYYc0GNsUWAxYn4.png", // Hoy
-        "/portfolio-auxi-arroyo/assets/UuM3S7szacsDsouzTe1mJm3A.png", // Calendario
-        "/portfolio-auxi-arroyo/assets/WnnFDPmM7WiZ8dZVKgUsxPn1Rs.png", // Recursos
-        "/portfolio-auxi-arroyo/assets/De9cZTqMJ44Us00QyMP07KZ2tY.png", // Logros
-        "/portfolio-auxi-arroyo/assets/oSDC1m5tmzHGO57erOeosjfwrA.png", // Roadmap
-        "/portfolio-auxi-arroyo/assets/x0dDCvRT2pVcO4vX4WWlr7T0k.png", // Perfil
-        "/portfolio-auxi-arroyo/assets/eon4EFZxf6I8eyLoV46rngSunM.png", // Onboarding: mejorar
+        "/portfolio/assets/GVpk9IDWrLBYYc0GNsUWAxYn4.png", // Hoy
+        "/portfolio/assets/UuM3S7szacsDsouzTe1mJm3A.png", // Calendario
+        "/portfolio/assets/WnnFDPmM7WiZ8dZVKgUsxPn1Rs.png", // Recursos
+        "/portfolio/assets/De9cZTqMJ44Us00QyMP07KZ2tY.png", // Logros
+        "/portfolio/assets/oSDC1m5tmzHGO57erOeosjfwrA.png", // Roadmap
+        "/portfolio/assets/x0dDCvRT2pVcO4vX4WWlr7T0k.png", // Perfil
+        "/portfolio/assets/eon4EFZxf6I8eyLoV46rngSunM.png", // Onboarding: mejorar
     ],
     wires: [
-        "/portfolio-auxi-arroyo/assets/zyAW3UBvxZSaTB5VstCcLeo7Kc.png",
-        "/portfolio-auxi-arroyo/assets/2IkicW69wxMupqkrXcGYFfa61z8.png",
-        "/portfolio-auxi-arroyo/assets/hUyqtlX7AO0rwxjss1h0oi4JQ.png",
-        "/portfolio-auxi-arroyo/assets/TH5OrEnSfFs3HnocBYMHKibtGKs.png",
-        "/portfolio-auxi-arroyo/assets/legEkWUBAJCsYiETMMFrBJFhA.png",
+        "/portfolio/assets/zyAW3UBvxZSaTB5VstCcLeo7Kc.png",
+        "/portfolio/assets/2IkicW69wxMupqkrXcGYFfa61z8.png",
+        "/portfolio/assets/hUyqtlX7AO0rwxjss1h0oi4JQ.png",
+        "/portfolio/assets/TH5OrEnSfFs3HnocBYMHKibtGKs.png",
+        "/portfolio/assets/legEkWUBAJCsYiETMMFrBJFhA.png",
     ],
 }
 /* Every project screen, in reading order, for the fullscreen lightbox. */
@@ -259,7 +259,7 @@ const CAP = {
 /* Header avatar — identical circular portrait used across the site. The
    "Profile Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 type Bi = { es: string; en: string }
@@ -489,7 +489,7 @@ const RELATED: {
         title: { es: "Nailing", en: "Nailing" },
         info: { es: "App de belleza · 2025", en: "Beauty app · 2025" },
         href: "/nailing",
-        img: "/portfolio-auxi-arroyo/assets/JyJznDuFATRiIbntuPj3mRwQkw.png",
+        img: "/portfolio/assets/JyJznDuFATRiIbntuPj3mRwQkw.png",
     },
     {
         key: "neon",
@@ -497,7 +497,7 @@ const RELATED: {
         title: { es: "The Neon Museum", en: "The Neon Museum" },
         info: { es: "Rebranding · 2024", en: "Rebranding · 2024" },
         href: "/the-neon-museum",
-        img: "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
+        img: "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
     },
 ]
 

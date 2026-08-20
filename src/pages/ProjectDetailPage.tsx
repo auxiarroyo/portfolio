@@ -209,7 +209,7 @@ const CONTACT_URL = "/contact"
 /* Header avatar — identical circular portrait used across the site. The
    "Profile Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 type Bi = { es: string; en: string }
@@ -394,7 +394,7 @@ const RELATED: {
         title: { es: "Youicy", en: "Youicy" },
         info: { es: "App de empleabilidad · 2025", en: "Employability app · 2025" },
         href: "/youicy",
-        img: "/portfolio-auxi-arroyo/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png",
+        img: "/portfolio/assets/LkpyWk4k4d75CleHWZKiaCKtFU.png",
     },
     {
         key: "chroma",
@@ -402,7 +402,7 @@ const RELATED: {
         title: { es: "Chroma", en: "Chroma" },
         info: { es: "Revista sobre el color · 2024", en: "A magazine about colour · 2024" },
         href: "/chroma",
-        img: "/portfolio-auxi-arroyo/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
+        img: "/portfolio/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
     },
 ]
 

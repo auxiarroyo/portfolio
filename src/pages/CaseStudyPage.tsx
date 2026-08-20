@@ -209,7 +209,7 @@ const CONTACT_URL = "/contact"
 /* Header avatar — identical circular portrait used across the site. The
    "Profile Photo" panel control still overrides this when set. */
 const PROFILE_SRC =
-    "/portfolio-auxi-arroyo/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
+    "/portfolio/assets/EbtATpzLoarUNK8XvKuFYEWi8o.jpg"
 
 type Lang = "es" | "en"
 type Bi = { es: string; en: string }
@@ -409,7 +409,7 @@ const RELATED: {
         title: { es: "Identidad de marca", en: "Brand Identity" },
         info: { es: "Sistema visual · 2025", en: "Visual system · 2025" },
         href: "/projects",
-        img: "/portfolio-auxi-arroyo/assets/2t2B5gPUOamsIlklxHvREITjP8s.jpg",
+        img: "/portfolio/assets/2t2B5gPUOamsIlklxHvREITjP8s.jpg",
     },
     {
         key: "uiux",
@@ -417,7 +417,7 @@ const RELATED: {
         title: { es: "App de producto", en: "Product App" },
         info: { es: "Diseño de producto · 2025", en: "Product design · 2025" },
         href: "/projects",
-        img: "/portfolio-auxi-arroyo/assets/8x2FY25Rvtbj4o57Ce5G6iz75M.jpg",
+        img: "/portfolio/assets/8x2FY25Rvtbj4o57Ce5G6iz75M.jpg",
     },
     {
         key: "editorial",
@@ -425,7 +425,7 @@ const RELATED: {
         title: { es: "Publicación impresa", en: "Print Publication" },
         info: { es: "Dirección de arte · 2024", en: "Art direction · 2024" },
         href: "/projects",
-        img: "/portfolio-auxi-arroyo/assets/elmWo6V87sktLAuc86LJRzZK1g.jpg",
+        img: "/portfolio/assets/elmWo6V87sktLAuc86LJRzZK1g.jpg",
     },
     {
         key: "web",
@@ -433,7 +433,7 @@ const RELATED: {
         title: { es: "Sitio de portfolio", en: "Portfolio Site" },
         info: { es: "Diseño web · 2024", en: "Web design · 2024" },
         href: "/projects",
-        img: "/portfolio-auxi-arroyo/assets/HiCBfYljtFme6saAnqLlJs9nLK8.jpg",
+        img: "/portfolio/assets/HiCBfYljtFme6saAnqLlJs9nLK8.jpg",
     },
 ]
 
@@ -3547,9 +3547,9 @@ const CHROMA: CaseProject = {
         "es": "Cada número es un color. El color ordena la portada, marca el ritmo interior y convierte la revista en objeto de colección.",
         "en": "Each issue is a colour. Colour orders the cover, sets the interior rhythm and turns the magazine into a collectible object."
     },
-    "heroImage": "/portfolio-auxi-arroyo/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
+    "heroImage": "/portfolio/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
     "media1": {
-        "src": "/portfolio-auxi-arroyo/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
+        "src": "/portfolio/assets/iE8mTwTJh2eFlAF9SpWoclrthcM.png",
         "ratio": "wide",
         "caption": {
             "es": "Chroma — una revista sobre los colores",
@@ -3625,7 +3625,7 @@ const CHROMA: CaseProject = {
                 ]
             },
             "media": {
-                "src": "/portfolio-auxi-arroyo/assets/sqwgbH6sQ6p3q04c7Cvl4prSes.png",
+                "src": "/portfolio/assets/sqwgbH6sQ6p3q04c7Cvl4prSes.png",
                 "caption": {
                     "es": "Láminas combinables",
                     "en": "Combinable sheets"
@@ -3643,18 +3643,18 @@ const CHROMA: CaseProject = {
             "heading": { "es": "Variantes de color", "en": "Colour variants" },
             "ratio": "tall",
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/42jm92FG2vrsTgJawSZgOTM2Kc.png", "caption": { "es": "Azul", "en": "Blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/DFklDmDBjpPsBf46YNOl8F0.png", "caption": { "es": "Azul acero", "en": "Steel blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/Kux1giP5xvYCAtiqYO0SMeI0c.png", "caption": { "es": "Azul cobalto", "en": "Cobalt blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/UpLo3fqmKbGJbBRcVw1MRtyIWA.png", "caption": { "es": "Azul Francia", "en": "French blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/8lsTkedaTmWJChjtRR7knpEzY.png", "caption": { "es": "Azul grisáceo", "en": "Greyish blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/RYvYVJrUgEhMwKz1h3UeEjQak.png", "caption": { "es": "Azul marino", "en": "Navy blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/6vLZeg7UWvPf0TfosAX36YVVcQM.png", "caption": { "es": "Azul medio", "en": "Medium blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/bThDW5wclMNl9x9iBvMTRWRtQ.png", "caption": { "es": "Azul oscuro", "en": "Dark blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/a9aAgACORAJmJdOo9xOiHKiCM.png", "caption": { "es": "Azul persa", "en": "Persian blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/BID6RQN877BhOtc6T7NA8mP3i4.png", "caption": { "es": "Azul Prusia", "en": "Prussian blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/0SnFl120Msk9nHEbhgzJlJkeA.png", "caption": { "es": "Azul royal", "en": "Royal blue" } },
-                { "src": "/portfolio-auxi-arroyo/assets/EJTrHm9c09aketL6cglNZsmjpY.png", "caption": { "es": "Azur", "en": "Azure" } }
+                { "src": "/portfolio/assets/42jm92FG2vrsTgJawSZgOTM2Kc.png", "caption": { "es": "Azul", "en": "Blue" } },
+                { "src": "/portfolio/assets/DFklDmDBjpPsBf46YNOl8F0.png", "caption": { "es": "Azul acero", "en": "Steel blue" } },
+                { "src": "/portfolio/assets/Kux1giP5xvYCAtiqYO0SMeI0c.png", "caption": { "es": "Azul cobalto", "en": "Cobalt blue" } },
+                { "src": "/portfolio/assets/UpLo3fqmKbGJbBRcVw1MRtyIWA.png", "caption": { "es": "Azul Francia", "en": "French blue" } },
+                { "src": "/portfolio/assets/8lsTkedaTmWJChjtRR7knpEzY.png", "caption": { "es": "Azul grisáceo", "en": "Greyish blue" } },
+                { "src": "/portfolio/assets/RYvYVJrUgEhMwKz1h3UeEjQak.png", "caption": { "es": "Azul marino", "en": "Navy blue" } },
+                { "src": "/portfolio/assets/6vLZeg7UWvPf0TfosAX36YVVcQM.png", "caption": { "es": "Azul medio", "en": "Medium blue" } },
+                { "src": "/portfolio/assets/bThDW5wclMNl9x9iBvMTRWRtQ.png", "caption": { "es": "Azul oscuro", "en": "Dark blue" } },
+                { "src": "/portfolio/assets/a9aAgACORAJmJdOo9xOiHKiCM.png", "caption": { "es": "Azul persa", "en": "Persian blue" } },
+                { "src": "/portfolio/assets/BID6RQN877BhOtc6T7NA8mP3i4.png", "caption": { "es": "Azul Prusia", "en": "Prussian blue" } },
+                { "src": "/portfolio/assets/0SnFl120Msk9nHEbhgzJlJkeA.png", "caption": { "es": "Azul royal", "en": "Royal blue" } },
+                { "src": "/portfolio/assets/EJTrHm9c09aketL6cglNZsmjpY.png", "caption": { "es": "Azur", "en": "Azure" } }
             ]
         },
         {
@@ -3662,42 +3662,42 @@ const CHROMA: CaseProject = {
             "heading": { "es": "Páginas", "en": "Pages" },
             "ratio": "tall",
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/gEYQ8PVyRADZR2esuAmjwdQTwY.png", "caption": { "es": "Página 01", "en": "Page 01" } },
-                { "src": "/portfolio-auxi-arroyo/assets/YRonamm2yR678Gfr4T9bD7fwyQ.png", "caption": { "es": "Página 02", "en": "Page 02" } },
-                { "src": "/portfolio-auxi-arroyo/assets/uv3Sfae3qV0WtYsGvig1RR89IIo.png", "caption": { "es": "Página 03", "en": "Page 03" } },
-                { "src": "/portfolio-auxi-arroyo/assets/W7WmCQcqWdExJyiRjhZ2Qr1j4.png", "caption": { "es": "Página 04", "en": "Page 04" } },
-                { "src": "/portfolio-auxi-arroyo/assets/0aRhCjqAnQgLfdK0qw9AXzcLtUQ.png", "caption": { "es": "Página 05", "en": "Page 05" } },
-                { "src": "/portfolio-auxi-arroyo/assets/ujsrHhLeGDPL7dXBoe9jnJ4qIg.png", "caption": { "es": "Página 06", "en": "Page 06" } },
-                { "src": "/portfolio-auxi-arroyo/assets/MaZZ8wxv9dNAwX83bU8c1Ol7pUY.png", "caption": { "es": "Página 07", "en": "Page 07" } },
-                { "src": "/portfolio-auxi-arroyo/assets/p0auppldhut6aO4PosiXhYzOBU.png", "caption": { "es": "Página 08", "en": "Page 08" } },
-                { "src": "/portfolio-auxi-arroyo/assets/YuyetyLTfgCOcW7BdNImHMmYS4.png", "caption": { "es": "Página 09", "en": "Page 09" } },
-                { "src": "/portfolio-auxi-arroyo/assets/Gimvqm6VUWGu7kgC33QnLGd9VI.png", "caption": { "es": "Página 10", "en": "Page 10" } },
-                { "src": "/portfolio-auxi-arroyo/assets/doDmvAQMh6rUpMrFhly2tutSEeA.png", "caption": { "es": "Página 11", "en": "Page 11" } },
-                { "src": "/portfolio-auxi-arroyo/assets/iAKGfbhHzzicSnVQTWSmMx7VU4.png", "caption": { "es": "Página 12", "en": "Page 12" } },
-                { "src": "/portfolio-auxi-arroyo/assets/xKCwu01M0nNhX2K1Ry2MVW3wCE.png", "caption": { "es": "Página 13", "en": "Page 13" } },
-                { "src": "/portfolio-auxi-arroyo/assets/S9qxSTkn6a5UrECltPGMuMiuQU.png", "caption": { "es": "Página 14", "en": "Page 14" } },
-                { "src": "/portfolio-auxi-arroyo/assets/UB920fNHRiXkjtq8tLLg4k7xoSU.png", "caption": { "es": "Página 15", "en": "Page 15" } },
-                { "src": "/portfolio-auxi-arroyo/assets/erqUCTz01ZosYo7aGBn7teyBqkY.png", "caption": { "es": "Página 16", "en": "Page 16" } },
-                { "src": "/portfolio-auxi-arroyo/assets/8A14KsSlSJ4hn6l0J8c216CrvlA.png", "caption": { "es": "Página 17", "en": "Page 17" } }
+                { "src": "/portfolio/assets/gEYQ8PVyRADZR2esuAmjwdQTwY.png", "caption": { "es": "Página 01", "en": "Page 01" } },
+                { "src": "/portfolio/assets/YRonamm2yR678Gfr4T9bD7fwyQ.png", "caption": { "es": "Página 02", "en": "Page 02" } },
+                { "src": "/portfolio/assets/uv3Sfae3qV0WtYsGvig1RR89IIo.png", "caption": { "es": "Página 03", "en": "Page 03" } },
+                { "src": "/portfolio/assets/W7WmCQcqWdExJyiRjhZ2Qr1j4.png", "caption": { "es": "Página 04", "en": "Page 04" } },
+                { "src": "/portfolio/assets/0aRhCjqAnQgLfdK0qw9AXzcLtUQ.png", "caption": { "es": "Página 05", "en": "Page 05" } },
+                { "src": "/portfolio/assets/ujsrHhLeGDPL7dXBoe9jnJ4qIg.png", "caption": { "es": "Página 06", "en": "Page 06" } },
+                { "src": "/portfolio/assets/MaZZ8wxv9dNAwX83bU8c1Ol7pUY.png", "caption": { "es": "Página 07", "en": "Page 07" } },
+                { "src": "/portfolio/assets/p0auppldhut6aO4PosiXhYzOBU.png", "caption": { "es": "Página 08", "en": "Page 08" } },
+                { "src": "/portfolio/assets/YuyetyLTfgCOcW7BdNImHMmYS4.png", "caption": { "es": "Página 09", "en": "Page 09" } },
+                { "src": "/portfolio/assets/Gimvqm6VUWGu7kgC33QnLGd9VI.png", "caption": { "es": "Página 10", "en": "Page 10" } },
+                { "src": "/portfolio/assets/doDmvAQMh6rUpMrFhly2tutSEeA.png", "caption": { "es": "Página 11", "en": "Page 11" } },
+                { "src": "/portfolio/assets/iAKGfbhHzzicSnVQTWSmMx7VU4.png", "caption": { "es": "Página 12", "en": "Page 12" } },
+                { "src": "/portfolio/assets/xKCwu01M0nNhX2K1Ry2MVW3wCE.png", "caption": { "es": "Página 13", "en": "Page 13" } },
+                { "src": "/portfolio/assets/S9qxSTkn6a5UrECltPGMuMiuQU.png", "caption": { "es": "Página 14", "en": "Page 14" } },
+                { "src": "/portfolio/assets/UB920fNHRiXkjtq8tLLg4k7xoSU.png", "caption": { "es": "Página 15", "en": "Page 15" } },
+                { "src": "/portfolio/assets/erqUCTz01ZosYo7aGBn7teyBqkY.png", "caption": { "es": "Página 16", "en": "Page 16" } },
+                { "src": "/portfolio/assets/8A14KsSlSJ4hn6l0J8c216CrvlA.png", "caption": { "es": "Página 17", "en": "Page 17" } }
             ]
         },
         {
             "key": "covers",
             "heading": { "es": "Portadas e interior", "en": "Covers & interior" },
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/09V0ervvKsrLCoZf3zFtuYhPWA.png", "caption": { "es": "Sistema de portadas por color", "en": "Colour-based cover system" } },
-                { "src": "/portfolio-auxi-arroyo/assets/oKNB9NMgXDHp6WaLbMhkfKzytrE.png", "ratio": "wide", "caption": { "es": "Portadas e índice", "en": "Covers & index" } },
-                { "src": "/portfolio-auxi-arroyo/assets/oDfQKFvZ3bTHjo6Yxldc3759o.png", "caption": { "es": "Composición interior por bloques", "en": "Block-based interior composition" } },
-                { "src": "/portfolio-auxi-arroyo/assets/dtb4xgQslpqAzyKPvSes7RlI.png", "caption": { "es": "Contraportada", "en": "Back cover" } },
-                { "src": "/portfolio-auxi-arroyo/assets/BwkRvu4AgJEbaVDwIE0ecpSRPn8.png", "ratio": "wide", "caption": { "es": "Bloque de revistas", "en": "Magazine stack" } }
+                { "src": "/portfolio/assets/09V0ervvKsrLCoZf3zFtuYhPWA.png", "caption": { "es": "Sistema de portadas por color", "en": "Colour-based cover system" } },
+                { "src": "/portfolio/assets/oKNB9NMgXDHp6WaLbMhkfKzytrE.png", "ratio": "wide", "caption": { "es": "Portadas e índice", "en": "Covers & index" } },
+                { "src": "/portfolio/assets/oDfQKFvZ3bTHjo6Yxldc3759o.png", "caption": { "es": "Composición interior por bloques", "en": "Block-based interior composition" } },
+                { "src": "/portfolio/assets/dtb4xgQslpqAzyKPvSes7RlI.png", "caption": { "es": "Contraportada", "en": "Back cover" } },
+                { "src": "/portfolio/assets/BwkRvu4AgJEbaVDwIE0ecpSRPn8.png", "ratio": "wide", "caption": { "es": "Bloque de revistas", "en": "Magazine stack" } }
             ]
         },
         {
             "key": "inserts",
             "heading": { "es": "Encartes", "en": "Inserts" },
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/svsBnYiix2dzxnitzNCmYeAdF8.png", "caption": { "es": "Encarte", "en": "Insert" } },
-                { "src": "/portfolio-auxi-arroyo/assets/xETQX3Jgs2NxeId8rWahZbN50ZM.png", "caption": { "es": "Encarte troquelado", "en": "Die-cut insert" } }
+                { "src": "/portfolio/assets/svsBnYiix2dzxnitzNCmYeAdF8.png", "caption": { "es": "Encarte", "en": "Insert" } },
+                { "src": "/portfolio/assets/xETQX3Jgs2NxeId8rWahZbN50ZM.png", "caption": { "es": "Encarte troquelado", "en": "Die-cut insert" } }
             ]
         }
     ]
@@ -3754,9 +3754,9 @@ const NEON: CaseProject = {
         "es": "El neón es más que iluminación: es una forma de expresión artística y comunicación visual que sigue inspirando.",
         "en": "Neon is more than lighting: it is a form of artistic expression and visual communication that still inspires."
     },
-    "heroImage": "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
+    "heroImage": "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png",
     "media1": {
-        "src": "/portfolio-auxi-arroyo/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png"
+        "src": "/portfolio/assets/6uXPO81uvlYA2kRF8tPjYbGtzg.png"
     },
     "sections": [
         {
@@ -3820,18 +3820,18 @@ const NEON: CaseProject = {
             "key": "mockups",
             "heading": { "es": "Mockups", "en": "Mockups" },
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png", "caption": { "es": "Tarjeta", "en": "Card" } },
-                { "src": "/portfolio-auxi-arroyo/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png", "caption": { "es": "Cuaderno", "en": "Notebook" } },
-                { "src": "/portfolio-auxi-arroyo/assets/vg7dAC7GmT5LYuRqtDWWGdA.png", "caption": { "es": "Tote bag", "en": "Tote bag" } }
+                { "src": "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png", "caption": { "es": "Tarjeta", "en": "Card" } },
+                { "src": "/portfolio/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png", "caption": { "es": "Cuaderno", "en": "Notebook" } },
+                { "src": "/portfolio/assets/vg7dAC7GmT5LYuRqtDWWGdA.png", "caption": { "es": "Tote bag", "en": "Tote bag" } }
             ]
         },
         {
             "key": "applications",
             "heading": { "es": "Aplicaciones", "en": "Applications" },
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/aXAUVJUcd798CEqdyomdT1ntW0.png", "caption": { "es": "Mapa y señalética", "en": "Map & wayfinding" } },
-                { "src": "/portfolio-auxi-arroyo/assets/ghIL9IQcAWdzZdvlcOjizF1Mn58.png", "caption": { "es": "Aplicación textil", "en": "Textile application" } },
-                { "src": "/portfolio-auxi-arroyo/assets/feUwmzYzB8LofqNsakHhNDAUiY.png", "ratio": "wide", "caption": { "es": "Manual de marca", "en": "Brand manual" } }
+                { "src": "/portfolio/assets/aXAUVJUcd798CEqdyomdT1ntW0.png", "caption": { "es": "Mapa y señalética", "en": "Map & wayfinding" } },
+                { "src": "/portfolio/assets/ghIL9IQcAWdzZdvlcOjizF1Mn58.png", "caption": { "es": "Aplicación textil", "en": "Textile application" } },
+                { "src": "/portfolio/assets/feUwmzYzB8LofqNsakHhNDAUiY.png", "ratio": "wide", "caption": { "es": "Manual de marca", "en": "Brand manual" } }
             ]
         }
     ]
@@ -3888,9 +3888,9 @@ const BOKOBA: CaseProject = {
         "es": "Cada sabor es una fruta, cada lata un color: un sistema fresco y vivo que despierta los sentidos.",
         "en": "Each flavour is a fruit, each can a colour: a fresh, living system that awakens the senses."
     },
-    "heroImage": "/portfolio-auxi-arroyo/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
+    "heroImage": "/portfolio/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
     "media1": {
-        "src": "/portfolio-auxi-arroyo/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
+        "src": "/portfolio/assets/KyAuNTvy7aCNxOhDAFoDemtB1c8.gif",
         "ratio": "wide",
         "caption": {
             "es": "Bokobá — frescura en movimiento",
@@ -3915,7 +3915,7 @@ const BOKOBA: CaseProject = {
                 ]
             },
             "media": {
-                "src": "/portfolio-auxi-arroyo/assets/p9K6BS5VmQWZQkTTdhx56LKrKtY.png",
+                "src": "/portfolio/assets/p9K6BS5VmQWZQkTTdhx56LKrKtY.png",
                 "caption": {
                     "es": "Caja y sistema de latas",
                     "en": "Box & can system"
@@ -3939,7 +3939,7 @@ const BOKOBA: CaseProject = {
                 ]
             },
             "media": {
-                "src": "/portfolio-auxi-arroyo/assets/oeqM9nAXquJVkIUEtHi3PT7Co.gif",
+                "src": "/portfolio/assets/oeqM9nAXquJVkIUEtHi3PT7Co.gif",
                 "caption": {
                     "es": "Logotipo en movimiento",
                     "en": "Logo in motion"
@@ -3963,7 +3963,7 @@ const BOKOBA: CaseProject = {
                 ]
             },
             "media": {
-                "src": "/portfolio-auxi-arroyo/assets/ZvVJzscSPoMVUG5ZFUFy6aTWbhQ.png",
+                "src": "/portfolio/assets/ZvVJzscSPoMVUG5ZFUFy6aTWbhQ.png",
                 "caption": {
                     "es": "Latas en contexto",
                     "en": "Cans in context"
@@ -3981,12 +3981,12 @@ const BOKOBA: CaseProject = {
             "heading": { "es": "Etiquetas de sabor", "en": "Flavour labels" },
             "ratio": "tall",
             "items": [
-                { "src": "/portfolio-auxi-arroyo/assets/MIrA0kMqZrDZD8weA2jVzTThpk.png", "caption": { "es": "Arándano", "en": "Blueberry" } },
-                { "src": "/portfolio-auxi-arroyo/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png", "caption": { "es": "Hibisco", "en": "Hibiscus" } },
-                { "src": "/portfolio-auxi-arroyo/assets/WopXtbAcFycPxR9ajPRlpfrF4.png", "caption": { "es": "Horchata", "en": "Horchata" } },
-                { "src": "/portfolio-auxi-arroyo/assets/W7K8EVsm1HCnt5p3G659fib2UM.png", "caption": { "es": "Limón", "en": "Lemon" } },
-                { "src": "/portfolio-auxi-arroyo/assets/46l2S41EzNExkE3KX3zJlynyIyw.png", "caption": { "es": "Tamarindo", "en": "Tamarind" } },
-                { "src": "/portfolio-auxi-arroyo/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png", "caption": { "es": "Uva", "en": "Grape" } }
+                { "src": "/portfolio/assets/MIrA0kMqZrDZD8weA2jVzTThpk.png", "caption": { "es": "Arándano", "en": "Blueberry" } },
+                { "src": "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png", "caption": { "es": "Hibisco", "en": "Hibiscus" } },
+                { "src": "/portfolio/assets/WopXtbAcFycPxR9ajPRlpfrF4.png", "caption": { "es": "Horchata", "en": "Horchata" } },
+                { "src": "/portfolio/assets/W7K8EVsm1HCnt5p3G659fib2UM.png", "caption": { "es": "Limón", "en": "Lemon" } },
+                { "src": "/portfolio/assets/46l2S41EzNExkE3KX3zJlynyIyw.png", "caption": { "es": "Tamarindo", "en": "Tamarind" } },
+                { "src": "/portfolio/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png", "caption": { "es": "Uva", "en": "Grape" } }
             ]
         }
     ]
@@ -4007,7 +4007,7 @@ const CHROMA_RELATED: typeof RELATED = [
             "en": "Rebranding · 2024"
         },
         "href": "/the-neon-museum",
-        "img": "/portfolio-auxi-arroyo/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png"
+        "img": "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png"
     },
     {
         "key": "bokoba",
@@ -4024,7 +4024,7 @@ const CHROMA_RELATED: typeof RELATED = [
             "en": "Identity & packaging · 2024"
         },
         "href": "/bokoba",
-        "img": "/portfolio-auxi-arroyo/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png"
+        "img": "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png"
     },
     {
         "key": "youicy",
@@ -4041,7 +4041,7 @@ const CHROMA_RELATED: typeof RELATED = [
             "en": "Product design · 2024"
         },
         "href": "/youicy",
-        "img": "/portfolio-auxi-arroyo/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
+        "img": "/portfolio/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
     },
     {
         "key": "nailly",
@@ -4058,7 +4058,7 @@ const CHROMA_RELATED: typeof RELATED = [
             "en": "Mobile app · 2024"
         },
         "href": "/nailing",
-        "img": "/portfolio-auxi-arroyo/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
+        "img": "/portfolio/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
     }
 ]
 const NEON_RELATED: typeof RELATED = [
@@ -4077,7 +4077,7 @@ const NEON_RELATED: typeof RELATED = [
             "en": "Identity & packaging · 2024"
         },
         "href": "/bokoba",
-        "img": "/portfolio-auxi-arroyo/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png"
+        "img": "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png"
     },
     {
         "key": "chroma",
@@ -4094,7 +4094,7 @@ const NEON_RELATED: typeof RELATED = [
             "en": "A magazine about colour · 2024"
         },
         "href": "/chroma",
-        "img": "/portfolio-auxi-arroyo/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png"
+        "img": "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png"
     },
     {
         "key": "youicy",
@@ -4111,7 +4111,7 @@ const NEON_RELATED: typeof RELATED = [
             "en": "Product design · 2024"
         },
         "href": "/youicy",
-        "img": "/portfolio-auxi-arroyo/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
+        "img": "/portfolio/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
     },
     {
         "key": "nailly",
@@ -4128,7 +4128,7 @@ const NEON_RELATED: typeof RELATED = [
             "en": "Mobile app · 2024"
         },
         "href": "/nailing",
-        "img": "/portfolio-auxi-arroyo/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
+        "img": "/portfolio/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
     }
 ]
 const BOKOBA_RELATED: typeof RELATED = [
@@ -4147,7 +4147,7 @@ const BOKOBA_RELATED: typeof RELATED = [
             "en": "A magazine about colour · 2024"
         },
         "href": "/chroma",
-        "img": "/portfolio-auxi-arroyo/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png"
+        "img": "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png"
     },
     {
         "key": "neon",
@@ -4164,7 +4164,7 @@ const BOKOBA_RELATED: typeof RELATED = [
             "en": "Rebranding · 2024"
         },
         "href": "/the-neon-museum",
-        "img": "/portfolio-auxi-arroyo/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png"
+        "img": "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png"
     },
     {
         "key": "youicy",
@@ -4181,7 +4181,7 @@ const BOKOBA_RELATED: typeof RELATED = [
             "en": "Product design · 2024"
         },
         "href": "/youicy",
-        "img": "/portfolio-auxi-arroyo/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
+        "img": "/portfolio/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png"
     },
     {
         "key": "nailly",
@@ -4198,7 +4198,7 @@ const BOKOBA_RELATED: typeof RELATED = [
             "en": "Mobile app · 2024"
         },
         "href": "/nailing",
-        "img": "/portfolio-auxi-arroyo/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
+        "img": "/portfolio/assets/oqMu8wHIzXDZXcJZsJoeQ9DfQ.png"
     }
 ]
 
