@@ -208,8 +208,9 @@ const CONTACT_URL = ""
 
 /* Backdrop for the pinned intro (behind the title, category and scroll cue).
    Kept separate from IMG.showcase so the three-phone product preview further
-   down the page is unaffected: only the hero backdrop uses this one. */
-const HERO_BG = "/portfolio/assets/bEdX4OCdL8ojO3bULTcPmDKHga4.jpg"
+   down the page is unaffected: only the hero backdrop uses this one.
+   Vector (1600x1000, viewBox'd so it scales cleanly at any viewport size). */
+const HERO_BG = "/portfolio/assets/vqdxC1DeXCpXxNvJBFctJgIgTs8.svg"
 
 /* ---------------------------------------------------------------------------
    PROJECT IMAGERY — real UI screens & wireframes for this case study, uploaded
@@ -2975,11 +2976,10 @@ const CSS_STYLES = `
 /* ---------- IMMERSIVE HERO (full-bleed background image) ---------- */
 .pd-hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 /* Full-bleed backdrop: cover is the right fit here — the frame is the whole
-   viewport, so contain would letterbox it. The subject (the phone in hands)
-   sits just above the optical centre of the photo, so biasing the focal point
-   to 46% keeps it inside the crop at every ratio, from an ultra-wide desktop
-   down to a 390px phone, instead of drifting out on tall screens. */
-.pd-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; transform: scale(1.1); filter: blur(2px); }
+   viewport, so contain would letterbox it. The artwork is composed around its
+   own centre, so the focal point stays at 50% 50% and the crop falls evenly on
+   both axes at every ratio, from an ultra-wide desktop down to a 390px phone. */
+.pd-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform: scale(1.1); filter: blur(2px); }
 .pd-hero-scrim {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(18,17,16,0.60) 0%, rgba(18,17,16,0.34) 42%, rgba(18,17,16,0.72) 100%);
