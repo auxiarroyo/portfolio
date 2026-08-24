@@ -482,6 +482,20 @@ type CategoryMeta = {
 }
 /* Display order for the board (matches the way the collection is described). */
 const CATEGORY_ORDER = ["portfolios", "posters", "books", "movies", "series", "designers", "resources", "visual", "websites"] as const
+
+/* Pill row — a curated subset of the categories above. The map still renders
+   every cluster in CATEGORY_ORDER; these pills only decide which of them can be
+   focused. `keys` lets one pill cover more than one cluster, which is how
+   "Audiovisual" gathers the films and the series behind a single filter. A pill
+   without its own `title` reuses the cluster's, so the two stay in sync. */
+type PillFilter = { key: string; keys: string[]; title?: { es: string; en: string } }
+const PILL_FILTERS: PillFilter[] = [
+    { key: "portfolios", keys: ["portfolios"] },
+    { key: "books", keys: ["books"] },
+    { key: "audiovisual", keys: ["movies", "series"], title: { es: "Audiovisual", en: "Audiovisual" } },
+    { key: "designers", keys: ["designers"] },
+]
+
 const CATEGORY_META: Record<string, CategoryMeta> = {
     portfolios: {
         image: "/portfolio/assets/photo-1634084462412-b54873c0a56d.jpg",
@@ -969,8 +983,8 @@ export default function DigitalGardenPage(props: DigitalGardenPageProps) {
     const [activeKey, setActiveKey] = useState<string | null>(null)
     const openCat = useCallback((key: string) => setActiveKey(key), [])
     const closeCat = useCallback(() => setActiveKey(null), [])
-    /* Open-map filter: "all" or a category key. Keeps every reference visible as
-       a browsable cover, filterable by the pill row. */
+    /* Active pill: "all" or a PILL_FILTERS key. Nothing is filtered by it right
+       now — it only marks which pill reads as selected. */
     const [filter, setFilter] = useState<string>("all")
 
     useEffect(() => {
@@ -1091,58 +1105,45 @@ export default function DigitalGardenPage(props: DigitalGardenPageProps) {
                     >
                         {lang === "es" ? "Todo" : "All"}
                     </button>
-                    {CATEGORY_ORDER.map((key) => {
-                        const cl = CLUSTERS.find((c) => c.key === key)
-                        if (!cl) return null
+                    {PILL_FILTERS.map((pill) => {
+                        const label = pill.title
+                            ? pill.title[lang]
+                            : CLUSTERS.find((c) => c.key === pill.keys[0])?.title[lang]
+                        if (!label) return null
                         return (
                             <button
-                                key={key}
+                                key={pill.key}
                                 type="button"
-                                className={"dg-pill" + (filter === key ? " is-active" : "")}
-                                aria-pressed={filter === key}
-                                onClick={() => setFilter(key)}
+                                className={"dg-pill" + (filter === pill.key ? " is-active" : "")}
+                                aria-pressed={filter === pill.key}
+                                onClick={() => setFilter(pill.key)}
                             >
-                                {cl.title[lang]}
+                                {label}
                             </button>
                         )
                     })}
                 </div>
 
-                {filter !== "all" && CATEGORY_META[filter] ? (
-                    <p className="dg-filter-blurb">{CATEGORY_META[filter].blurb[lang]}</p>
-                ) : null}
+                {/* Coming-soon pill. Same language as the "Retos" panel on /about:
+                    a pulsing accent dot beside a muted label, folded here into one
+                    pill so it reads as part of the filter row above it. */}
+                <div className="dg-soon-wrap">
+                    <p className="dg-soon">
+                        <span className="dg-soon-dot" aria-hidden="true" />
+                        {lang === "es"
+                            ? "Próximamente, estoy preparando esta sección con calma, vuelve pronto para verla."
+                            : "Coming soon, I am putting this section together with care. Check back soon to see it."}
+                    </p>
+                </div>
 
-                {/* Open knowledge map — every reference is a browsable cover. */}
-                <section className="dg-map" aria-label={t.kicker}>
-                    {CATEGORY_ORDER.flatMap((key) => {
-                        const cl = CLUSTERS.find((c) => c.key === key)
-                        if (!cl) return []
-                        if (filter !== "all" && filter !== key) return []
-                        return cl.items.map((entry) => {
-                            const parts = entry.split(" — ")
-                            const main = parts[0]
-                            const sub = parts.slice(1).join(" — ")
-                            return (
-                                <a
-                                    key={key + "|" + entry}
-                                    className="dg-card"
-                                    href={`https://www.google.com/search?q=${encodeURIComponent(entry)}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <span className="dg-card-cover" style={{ background: coverBg(entry) }}>
-                                        <span className="dg-card-cover-title">{main}</span>
-                                        <span className="dg-card-badge" aria-hidden="true"><Icon name={cl.icon} size={15} /></span>
-                                    </span>
-                                    <span className="dg-card-meta">
-                                        <span className="dg-card-title">{main}</span>
-                                        <span className="dg-card-cat">{sub || cl.title[lang]}</span>
-                                    </span>
-                                </a>
-                            )
-                        })
-                    })}
-                </section>
+                {/* The reference grid is intentionally empty for now: every tile
+                    was placeholder seed data (a gradient, a title and a Google
+                    search link) rather than a real recommendation, so the board
+                    showed filler instead of content. CLUSTERS, CATEGORY_ORDER and
+                    CATEGORY_META are kept above, so a category can be brought back
+                    one at a time by rendering a dg-map section over them again.
+                    Until then the pills describe what is coming, and the pill
+                    below says so. */}
 
                 {/* Recommend me something */}
                 <section className="dg-community-section" aria-label={t.community.title}>
@@ -1538,6 +1539,46 @@ const CSS_STYLES = `@import url('https://fonts.googleapis.com/css2?family=Manrop
 .dg-pill:hover { border-color: #cfcfc7; transform: translateY(-1px); }
 .dg-pill.is-active { background: var(--accent, #ff654d); border-color: var(--accent, #ff654d); color: #fff; }
 .dg-filter-blurb { text-align: center; max-width: 620px; margin: -6px auto clamp(30px, 4vw, 42px); color: #6b6b64; font-size: 15px; line-height: 1.55; }
+/* Coming-soon pill. Borrows the design language of the "Retos" panel on /about:
+   a pulsing accent dot next to a muted label on a surface card with a hairline
+   border, folded here into a single pill so it sits with the filter row instead
+   of taking over the section. The wrapper does the centring and the vertical
+   rhythm: its negative top margin eats part of .dg-filters' bottom margin so the
+   pill reads as part of that row, and its own bottom margin keeps the gap the
+   pills used to leave below. The pill itself is scoped to .aag-root because the
+   base "-aag-root p { margin: 0 }" reset outranks a bare class and would quietly
+   drop its margin. Accent has no token in this file, so it carries the same
+   literal fallback .dg-pill uses. */
+.dg-soon-wrap { text-align: center; margin: -18px auto clamp(30px, 4vw, 46px); }
+.aag-root .dg-soon {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin: 0; max-width: min(100%, 620px);
+    padding: 11px 20px 11px 17px;
+    border: 1px solid var(--border, #e5e5df); border-radius: 999px;
+    background: var(--surface, #ffffff); box-shadow: var(--shadow-sm);
+    color: var(--muted, #6b6b64);
+    font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.5;
+    text-align: left;
+}
+.dg-soon-dot {
+    flex-shrink: 0;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent, #ff654d);
+    animation: dg-soon-pulse 2.4s ease-out infinite;
+}
+.aag-static .dg-soon-dot { animation: none; }
+@keyframes dg-soon-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,101,77,0.30); }
+    70% { box-shadow: 0 0 0 9px rgba(255,101,77,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,101,77,0); }
+}
+/* Wrapped onto several lines on a narrow screen a 999px radius reads as a blob,
+   so the pill relaxes into a rounded card at the same breakpoint the rest of the
+   page uses. */
+@media (max-width: 560px) {
+    .aag-root .dg-soon { border-radius: 20px; padding: 12px 18px; align-items: flex-start; }
+    .dg-soon-dot { margin-top: 6px; }
+}
 .dg-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2vw, 26px); }
 .dg-card { display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: inherit; }
 /* Map cards are clean cover tiles. Neutralise the legacy boxed .dg-card chrome
@@ -2015,6 +2056,7 @@ html[data-aag-theme="dark"] .pd-service-chip,
 html[data-aag-theme="dark"] .dg-pill,
 html[data-aag-theme="dark"] .dg-card-title,
 html[data-aag-theme="dark"] .ff-chip { color: var(--text); }
+html[data-aag-theme="dark"] .dg-soon,
 html[data-aag-theme="dark"] .dg-filter-blurb,
 html[data-aag-theme="dark"] .dg-card-cat { color: var(--muted); }
 html[data-aag-theme="dark"] .aag-work-media { background: #201f1e; }
