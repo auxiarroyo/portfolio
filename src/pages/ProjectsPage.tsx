@@ -195,9 +195,6 @@ const EMAIL = "carreque45@gmail.com"
 const FAB_EMAIL = "auxiliadoraarroyo123@gmail.com"
 const LINKEDIN_URL = "https://www.linkedin.com/in/auxiarroyo/"
 const PORTFOLIO_URL = "/"
-/* Contact page target for the nav "Contact" link. Leave empty to fall back to
-   scrolling to the footer contact block on this page. */
-const CONTACT_URL = ""
 
 /* Header avatar — identical circular portrait used on the About page. The
    "Profile Photo" panel control still overrides this when set. */
@@ -472,7 +469,6 @@ interface ProjectsPageProps {
     email?: string
     linkedinUrl?: string
     portfolioUrl?: string
-    contactUrl?: string
     accent?: string
     defaultLanguage?: Lang
     style?: CSSProperties
@@ -825,9 +821,8 @@ export default function ProjectsPage(props: ProjectsPageProps) {
         window.scrollTo({ top: 0, behavior })
     }, [])
 
-    /* ---- contact target: contact page if set, else footer scroll ---- */
-    const contactUrl = (props.contactUrl || CONTACT_URL || "").trim()
-    const contactHref = contactUrl || `mailto:${email}`
+    /* ---- contact target: the email inbox ---- */
+    const contactHref = `mailto:${email}`
 
     /* ---- nav items (About · Projects · Contact) ---- */
     const navItems: {
@@ -840,7 +835,6 @@ export default function ProjectsPage(props: ProjectsPageProps) {
         { key: "about", label: t.nav.about, href: "/about" },
         { key: "projects", label: t.nav.projects, href: "/projects", current: true },
         { key: "garden", label: t.nav.garden, href: "/digital-garden" },
-        { key: "contact", label: t.nav.contact, href: "/contact" },
     ]
 
     /* Profile photo: panel control wins, otherwise the uploaded default. */
@@ -1058,7 +1052,7 @@ export default function ProjectsPage(props: ProjectsPageProps) {
                             <a
                                 className="aag-footer-big-link"
                                 href={contactHref}
-                                {...(contactUrl ? {} : { "aria-label": `${t.contactBig} — ${email}` })}
+                                aria-label={`${t.contactBig} — ${email}`}
                             >
                                 <h2 className="aag-footer-big">{t.contactBig}</h2>
                                 <span className="aag-footer-arrow" aria-hidden="true">
@@ -1146,10 +1140,6 @@ addPropertyControls(ProjectsPage, {
         type: ControlType.Link,
         title: "Portfolio",
         defaultValue: PORTFOLIO_URL,
-    },
-    contactUrl: {
-        type: ControlType.Link,
-        title: "Contact Page",
     },
     accent: {
         type: ControlType.Color,

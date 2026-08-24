@@ -2,14 +2,13 @@
  * Lazy registry of every page component.
  *
  * Each entry is a dynamic import so Vite code-splits the pages into separate
- * chunks — a visitor landing on /contact downloads only the contact page, not
+ * chunks — a visitor landing on /projects downloads only the projects page, not
  * all 1.3 MB of page source.
  */
 export const pageModules: Record<string, () => Promise<Record<string, unknown>>> = {
     AboutPage: () => import("./pages/AboutPage"),
     CaseStudyPage: () => import("./pages/CaseStudyPage"),
     ChargingPage: () => import("./pages/ChargingPage"),
-    ContactPage: () => import("./pages/ContactPage"),
     DigitalGardenPage: () => import("./pages/DigitalGardenPage"),
     ForFunPage: () => import("./pages/ForFunPage"),
     HomePage: () => import("./pages/HomePage"),

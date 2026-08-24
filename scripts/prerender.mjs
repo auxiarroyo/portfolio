@@ -14,7 +14,7 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
-import { BASE, SITE, ROUTES } from "../site.config.js"
+import { BASE, SITE, ROUTES, REDIRECTS } from "../site.config.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const distDir = path.join(root, "dist")
@@ -154,6 +154,37 @@ const notFound = `<!doctype html>
 await writeFile(path.join(distDir, "404.html"), notFound, "utf8")
 console.log(`✓ ${"404".padEnd(26)} → 404.html`)
 
+/* ------------------------------------------------------------------------- *
+ * Redirects
+ * ------------------------------------------------------------------------- *
+ * Static hosting cannot answer with a 301, so each removed route gets a stub
+ * document that bounces the browser and names the canonical destination for
+ * crawlers. Old links and bookmarks land on the new page instead of the 404.
+ * ------------------------------------------------------------------------- */
+for (const { from, to } of REDIRECTS) {
+    const target = BASE + to.replace(/^\//, "")
+    const html = `<!doctype html>
+<html lang="${SITE.lang}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=${attr(target)}" />
+    <link rel="canonical" href="${attr(target)}" />
+    <meta name="robots" content="noindex" />
+    <title>${attr(SITE.title)}</title>
+    <script>location.replace(${JSON.stringify(target)})</script>
+  </head>
+  <body>
+    <p>Esta página se ha movido. <a href="${attr(target)}">Ir al inicio</a>.</p>
+  </body>
+</html>
+`
+    const rel = outputFile(from)
+    const dest = path.join(distDir, rel)
+    await mkdir(path.dirname(dest), { recursive: true })
+    await writeFile(dest, html, "utf8")
+    console.log(`✓ ${from.padEnd(26)} → ${rel}  (redirect → ${to})`)
+}
+
 /* GitHub Pages would otherwise run the output through Jekyll, which ignores
    files and folders beginning with an underscore. */
 await writeFile(path.join(distDir, ".nojekyll"), "", "utf8")
@@ -162,4 +193,4 @@ if (failures > 0) {
     console.error(`\n${failures} route(s) failed to prerender.`)
     process.exit(1)
 }
-console.log(`\nPrerendered ${ROUTES.length} routes + 404.`)
+console.log(`\nPrerendered ${ROUTES.length} routes + 404 + ${REDIRECTS.length} redirect(s).`)

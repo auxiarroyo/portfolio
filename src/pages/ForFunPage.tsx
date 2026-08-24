@@ -618,7 +618,6 @@ export default function ForFunPage(props: ForFunPageProps) {
         { key: "about", label: t.nav.about, href: "/about" },
         { key: "projects", label: t.nav.projects, href: "/projects" },
         { key: "garden", label: t.nav.garden, href: "/digital-garden" },
-        { key: "contact", label: t.nav.contact, href: "/contact" },
     ]
 
     const photoSrc = profileImage && profileImage.src ? profileImage.src : PROFILE_SRC

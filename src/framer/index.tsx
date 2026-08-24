@@ -95,7 +95,7 @@ export function useIsStaticRenderer(): boolean {
  * Resolve a site-internal path against the deployment base path.
  *
  * GitHub Pages project sites are served from a subdirectory, so an absolute path
- * like `/contact` authored in Framer must become `/<repo>/contact/`.
+ * like `/about` authored in Framer must become `/<repo>/about/`.
  *
  * The trailing slash matters: each route is emitted as `<route>/index.html`, and
  * a directory URL resolves to that file directly. Without it GitHub Pages answers
@@ -131,8 +131,8 @@ export interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>,
  * Crucially, Framer's Link *applies* itself to an element child rather than
  * wrapping it, and every call site here already supplies a fully-formed anchor:
  *
- *     <SiteLink href="/contact">
- *         <a className="aag-nav-link" href="/contact">Contacto</a>
+ *     <SiteLink href="/about">
+ *         <a className="aag-nav-link" href="/about">Sobre mí</a>
  *     </SiteLink>
  *
  * Wrapping would emit `<a><a>…</a></a>`. That is invalid HTML: the parser closes

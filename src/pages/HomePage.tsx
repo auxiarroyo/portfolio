@@ -186,7 +186,6 @@ const EMAIL = "carreque45@gmail.com"
 const FAB_EMAIL = "auxiliadoraarroyo123@gmail.com"
 const LINKEDIN_URL = "https://www.linkedin.com/in/auxiarroyo/"
 const PORTFOLIO_URL = "/"
-const CONTACT_URL = ""
 
 /* Circular portrait (Auxi Arroyo círculo) — shared nav avatar across the site */
 const PROFILE_SRC =
@@ -474,7 +473,6 @@ interface HomePageProps {
     email?: string
     linkedinUrl?: string
     portfolioUrl?: string
-    contactUrl?: string
     accent?: string
     defaultLanguage?: Lang
     style?: CSSProperties
@@ -562,7 +560,6 @@ function AagCursor() {
 export default function HomePage(props: HomePageProps) {
     const {
         profileImage,
-        contactUrl,
         accent = "#ff654d",
         defaultLanguage = "es",
     } = props
@@ -653,15 +650,14 @@ export default function HomePage(props: HomePageProps) {
         })
     }, [])
 
-    /** Single source of truth for the contact destination: nav and hero CTA share it. */
-    const contactHref = contactUrl ?? "/contact"
+    /** Contact destination for the hero CTA: the email inbox. */
+    const contactHref = `mailto:${props.email || EMAIL}`
 
     const navItems: { key: string; label: string; href: string; current?: boolean }[] = [
         { key: "home", label: t.nav.home, href: "/", current: true },
         { key: "about", label: t.nav.about, href: "/about" },
         { key: "projects", label: t.nav.projects, href: "/projects" },
         { key: "garden", label: t.nav.garden, href: "/digital-garden" },
-        { key: "contact", label: t.nav.contact, href: contactHref },
     ]
 
     const photoSrc = profileImage && profileImage.src ? profileImage.src : PROFILE_SRC
@@ -898,10 +894,6 @@ addPropertyControls(HomePage, {
         type: ControlType.Link,
         title: "Portfolio",
         defaultValue: PORTFOLIO_URL,
-    },
-    contactUrl: {
-        type: ControlType.Link,
-        title: "Contact Page",
     },
     accent: {
         type: ControlType.Color,

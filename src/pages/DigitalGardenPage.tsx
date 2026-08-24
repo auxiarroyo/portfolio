@@ -993,7 +993,6 @@ export default function DigitalGardenPage(props: DigitalGardenPageProps) {
         { key: "about", label: t.nav.about, href: "/about" },
         { key: "projects", label: t.nav.projects, href: "/projects" },
         { key: "garden", label: t.nav.garden, href: "/digital-garden", current: true },
-        { key: "contact", label: t.nav.contact, href: "/contact" },
     ]
 
     const photoSrc = profileImage && profileImage.src ? profileImage.src : PROFILE_SRC

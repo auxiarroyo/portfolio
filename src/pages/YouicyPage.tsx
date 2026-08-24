@@ -203,8 +203,8 @@ const FAB_EMAIL = "auxiliadoraarroyo123@gmail.com"
 const LINKEDIN_URL = "https://www.linkedin.com/in/auxiarroyo/"
 /* Back / "explore more" target. */
 const PROJECTS_URL = "/projects"
-/* Contact page target for the footer "let's talk" link. */
-const CONTACT_URL = "/contact"
+/* Footer "let's talk" target. Empty = fall back to the email link. */
+const CONTACT_URL = ""
 
 /* Backdrop for the pinned intro (behind the title, category and scroll cue).
    Kept separate from IMG.showcase so the three-phone product preview further
@@ -1238,7 +1238,6 @@ export default function YouicyPage(props: YouicyPageProps) {
         { key: "about", label: t.nav.about, href: "/about" },
         { key: "projects", label: t.nav.projects, href: "/projects" },
         { key: "garden", label: t.nav.garden, href: "/digital-garden" },
-        { key: "contact", label: t.nav.contact, href: "/contact" },
     ]
 
     const p = PROJECT

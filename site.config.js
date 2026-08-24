@@ -55,7 +55,6 @@ export const ROUTES = [
             email: EMAIL,
             linkedinUrl: LINKEDIN,
             portfolioUrl: PORTFOLIO,
-            contactUrl: "/contact",
             accent: ACCENT,
             defaultLanguage: "es",
         },
@@ -80,21 +79,6 @@ export const ROUTES = [
         title: "Proyectos — Auxi Arroyo García",
         props: {
             email: EMAIL,
-            linkedinUrl: LINKEDIN,
-            portfolioUrl: PORTFOLIO,
-            accent: ACCENT,
-            defaultLanguage: "es",
-        },
-    },
-    {
-        path: "/contact",
-        module: "ContactPage",
-        export: "default",
-        title: "Contacto — Auxi Arroyo García",
-        props: {
-            email: "auxiliadoraarroyo123@gmail.com",
-            phone: "+34 640 147 444",
-            location: "España",
             linkedinUrl: LINKEDIN,
             portfolioUrl: PORTFOLIO,
             accent: ACCENT,
@@ -187,4 +171,16 @@ export const ROUTES = [
             playOncePerSession: true,
         },
     },
+]
+
+/**
+ * Routes that no longer exist and where they should send visitors instead.
+ *
+ * GitHub Pages cannot issue a real 301, so the prerender step emits a tiny
+ * document per entry: a client-side bounce plus a canonical link so crawlers
+ * fold the old URL into the new one.
+ */
+export const REDIRECTS = [
+    /* The Contact page was removed — every contact CTA now opens a mailto. */
+    { from: "/contact", to: "/" },
 ]
