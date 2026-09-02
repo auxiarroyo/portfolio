@@ -221,14 +221,61 @@ type BiList = { es: string[]; en: string[] }
 --------------------------------------------------------------------------- */
 type CaseImage = { src: string; ratio?: string; caption?: Bi }
 /* A browsable carousel of related images (e.g. colour variants, pages, labels).
-   `ratio` sets the frame shape: "tall" (portrait), "wide" (landscape) or default. */
+   `ratio` sets the frame shape: "tall" (portrait), "wide" (landscape),
+   "square" (capped 1:1, for object mockups) or default (4:3). */
 type CaseCarousel = { key: string; heading?: Bi; ratio?: string; items: CaseImage[] }
+/* One numbered act of the story: a heading, its paragraphs, and an optional
+   supporting image. */
 interface StorySection {
     key: string
     heading: Bi
     body: BiList
     media?: CaseImage
 }
+/* A curated row of imagery. Instead of dropping every mockup into one uniform
+   grid, a case study composes its work: full-bleed hero pieces, two-column
+   pairings, four-up sets of variants and offset big/small groupings. */
+type EditorialRow = {
+    key: string
+    kind: "full" | "pair" | "quad" | "offset"
+    /* Small category eyebrow above the row ("Editorial design", "Corporate
+       materials"...). Lets one section carry curatorial grouping without
+       fragmenting the page into many short sections. */
+    label?: Bi
+    /* "offset" only: put the large image on the right instead of the left. */
+    flip?: boolean
+    items: CaseImage[]
+}
+/* A delivered billboard mockup, used exactly as supplied. The artwork is never
+   recreated, recoloured or reframed — the file is the deliverable. */
+type BillboardScene = {
+    key: string
+    src: string
+    alt?: Bi
+    caption?: Bi
+}
+type BillboardBlock = {
+    heading: Bi
+    intro?: Bi
+    scenes: BillboardScene[]
+    /* Optional flat artwork shown below the in-context scenes. */
+    rows?: EditorialRow[]
+}
+/* Closing takeaways, each tied to a concrete piece of the case study. */
+type LearnedBlock = { heading: Bi; items: { key: string; title: Bi; text: Bi }[] }
+/* Context block that introduces a brand moment, paired with a motion piece.
+   The video sits in a portrait frame beside the copy — its real shape — rather
+   than being letterboxed into a landscape well. */
+type BrandBlock = {
+    heading: Bi
+    body: BiList
+    video?: { src?: string; poster: string; portrait?: boolean; caption?: Bi; alt?: Bi }
+}
+/* A large editorial statement used as a divider. `big` is set in the light
+   weight and `emphasis` in the bold one, mirroring how the brand itself locks
+   the two halves of the phrase together. */
+type StatementBlock = { pre?: Bi; big: Bi; emphasis?: Bi; note?: Bi }
+
 type CaseProject = {
     category: Bi
     title: Bi
@@ -249,7 +296,28 @@ type CaseProject = {
     /* Optional full-bleed hero background image. When set, the cover becomes a
        large image with a dark scrim and white title/category for contrast. */
     heroImage?: string
+    /* Curated "selected work" composition (see EditorialRow). */
+    editorial?: EditorialRow[]
+    editorialHeading?: Bi
+    editorialIntro?: Bi
+    /* Billboard artwork shown in context. */
+    billboard?: BillboardBlock
+    /* Brand-moment block with an optional motion piece. */
+    brand?: BrandBlock
+    /* Large editorial statement used as a divider between acts. */
+    statement?: StatementBlock
+    /* A single browsable carousel placed by `order` (variants, applications). */
+    rollups?: CaseCarousel
+    /* "What I learned" cards. */
+    learned?: LearnedBlock
+    /* Final reflection — a single calm statement that closes the story. */
+    closing?: { eyebrow?: Bi; text: Bi }
+    /* Render order of the blocks that follow the story sections. Omit to keep
+       the default sequence. Unknown or unset keys are simply skipped, so a
+       project only lists what it actually uses. */
+    order?: string[]
 }
+
 const PROJECT: CaseProject = {
     category: { es: "Branding", en: "Branding" },
     title: { es: "Identidad de marca", en: "Brand Identity" },
@@ -795,7 +863,13 @@ function CaseCarouselView({
     }
 
     const ratioClass =
-        ratio === "wide" ? " is-wide" : ratio === "tall" ? " is-tall" : ""
+        ratio === "wide"
+            ? " is-wide"
+            : ratio === "tall"
+              ? " is-tall"
+              : ratio === "square"
+                ? " is-square"
+                : ""
 
     return (
         <div className="pd-carousel">
@@ -944,6 +1018,168 @@ function AagCursor() {
             <span className="aag-cursor-dot" />
             <span className="aag-cursor-ring" />
             <span className="aag-cursor-label" ref={labelRef} />
+        </div>
+    )
+}
+
+/* ==========================================================================
+   EDITORIAL WORK ROWS
+   A curated "selected work" section. Each row is a deliberate composition —
+   full width, a two-up pairing, a four-up set of variants, or an offset
+   big/small grouping — so the imagery reads as a case study rather than a
+   contact sheet. An optional row label carries curatorial grouping (editorial
+   design, corporate materials, outdoor) without splitting the page into many
+   short sections. Reveal-on-scroll uses the same signature as the rest of the
+   page (fade + lift + blur, cubic-bezier(0.22,1,0.36,1)).
+   ========================================================================== */
+function EditorialFigure({
+    item,
+    lang,
+    delay = 0,
+}: {
+    item: CaseImage
+    lang: Lang
+    delay?: number
+}) {
+    return (
+        <Reveal blur delay={delay} tag="figure" className="pd-efig">
+            <span className="pd-eframe">
+                <img
+                    src={item.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                />
+            </span>
+            {item.caption ? (
+                <figcaption className="pd-ecap">{item.caption[lang]}</figcaption>
+            ) : null}
+        </Reveal>
+    )
+}
+
+function EditorialRows({ rows, lang }: { rows: EditorialRow[]; lang: Lang }) {
+    return (
+        <div className="pd-editorial-rows">
+            {rows.map((row) => (
+                <div className="pd-erow-group" key={row.key}>
+                    {row.label ? (
+                        <Reveal blur>
+                            <span className="pd-eyebrow pd-erow-label">{row.label[lang]}</span>
+                        </Reveal>
+                    ) : null}
+                    <div
+                        className={
+                            "pd-erow pd-erow--" + row.kind + (row.flip ? " is-flip" : "")
+                        }
+                    >
+                        {row.items.map((it, i) => (
+                            <EditorialFigure
+                                key={row.key + "-" + i}
+                                item={it}
+                                lang={lang}
+                                delay={0.05 * Math.min(i, 3)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+/* ==========================================================================
+   BRAND MOMENT — copy beside a motion piece.
+   The video keeps its own portrait shape instead of being letterboxed into a
+   landscape well, so a vertical brand piece reads as intended. It autoplays
+   muted and loops (it is ambient, not narrative) and pauses with visible
+   controls under prefers-reduced-motion. Falls back to the poster frame on the
+   static renderer and whenever no video source is set yet.
+   ========================================================================== */
+function BrandVideo({
+    video,
+    lang,
+}: {
+    video: NonNullable<BrandBlock["video"]>
+    lang: Lang
+}) {
+    const isStatic = useIsStaticRenderer()
+    const ref = useRef<HTMLVideoElement | null>(null)
+
+    useEffect(() => {
+        const v = ref.current
+        if (!v || typeof window === "undefined") return
+        const reduce =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        if (reduce) {
+            v.pause()
+            v.controls = true
+        }
+    }, [])
+
+    const src = (video.src || "").trim()
+    const alt = video.alt ? video.alt[lang] : ""
+    const portrait = video.portrait !== false
+
+    return (
+        <figure className={"pd-bv" + (portrait ? " is-portrait" : "")}>
+            <span className="pd-bv-frame">
+                {src && !isStatic ? (
+                    <video
+                        ref={ref}
+                        className="pd-bv-media"
+                        src={src}
+                        poster={video.poster}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        aria-label={alt}
+                    />
+                ) : (
+                    <img
+                        className="pd-bv-media"
+                        src={video.poster}
+                        alt={alt}
+                        loading="lazy"
+                        decoding="async"
+                        draggable={false}
+                    />
+                )}
+            </span>
+            {video.caption ? (
+                <figcaption className="pd-bv-cap">{video.caption[lang]}</figcaption>
+            ) : null}
+        </figure>
+    )
+}
+
+/* Large editorial statement used as a divider between acts. The two halves are
+   set in different weights, mirroring how the brand locks the phrase together. */
+function StatementBlockView({ block, lang }: { block: StatementBlock; lang: Lang }) {
+    return (
+        <div className="pd-statement">
+            {block.pre ? (
+                <Reveal blur>
+                    <span className="pd-eyebrow">{block.pre[lang]}</span>
+                </Reveal>
+            ) : null}
+            <Reveal blur delay={0.05}>
+                <p className="pd-statement-big">
+                    <span className="pd-statement-a">{block.big[lang]}</span>
+                    {block.emphasis ? (
+                        <span className="pd-statement-b">{block.emphasis[lang]}</span>
+                    ) : null}
+                </p>
+            </Reveal>
+            {block.note ? (
+                <Reveal blur delay={0.1}>
+                    <p className="pd-statement-note">{block.note[lang]}</p>
+                </Reveal>
+            ) : null}
         </div>
     )
 }
@@ -1169,8 +1405,22 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
     const p = props.project ?? PROJECT
     const sectionNavItems: { id: string; label: string }[] = [
         { id: "pd-overview", label: t.overviewLabel },
-        ...p.sections.map((s) => ({ id: `pd-sec-${s.key}`, label: s.heading[lang] })),
+        ...p.sections.map((s) => ({ id: "pd-sec-" + s.key, label: s.heading[lang] })),
+        ...(p.brand ? [{ id: "pd-brand", label: p.brand.heading[lang] }] : []),
+        ...(p.editorial && p.editorial.length > 0 && p.editorialHeading
+            ? [{ id: "pd-editorial", label: p.editorialHeading[lang] }]
+            : []),
+        ...(p.billboard && p.billboard.scenes.length > 0
+            ? [{ id: "pd-billboard", label: p.billboard.heading[lang] }]
+            : []),
+        ...(p.rollups && p.rollups.heading
+            ? [{ id: "pd-rollups", label: p.rollups.heading[lang] }]
+            : []),
+        ...(p.learned && p.learned.items.length > 0
+            ? [{ id: "pd-learned", label: p.learned.heading[lang] }]
+            : []),
     ]
+
     const metaItems: { label: string; value: string }[] = [
         { label: t.yearLabel, value: p.year },
         { label: t.roleLabel, value: p.role[lang] },
@@ -1180,6 +1430,237 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
     /* footer "let's talk" target: contact page if set, else a mailto */
     const contactUrl = (CONTACT_URL || "").trim()
     const contactHref = contactUrl || `mailto:${email}`
+
+    /* ---------------------------------------------------------------------
+       ORDERED STORY BLOCKS
+       Everything between the story sections and "Keep exploring" is built as a
+       keyed map and then emitted in the order the project asks for. A project
+       that sets no `order` gets the original sequence, so existing case
+       studies are unaffected.
+    --------------------------------------------------------------------- */
+    const storyBlocks: Record<string, ReactNode> = {}
+
+    if (p.brand) {
+        storyBlocks.brand = (
+            <section
+                className="aag-section pd-brand"
+                id="pd-brand"
+                key="brand"
+                aria-label={p.brand.heading[lang]}
+            >
+                <div className="pd-brand-grid">
+                    <div className="pd-brand-copy">
+                        <Reveal blur>
+                            <span className="pd-eyebrow">{p.brand.heading[lang]}</span>
+                        </Reveal>
+                        {p.brand.body[lang].map((para, i) => (
+                            <Reveal key={i} blur delay={0.05 * Math.min(i, 3)}>
+                                <p className="pd-para">{para}</p>
+                            </Reveal>
+                        ))}
+                    </div>
+                    {p.brand.video ? (
+                        <Reveal blur delay={0.08} className="pd-brand-media">
+                            <BrandVideo video={p.brand.video} lang={lang} />
+                        </Reveal>
+                    ) : null}
+                </div>
+            </section>
+        )
+    }
+
+    if (p.statement) {
+        storyBlocks.statement = (
+            <section className="aag-section pd-statement-sec" key="statement">
+                <StatementBlockView block={p.statement} lang={lang} />
+            </section>
+        )
+    }
+
+    if (p.editorial && p.editorial.length > 0) {
+        storyBlocks.editorial = (
+            <section
+                className="aag-section pd-editorial"
+                id="pd-editorial"
+                key="editorial"
+                aria-label={p.editorialHeading ? p.editorialHeading[lang] : t.overviewLabel}
+            >
+                {p.editorialHeading ? (
+                    <Reveal blur>
+                        <span className="pd-eyebrow">{p.editorialHeading[lang]}</span>
+                    </Reveal>
+                ) : null}
+                {p.editorialIntro ? (
+                    <Reveal blur delay={0.04}>
+                        <p className="pd-para pd-bb-intro">{p.editorialIntro[lang]}</p>
+                    </Reveal>
+                ) : null}
+                <EditorialRows rows={p.editorial} lang={lang} />
+            </section>
+        )
+    }
+
+    if (p.carousels && p.carousels.length > 0) {
+        storyBlocks.carousels = (
+            <section
+                className="aag-section pd-carousels-sec"
+                key="carousels"
+                aria-label={p.galleryHeading ? p.galleryHeading[lang] : "Gallery"}
+            >
+                {p.carousels.map((c) => (
+                    <CaseCarouselView
+                        key={c.key}
+                        heading={c.heading ? c.heading[lang] : undefined}
+                        items={c.items}
+                        lang={lang}
+                        ratio={c.ratio}
+                    />
+                ))}
+            </section>
+        )
+    }
+
+    if (p.rollups && p.rollups.items.length > 0) {
+        storyBlocks.rollups = (
+            <section
+                className="aag-section pd-carousels-sec"
+                id="pd-rollups"
+                key="rollups"
+                aria-label={p.rollups.heading ? p.rollups.heading[lang] : "Gallery"}
+            >
+                <CaseCarouselView
+                    heading={p.rollups.heading ? p.rollups.heading[lang] : undefined}
+                    items={p.rollups.items}
+                    lang={lang}
+                    ratio={p.rollups.ratio}
+                />
+            </section>
+        )
+    }
+
+    if (!p.carousels && p.gallery && p.gallery.length > 0) {
+        storyBlocks.gallery = (
+            <section
+                className="aag-section pd-gallery-sec"
+                key="gallery"
+                aria-label={p.galleryHeading ? p.galleryHeading[lang] : "Gallery"}
+            >
+                {p.galleryHeading ? (
+                    <Reveal blur>
+                        <span className="pd-eyebrow">{p.galleryHeading[lang]}</span>
+                    </Reveal>
+                ) : null}
+                <div className="pd-gallery-grid">
+                    {p.gallery.map((g, gi) => (
+                        <Reveal key={gi} blur delay={0.03 * Math.min(gi, 5)} className={"pd-gallery-item" + (g.ratio === "wide" ? " is-wide" : "")}>
+                            <img src={g.src} alt="" loading="lazy" decoding="async" draggable={false} />
+                            {g.caption ? <span className="pd-gallery-cap">{g.caption[lang]}</span> : null}
+                        </Reveal>
+                    ))}
+                </div>
+            </section>
+        )
+    }
+
+    if (p.billboard && p.billboard.scenes.length > 0) {
+        storyBlocks.billboard = (
+            <section
+                className="aag-section pd-billboard"
+                id="pd-billboard"
+                key="billboard"
+                aria-label={p.billboard.heading[lang]}
+            >
+                <Reveal blur>
+                    <span className="pd-eyebrow">{p.billboard.heading[lang]}</span>
+                </Reveal>
+                {p.billboard.intro ? (
+                    <Reveal blur delay={0.04}>
+                        <p className="pd-para pd-bb-intro">{p.billboard.intro[lang]}</p>
+                    </Reveal>
+                ) : null}
+                <div className="pd-bb-scenes">
+                    {p.billboard.scenes.map((sc, i) => (
+                        <Reveal
+                            blur
+                            key={sc.key}
+                            delay={0.05 * Math.min(i, 3)}
+                            tag="figure"
+                            className="pd-bb-fig"
+                        >
+                            <span className="pd-bb-frame">
+                                <img
+                                    src={sc.src}
+                                    alt={sc.alt ? sc.alt[lang] : ""}
+                                    loading="lazy"
+                                    decoding="async"
+                                    draggable={false}
+                                />
+                            </span>
+                            {sc.caption ? (
+                                <figcaption className="pd-bb-cap">{sc.caption[lang]}</figcaption>
+                            ) : null}
+                        </Reveal>
+                    ))}
+                </div>
+                {p.billboard.rows && p.billboard.rows.length > 0 ? (
+                    <EditorialRows rows={p.billboard.rows} lang={lang} />
+                ) : null}
+            </section>
+        )
+    }
+
+    if (p.learned && p.learned.items.length > 0) {
+        storyBlocks.learned = (
+            <section
+                className="aag-section pd-learned"
+                id="pd-learned"
+                key="learned"
+                aria-label={p.learned.heading[lang]}
+            >
+                <Reveal blur>
+                    <span className="pd-eyebrow">{p.learned.heading[lang]}</span>
+                </Reveal>
+                <div className="pd-learn-grid">
+                    {p.learned.items.map((it, i) => (
+                        <Reveal blur key={it.key} delay={0.04 * Math.min(i, 4)} className="pd-learn-card">
+                            <span className="pd-learn-num">{String(i + 1).padStart(2, "0")}</span>
+                            <h3 className="pd-learn-title">{it.title[lang]}</h3>
+                            <p className="pd-learn-text">{it.text[lang]}</p>
+                        </Reveal>
+                    ))}
+                </div>
+            </section>
+        )
+    }
+
+    if (p.closing) {
+        storyBlocks.closing = (
+            <section className="aag-section pd-closing" key="closing" aria-label={t.overviewLabel}>
+                {p.closing.eyebrow ? (
+                    <Reveal blur>
+                        <span className="pd-eyebrow">{p.closing.eyebrow[lang]}</span>
+                    </Reveal>
+                ) : null}
+                <Reveal blur delay={0.05}>
+                    <p className="pd-lead-statement pd-closing-text">{p.closing.text[lang]}</p>
+                </Reveal>
+            </section>
+        )
+    }
+
+    const DEFAULT_BLOCK_ORDER = [
+        "brand",
+        "statement",
+        "editorial",
+        "carousels",
+        "gallery",
+        "billboard",
+        "rollups",
+        "learned",
+        "closing",
+    ]
+    const blockOrder = p.order && p.order.length > 0 ? p.order : DEFAULT_BLOCK_ORDER
+
 
     return (
         <div
@@ -1457,39 +1938,8 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
                         </section>
                     ))}
 
-                    {/* ---------- CAROUSELS — grouped, browsable imagery ---------- */}
-                    {p.carousels && p.carousels.length > 0 ? (
-                        <section className="aag-section pd-carousels-sec" aria-label={p.galleryHeading ? p.galleryHeading[lang] : "Gallery"}>
-                            {p.carousels.map((c) => (
-                                <CaseCarouselView
-                                    key={c.key}
-                                    heading={c.heading ? c.heading[lang] : undefined}
-                                    items={c.items}
-                                    lang={lang}
-                                    ratio={c.ratio}
-                                />
-                            ))}
-                        </section>
-                    ) : null}
-
-                    {/* ---------- MOCKUP GALLERY ---------- */}
-                    {!p.carousels && p.gallery && p.gallery.length > 0 ? (
-                        <section className="aag-section pd-gallery-sec" aria-label={p.galleryHeading ? p.galleryHeading[lang] : "Gallery"}>
-                            {p.galleryHeading ? (
-                                <Reveal blur>
-                                    <span className="pd-eyebrow">{p.galleryHeading[lang]}</span>
-                                </Reveal>
-                            ) : null}
-                            <div className="pd-gallery-grid">
-                                {p.gallery.map((g, gi) => (
-                                    <Reveal key={gi} blur delay={0.03 * Math.min(gi, 5)} className={"pd-gallery-item" + (g.ratio === "wide" ? " is-wide" : "")}>
-                                        <img src={g.src} alt="" loading="lazy" decoding="async" draggable={false} />
-                                        {g.caption ? <span className="pd-gallery-cap">{g.caption[lang]}</span> : null}
-                                    </Reveal>
-                                ))}
-                            </div>
-                        </section>
-                    ) : null}
+                    {/* ---------- ORDERED STORY BLOCKS ---------- */}
+                    {blockOrder.map((k) => storyBlocks[k] ?? null)}
 
                     {/* ---------- KEEP EXPLORING — related project cards ---------- */}
                     <section className="aag-section pd-next" aria-label={t.nextEyebrow}>
@@ -2812,6 +3262,9 @@ const CSS_STYLES = `
 }
 .pd-carousel-slide.is-wide .pd-carousel-media { aspect-ratio: 16 / 9; }
 .pd-carousel-slide.is-tall .pd-carousel-media { aspect-ratio: 3 / 4; }
+/* Square object mockups: keep the frame square and capped, so one roll-up
+   reads at a comfortable size instead of stretching the full track width. */
+.pd-carousel-slide.is-square .pd-carousel-media { aspect-ratio: 1 / 1; width: min(100%, 620px); }
 .pd-carousel-media img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .pd-carousel-cap { text-align: center; margin-top: 14px; font-size: 13px; color: var(--muted); }
 .pd-carousel-arrow {
@@ -3488,6 +3941,202 @@ html[data-aag-theme="dark"] .ff-chip { color: var(--text); }
 html[data-aag-theme="dark"] .dg-filter-blurb,
 html[data-aag-theme="dark"] .dg-card-cat { color: var(--muted); }
 html[data-aag-theme="dark"] .aag-work-media { background: #201f1e; }
+
+/* ==========================================================================
+   SELECTED WORK — curated editorial rows
+   Deliberate compositions rather than a uniform contact sheet: full-width
+   pieces, two-up pairings, four-up variant sets and offset big/small groups.
+   Radii, borders, shadows and hover scale are the same tokens the gallery and
+   carousel already use, so a case study using these rows still reads as one
+   design system.
+   ========================================================================== */
+.pd-editorial { padding-top: clamp(56px, 8vw, 108px); }
+.pd-editorial-rows {
+    margin-top: clamp(24px, 3vw, 42px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(34px, 5vw, 78px);
+}
+.pd-erow { display: grid; gap: clamp(14px, 2vw, 26px); align-items: start; }
+.pd-erow--full { grid-template-columns: 1fr; }
+.pd-erow--pair { grid-template-columns: 1fr 1fr; }
+.pd-erow--quad { grid-template-columns: repeat(4, 1fr); }
+.pd-erow--offset { grid-template-columns: 1.62fr 1fr; align-items: end; }
+.pd-erow--offset.is-flip { grid-template-columns: 1fr 1.62fr; }
+.pd-efig { margin: 0; min-width: 0; }
+.pd-eframe {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #f0f0ec;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+.pd-eframe img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.pd-efig:hover .pd-eframe img { transform: scale(1.03); }
+.pd-ecap { margin: 12px 2px 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+/* ==========================================================================
+   BILLBOARD IN CONTEXT
+   The scene is vector art sized from the artwork's own aspect ratio, so it
+   scales cleanly at any width and never distorts the delivered design.
+   ========================================================================== */
+.pd-billboard { padding-top: clamp(56px, 8vw, 108px); }
+.pd-bb-intro { max-width: 660px; margin-top: 14px; }
+.pd-bb-scenes {
+    margin-top: clamp(26px, 3.4vw, 46px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(34px, 5vw, 72px);
+}
+.pd-bb-fig { margin: 0; }
+.pd-bb-frame {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: #f0f0ec;
+}
+.pd-bb-frame img { display: block; width: 100%; height: auto; }
+.pd-bb-cap { margin: 12px 2px 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+/* ==========================================================================
+   WHAT I LEARNED — takeaway cards
+   Same card language as the related-project cards: surface fill, hairline
+   border, small shadow, gentle lift on hover.
+   ========================================================================== */
+.pd-learned { padding-top: clamp(56px, 8vw, 108px); }
+.pd-learn-grid {
+    margin-top: clamp(24px, 3vw, 40px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 26px);
+}
+.pd-learn-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: clamp(20px, 2.4vw, 28px);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+}
+.pd-learn-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.pd-learn-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); }
+.pd-learn-title { font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; line-height: 1.32; }
+.pd-learn-text { font-size: 14.5px; line-height: 1.62; color: var(--muted); }
+
+/* ---------- FINAL REFLECTION ---------- */
+.pd-closing { padding-top: clamp(56px, 8vw, 108px); }
+.pd-closing-text { max-width: 880px; font-size: clamp(22px, 3vw, 40px); }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 980px) {
+    .pd-learn-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+    .pd-erow--quad { grid-template-columns: repeat(2, 1fr); }
+    .pd-erow--offset, .pd-erow--offset.is-flip { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+@media (max-width: 640px) {
+    .pd-editorial, .pd-billboard, .pd-learned, .pd-closing { padding-top: clamp(40px, 6vw, 72px); }
+    .pd-erow--pair, .pd-erow--offset, .pd-erow--offset.is-flip { grid-template-columns: 1fr; }
+    .pd-editorial-rows { gap: clamp(26px, 7vw, 44px); }
+    .pd-learn-grid { grid-template-columns: 1fr; }
+    .pd-eframe, .pd-bb-frame { border-radius: 14px; }
+}
+
+/* ---------- DARK MODE ---------- */
+html[data-aag-theme="dark"] .pd-eframe { background: #201f1e; }
+html[data-aag-theme="dark"] .pd-learn-card { background: var(--surface); }
+html[data-aag-theme="dark"] .pd-learn-title { color: var(--text); }
+html[data-aag-theme="dark"] .pd-learn-text { color: #b8b6ae; }
+html[data-aag-theme="dark"] .pd-ecap,
+html[data-aag-theme="dark"] .pd-bb-cap { color: var(--muted); }
+html[data-aag-theme="dark"] .pd-bb-frame { background: #171716; }
+
+/* ==========================================================================
+   BRAND MOMENT — copy beside a portrait motion piece.
+   The video column is capped near the asset's own pixel width so a vertical
+   brand piece is never blown up past its resolution.
+   ========================================================================== */
+.pd-brand { padding-top: clamp(56px, 8vw, 108px); }
+.pd-brand-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(250px, 330px);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+}
+.pd-brand-copy { display: flex; flex-direction: column; gap: 18px; max-width: 640px; }
+.pd-brand-media { min-width: 0; }
+.pd-bv { margin: 0; }
+.pd-bv-frame {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #10141c;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+.pd-bv.is-portrait .pd-bv-frame { aspect-ratio: 9 / 16; }
+.pd-bv-media { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pd-bv-cap { margin: 12px 2px 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+/* ==========================================================================
+   EDITORIAL STATEMENT — divider between acts.
+   Two weights, echoing how the brand locks the phrase together.
+   ========================================================================== */
+.pd-statement-sec { padding-top: clamp(56px, 9vw, 120px); }
+.pd-statement { max-width: 1000px; }
+.pd-statement-big {
+    margin-top: 18px;
+    font-size: clamp(34px, 7vw, 92px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+}
+.pd-statement-a { font-weight: 300; font-style: italic; opacity: 0.72; }
+.pd-statement-b { font-weight: 700; }
+.pd-statement-note {
+    margin-top: clamp(18px, 2.4vw, 28px);
+    max-width: 560px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* ---------- editorial row grouping ---------- */
+.pd-erow-group { display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 18px); }
+.pd-erow-label { color: var(--accent); }
+
+/* ---------- RESPONSIVE (brand + statement) ---------- */
+@media (max-width: 900px) {
+    .pd-brand-grid { grid-template-columns: 1fr; gap: clamp(24px, 4vw, 36px); }
+    .pd-brand-media { max-width: 330px; }
+}
+@media (max-width: 640px) {
+    .pd-brand, .pd-statement-sec { padding-top: clamp(40px, 6vw, 72px); }
+    .pd-brand-media { max-width: 100%; }
+    .pd-bv-frame { border-radius: 14px; }
+}
+
+/* ---------- DARK MODE ---------- */
+html[data-aag-theme="dark"] .pd-bv-cap,
+html[data-aag-theme="dark"] .pd-statement-note { color: var(--muted); }
+html[data-aag-theme="dark"] .pd-statement-big { color: var(--text); }
 `
 
 
@@ -4230,4 +4879,328 @@ export function NeonMuseumPage(props: ProjectDetailPageProps) {
  */
 export function BokobaPage(props: ProjectDetailPageProps) {
     return <CaseStudyPage {...props} project={BOKOBA} related={BOKOBA_RELATED} />
+}
+
+/* =========================================================================
+   MAGTEL — corporate communication, graphic & editorial design (bilingual).
+   Internship in Magtel's Communication Department, during a period in which
+   the group was rolling out a renewed corporate identity. Same template and
+   design system as Chroma / The Neon Museum / Bokoba: only the data changes.
+   ========================================================================= */
+const MAG = {
+    memoria: "/portfolio/assets/h013BrlBVVq5AmFxFlPNmWo2VM.jpg",
+    politica: "/portfolio/assets/3DVAcFOf7sRRY6d2xs3p2HmyUZE.jpg",
+    cuaderno: "/portfolio/assets/wBoP5nYom4IuzIRJmW4GuyH60aQ.jpg",
+    rollupAzul: "/portfolio/assets/9RuYEn2RnkPTL6ofMrJuE8mFo.jpg",
+    rollupBlanco: "/portfolio/assets/4uZygESUiwdYAYeAlBSlg76RwdE.jpg",
+    fundacionAzul: "/portfolio/assets/JDGz9IzrDM1qgnlS0LOlef8oOqY.jpg",
+    fundacionBlanco: "/portfolio/assets/oLpEX8oSoAic8kKQQdIEOnpoY6w.jpg",
+    vallaMagtelAzul: "/portfolio/assets/rG3zLhZip3yvTy33t5L4QViw6Q.jpg",
+    vallaMagtelBlanco: "/portfolio/assets/XI6gi6yi7cZkt8cS55SJhlA4q94.jpg",
+    mockupVallaAzul: "/portfolio/assets/ALZQy7FquXPPXYcr81baCzloA.jpg",
+    mockupVallaBlanca: "/portfolio/assets/PmnrWZxTcmDADQFPsV4X88d77Q.jpg",
+    videoPoster: "/portfolio/assets/cacd7l15geQEoRUTmeOC93Sw.jpg",
+}
+
+/* Brand motion piece (Magtel Innovation & Technology, 360x640, 12s, muted loop).
+   Framer carries this file inline as a data URI because its asset API only
+   accepts video from a public HTTPS URL; here it is a plain static asset, so
+   the payload stays out of the JS bundle. */
+const MAG_VIDEO_URL = "/portfolio/assets/magtel-brand-video.mp4"
+
+const MAGTEL: CaseProject = {
+    category: {
+        es: "Comunicación corporativa · Gráfico y editorial",
+        en: "Corporate Communication · Graphic & Editorial",
+    },
+    title: { es: "Magtel", en: "Magtel" },
+    year: "2024 — 2025",
+    role: {
+        es: "Diseño gráfico y editorial",
+        en: "Graphic & editorial design",
+    },
+    client: {
+        es: "Magtel · Departamento de Comunicación",
+        en: "Magtel · Communication Department",
+    },
+    lead: {
+        es: "Prácticas en el Departamento de Comunicación de Magtel, durante la puesta en marcha de una identidad corporativa renovada.",
+        en: "An internship in Magtel's Communication Department, while the group was rolling out a renewed corporate identity.",
+    },
+    overview: {
+        es: [
+            "Magtel es un grupo empresarial con sede en Córdoba que trabaja en ingeniería e infraestructuras, energía, telecomunicaciones, medio ambiente e innovación. Su comunicación tiene que llegar a públicos muy distintos —clientes, administraciones, equipos internos, candidatos— y en todos ellos sonar a la misma empresa.",
+            "Hice mis prácticas dentro de su Departamento de Comunicación en un momento en el que la marca estaba evolucionando hacia el lenguaje visual de Magtel Innovation & Technology. Colaboré en llevar esa identidad renovada a piezas internas y externas: memoria anual, documentación corporativa, vallas de obra, roll-ups, presentaciones, piezas para la web y campañas de email. Tambien trabaje para la Fundación Magtel, que tiene su propia marca dentro del grupo.",
+        ],
+        en: [
+            "Magtel is a business group based in Córdoba working across engineering and infrastructure, energy, telecommunications, the environment and innovation. Its communication has to reach very different audiences — clients, public bodies, internal teams, candidates — and sound like the same company to all of them.",
+            "I did my internship inside their Communication Department at a moment when the brand was evolving towards the visual language of Magtel Innovation & Technology. I collaborated on carrying that renewed identity into internal and external pieces: the annual report, corporate documentation, site billboards, roll-ups, presentations, web assets and email campaigns. I also worked for Fundación Magtel, which has its own brand within the group.",
+        ],
+    },
+    services: {
+        es: [
+            "Diseño editorial",
+            "Diseño gráfico",
+            "Comunicación corporativa",
+            "Presentaciones",
+            "Diseño web y piezas digitales",
+            "Email marketing",
+            "Aplicaciones de marca",
+            "Comunicación exterior",
+        ],
+        en: [
+            "Editorial design",
+            "Graphic design",
+            "Corporate communication",
+            "Presentations",
+            "Web & digital assets",
+            "Email marketing",
+            "Brand applications",
+            "Outdoor communication",
+        ],
+    },
+    quote: {
+        es: "Una identidad corporativa no se sostiene en una pieza, sino en la coherencia de todas: la memoria anual, el correo interno y la valla de obra tienen que reconocerse entre sí.",
+        en: "A corporate identity isn't held up by one piece, but by the consistency of all of them: the annual report, the internal email and the site billboard all have to recognise each other.",
+    },
+    heroImage: MAG.memoria,
+    media1: { src: MAG.memoria },
+    sections: [
+        {
+            key: "role",
+            heading: { es: "Mi papel", en: "My role" },
+            body: {
+                es: [
+                    "Entré en el Departamento de Comunicación como una pieza más del equipo: recibía encargos de distintas áreas del grupo, los interpretaba y los devolvía convertidos en piezas listas para imprenta o para publicar.",
+                    "Trabajé siempre con un manual de marca ya definido. Mi papel no fue dirigir el cambio de identidad, sino participar en su implementación: adaptar materiales existentes y resolver piezas nuevas dentro del lenguaje visual renovado, cuidando que lo que decia la guía y lo que después se veia impreso o en pantalla coincidieran.",
+                    "El encargo iba del formato largo al formato corto. Por un lado, documentos extensos —la memoria anual, la política de gestion— donde la maquetación tenia que ordenar mucha información sin cansar al lector. Por otro, piezas rapidas: roll-ups, vallas, cabeceras de email, presentaciones para reuniones y gráficos para la web.",
+                ],
+                en: [
+                    "I joined the Communication Department as one more part of the team: briefs came in from different areas of the group, I interpreted them and returned them as pieces ready for print or publication.",
+                    "I always worked with a brand manual that was already defined. My role was not to lead the identity change but to take part in rolling it out: adapting existing materials and resolving new pieces inside the renewed visual language, making sure what the guide said and what was later printed or shown on screen matched.",
+                    "The briefs ranged from long form to short form. On one side, extensive documents — the annual report, the management policy — where layout had to organise a lot of information without wearing the reader out. On the other, fast pieces: roll-ups, billboards, email headers, meeting presentations and web graphics.",
+                ],
+            },
+        },
+    ],
+    brand: {
+        heading: { es: "La evolución de la marca", en: "Brand evolution" },
+        body: {
+            es: [
+                "Durante mis prácticas, Magtel estaba evolucionando su identidad corporativa hacia el lenguaje de Magtel Innovation & Technology: una marca que ya no se explica solo por la obra, sino también por la tecnología.",
+                "Desde el equipo de comunicación colaboré en trasladar ese lenguaje renovado a los soportes del día a día, respetando la guía de marca y resolviendo las decisiones que la guía no llegaba a cubrir.",
+            ],
+            en: [
+                "During my internship, Magtel was evolving its corporate identity towards the language of Magtel Innovation & Technology: a brand no longer explained by construction alone, but by technology too.",
+                "From within the communication team I collaborated on carrying that renewed language into everyday materials, respecting the brand guide and resolving the decisions the guide did not quite cover.",
+            ],
+        },
+        video: {
+            src: MAG_VIDEO_URL,
+            poster: MAG.videoPoster,
+            portrait: true,
+            alt: {
+                es: "Pieza de marca en movimiento de Magtel Innovation & Technology",
+                en: "Magtel Innovation & Technology brand motion piece",
+            },
+        },
+    },
+    statement: {
+        pre: { es: "El mensaje de la identidad renovada", en: "The message of the renewed identity" },
+        big: { es: "Transformando", en: "Transformando" },
+        emphasis: { es: "tu mundo", en: "tu mundo" },
+        note: {
+            es: "Innovación, infraestructuras, energía, telecomunicaciones y transformación digital, reunidas bajo una sola frase.",
+            en: "Innovation, infrastructure, energy, telecommunications and digital transformation, gathered under a single line.",
+        },
+    },
+    editorialHeading: { es: "Aplicaciones de la nueva identidad", en: "Applying the new identity" },
+    editorialIntro: {
+        es: "La misma identidad, resuelta en formatos que no se parecen en nada entre sí.",
+        en: "The same identity, resolved across formats that have nothing in common.",
+    },
+    editorial: [
+        {
+            key: "longform",
+            kind: "pair",
+            label: { es: "Diseño editorial", en: "Editorial design" },
+            items: [
+                {
+                    src: MAG.memoria,
+                    caption: { es: "Memoria anual 2024", en: "2024 Annual Report" },
+                },
+                {
+                    src: MAG.politica,
+                    caption: { es: "Política de Gestión", en: "Management Policy" },
+                },
+            ],
+        },
+        {
+            key: "cuaderno",
+            kind: "full",
+            label: { es: "Materiales corporativos", en: "Corporate materials" },
+            items: [
+                {
+                    src: MAG.cuaderno,
+                    caption: {
+                        es: "Cuaderno corporativo — el sistema de iconos del grupo compuesto en retícula sobre cartón reciclado.",
+                        en: "Corporate notebook — the group's icon system composed on a grid over recycled board.",
+                    },
+                },
+            ],
+        },
+    ],
+    billboard: {
+        heading: { es: "Comunicación exterior", en: "Outdoor communication" },
+        intro: {
+            es: "La identidad renovada también salió a la calle. La valla de obra lleva el posicionamiento de Magtel a los entornos donde la empresa trabaja de verdad —infraestructura, energía, obra— y convierte el propio emplazamiento en soporte del mensaje: la marca aparece justo donde se está construyendo.",
+            en: "The renewed identity also went outdoors. The site hoarding carries Magtel's positioning into the environments where the company actually works — infrastructure, energy, construction — turning the site itself into the medium: the brand shows up exactly where something is being built.",
+        },
+        scenes: [
+            {
+                key: "mundo-azul",
+                src: MAG.mockupVallaAzul,
+                alt: {
+                    es: "Valla de obra con el diseño azul de Magtel en un emplazamiento en construcción",
+                    en: "Construction hoarding carrying the blue Magtel design on a building site",
+                },
+            },
+            {
+                key: "mundo-blanco",
+                src: MAG.mockupVallaBlanca,
+                alt: {
+                    es: "Valla de obra con el diseño blanco de Magtel, iluminada de noche",
+                    en: "Construction hoarding carrying the white Magtel design, lit at night",
+                },
+            },
+        ],
+        rows: [
+            {
+                key: "valla-magtel",
+                kind: "pair",
+                label: { es: "Otras vallas de la campaña", en: "Other billboards in the campaign" },
+                items: [{ src: MAG.vallaMagtelAzul }, { src: MAG.vallaMagtelBlanco }],
+            },
+        ],
+    },
+    rollups: {
+        key: "rollups",
+        heading: { es: "Roll-ups y eventos", en: "Roll-ups & events" },
+        ratio: "square",
+        items: [
+            { src: MAG.rollupAzul, caption: { es: "Magtel Innovation & Technology", en: "Magtel Innovation & Technology" } },
+            { src: MAG.rollupBlanco, caption: { es: "Magtel Innovation & Technology", en: "Magtel Innovation & Technology" } },
+            { src: MAG.fundacionAzul, caption: { es: "Fundación Magtel", en: "Fundación Magtel" } },
+            { src: MAG.fundacionBlanco, caption: { es: "Fundación Magtel", en: "Fundación Magtel" } },
+        ],
+    },
+    learned: {
+        heading: { es: "Lo que me llevo", en: "What I learned" },
+        items: [
+            {
+                key: "editorial",
+                title: { es: "Editorial de formato largo", en: "Long-form editorial" },
+                text: {
+                    es: "Maquetar la memoria anual y la política de gestion me obligó a pensar en retícula, jerarquía y ritmo a lo largo de decenas de páginas, no de una sola composición bonita.",
+                    en: "Laying out the annual report and the management policy forced me to think in grid, hierarchy and rhythm across dozens of pages, not one nice composition.",
+                },
+            },
+            {
+                key: "manual",
+                title: { es: "Implantar una identidad renovada", en: "Rolling out a renewed identity" },
+                text: {
+                    es: "Adaptar piezas al nuevo lenguaje visual me enseñó que un cambio de marca se juega en los detalles: qué hacer cuando la guía no contempla un formato, y cómo decidirlo sin romper el sistema.",
+                    en: "Adapting pieces to the new visual language taught me that a brand change is won in the details: what to do when the guide does not cover a format, and how to decide without breaking the system.",
+                },
+            },
+            {
+                key: "escalas",
+                title: { es: "La misma marca a dos escalas", en: "One brand at two scales" },
+                text: {
+                    es: "Una valla se lee a veinte metros y un email en una bandeja de entrada. Ajustar la identidad a esos dos extremos —tamaños, contraste, cuánto texto aguanta cada pieza— fue buena parte del trabajo.",
+                    en: "A billboard is read from twenty metres; an email from an inbox. Fitting the identity to those two extremes — sizes, contrast, how much copy each piece can carry — was a good part of the job.",
+                },
+            },
+            {
+                key: "publicos",
+                title: { es: "Comunicación interna y externa", en: "Internal and external comms" },
+                text: {
+                    es: "Lo que sale fuera y lo que circula dentro no persiguen lo mismo. Entender a quién le hablaba cada encargo cambiaba el tono, la cantidad de información y el formato final.",
+                    en: "What goes out and what circulates inside are not after the same thing. Understanding who each brief was speaking to changed the tone, the amount of information and the final format.",
+                },
+            },
+            {
+                key: "equipos",
+                title: { es: "Equipos multidisciplinares", en: "Multidisciplinary teams" },
+                text: {
+                    es: "Los encargos venían de comunicación, de marketing y de departamentos técnicos. Aprendí a preguntar lo suficiente al principio —qué, para quién, dónde se ve— para no rehacer después.",
+                    en: "Briefs came from communication, from marketing and from technical departments. I learned to ask enough up front — what, for whom, where it will be seen — to avoid redoing it later.",
+                },
+            },
+            {
+                key: "digital",
+                title: { es: "Web y email marketing", en: "Web and email marketing" },
+                text: {
+                    es: "Preparar gráficos para la web y cabeceras de campañas me enseñó restricciones que el papel no tiene: peso, formatos, cómo se ve una pieza en móvil y qué se rompe en cada cliente de correo.",
+                    en: "Preparing web graphics and campaign headers taught me constraints paper does not have: file weight, formats, how a piece looks on mobile and what breaks in each email client.",
+                },
+            },
+        ],
+    },
+    closing: {
+        eyebrow: { es: "Para terminar", en: "To close" },
+        text: {
+            es: "Magtel me enseñó que una pieza de diseño rara vez funciona sola. La memoria, la valla, el roll-up y el email no eran proyectos independientes: eran la misma voz apareciendo en sitios distintos. Desde entonces, antes de resolver un encargo, intento entender dónde encaja dentro de todo lo demás.",
+            en: "Magtel taught me that a design piece rarely works on its own. The report, the billboard, the roll-up and the email were not separate projects: they were the same voice showing up in different places. Since then, before solving a brief, I try to understand where it fits within everything else.",
+        },
+    },
+    order: ["brand", "statement", "editorial", "billboard", "rollups", "learned", "closing"],
+}
+
+/* Same four neighbours Framer lists, pointed at the repo's local cover images
+   (the site vendors every asset — nothing loads from framerusercontent.com). */
+const MAGTEL_RELATED: typeof RELATED = [
+    {
+        key: "chroma",
+        category: { es: "Editorial · Print", en: "Editorial · Print" },
+        title: { es: "Chroma", en: "Chroma" },
+        info: { es: "Diseño editorial · 2024", en: "Editorial design · 2024" },
+        href: "/chroma",
+        img: "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png",
+    },
+    {
+        key: "neon",
+        category: { es: "Branding · Rebranding", en: "Branding · Rebranding" },
+        title: { es: "The Neon Museum", en: "The Neon Museum" },
+        info: { es: "Identidad visual · 2024", en: "Visual identity · 2024" },
+        href: "/the-neon-museum",
+        img: "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png",
+    },
+    {
+        key: "bokoba",
+        category: { es: "Branding · Packaging", en: "Branding · Packaging" },
+        title: { es: "Bokobá", en: "Bokobá" },
+        info: { es: "Packaging · 2024", en: "Packaging · 2024" },
+        href: "/bokoba",
+        img: "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png",
+    },
+    {
+        key: "youicy",
+        category: { es: "UX/UI · Product Design", en: "UX/UI · Product Design" },
+        title: { es: "Youicy", en: "Youicy" },
+        info: { es: "Diseño de producto · 2025", en: "Product design · 2025" },
+        href: "/youicy",
+        img: "/portfolio/assets/YrpGtkGxOR021YdyJ0nc45xIeE.png",
+    },
+]
+
+/**
+ * Magtel — case study
+ * @framerIntrinsicWidth 1280
+ * @framerIntrinsicHeight 2400
+ * @framerSupportedLayoutWidth any-prefer-fixed
+ * @framerSupportedLayoutHeight auto
+ */
+export function MagtelPage(props: ProjectDetailPageProps) {
+    return <CaseStudyPage {...props} project={MAGTEL} related={MAGTEL_RELATED} />
 }

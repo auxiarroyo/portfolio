@@ -277,6 +277,26 @@ const PROJECTS: Project[] = [
         },
     },
     {
+        id: "magtel",
+        category: "editorial",
+        catLabel: {
+            es: "Comunicación corporativa · Editorial",
+            en: "Corporate Communication · Editorial",
+        },
+        /* Same annual-report mock-up that opens the case study, so the card and
+           the story read as one project. */
+        cover: "/portfolio/assets/h013BrlBVVq5AmFxFlPNmWo2VM.jpg",
+        href: "/magtel",
+        es: {
+            title: "Magtel",
+            description: "Prácticas en el Departamento de Comunicación de un grupo de ingeniería: memoria anual, vallas de obra, roll-ups y piezas digitales.",
+        },
+        en: {
+            title: "Magtel",
+            description: "An internship in the Communication Department of an engineering group: annual report, site billboards, roll-ups and digital assets.",
+        },
+    },
+    {
         id: "chroma",
         category: "editorial",
         catLabel: { es: "Editorial · Print", en: "Editorial · Print" },

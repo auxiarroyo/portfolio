@@ -160,6 +160,13 @@ export const ROUTES = [
         props: {},
     },
     {
+        path: "/magtel",
+        module: "CaseStudyPage",
+        export: "MagtelPage",
+        title: "Magtel — Auxi Arroyo García",
+        props: {},
+    },
+    {
         path: "/charging-page",
         module: "ChargingPage",
         export: "default",
