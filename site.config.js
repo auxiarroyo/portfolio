@@ -167,6 +167,13 @@ export const ROUTES = [
         props: {},
     },
     {
+        path: "/fundacion-magtel",
+        module: "CaseStudyPage",
+        export: "FundacionMagtelPage",
+        title: "Fundación Magtel — Auxi Arroyo García",
+        props: {},
+    },
+    {
         path: "/charging-page",
         module: "ChargingPage",
         export: "default",

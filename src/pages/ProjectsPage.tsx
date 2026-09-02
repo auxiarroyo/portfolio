@@ -297,6 +297,26 @@ const PROJECTS: Project[] = [
         },
     },
     {
+        id: "fundacion-magtel",
+        category: "editorial",
+        catLabel: {
+            es: "Gráfico · Eventos y editorial",
+            en: "Graphic · Events & Editorial",
+        },
+        /* The V Edition title screen — the piece that opens both the ceremony
+           and the case study, so the card and the story start the same way. */
+        cover: "/portfolio/assets/fm-premios-logo.jpg",
+        href: "/fundacion-magtel",
+        es: {
+            title: "Fundación Magtel",
+            description: "Prácticas como diseñadora gráfica: el sistema de pantallas de los Premios Fundación Magtel, piezas de motion y la memoria anual.",
+        },
+        en: {
+            title: "Fundación Magtel",
+            description: "An internship as a graphic designer: the screen system for the Premios Fundación Magtel, motion pieces and the annual report.",
+        },
+    },
+    {
         id: "chroma",
         category: "editorial",
         catLabel: { es: "Editorial · Print", en: "Editorial · Print" },

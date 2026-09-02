@@ -220,10 +220,12 @@ type BiList = { es: string[]; en: string[] }
    Replace with a real project — the layout and interaction stay identical.
 --------------------------------------------------------------------------- */
 type CaseImage = { src: string; ratio?: string; caption?: Bi }
-/* A browsable carousel of related images (e.g. colour variants, pages, labels).
-   `ratio` sets the frame shape: "tall" (portrait), "wide" (landscape),
-   "square" (capped 1:1, for object mockups) or default (4:3). */
-type CaseCarousel = { key: string; heading?: Bi; ratio?: string; items: CaseImage[] }
+/* A browsable carousel of related media (e.g. colour variants, pages, labels,
+   or an ordered run of event screens). `ratio` sets the frame shape: "tall"
+   (portrait), "wide" (landscape), "square" (capped 1:1, for object mockups),
+   "screen" (6:5, capped — the shape event screens are authored in) or the
+   default (4:3). */
+type CaseCarousel = { key: string; heading?: Bi; ratio?: string; items: CaseMedia[] }
 /* One numbered act of the story: a heading, its paragraphs, and an optional
    supporting image. */
 interface StorySection {
@@ -232,19 +234,37 @@ interface StorySection {
     body: BiList
     media?: CaseImage
 }
+/* A single piece of media inside a curated row. Most items are stills, in which
+   case only `src` is set. When `video` is present the frame renders a real
+   <video> and `src` becomes its poster, so an MP4 stays an MP4 instead of being
+   flattened into a screenshot. `loop` marks the short ambient motion graphics
+   that autoplay muted on repeat; everything longer stays click-to-play, so a
+   page carrying two dozen screens never opens two dozen streams at once. */
+type CaseMedia = {
+    src: string
+    video?: string
+    loop?: boolean
+    ratio?: string
+    caption?: Bi
+    alt?: Bi
+}
 /* A curated row of imagery. Instead of dropping every mockup into one uniform
    grid, a case study composes its work: full-bleed hero pieces, two-column
-   pairings, four-up sets of variants and offset big/small groupings. */
+   pairings, four-up sets of variants and offset big/small groupings. "seq" is
+   an even strip of however many items it is given, for showing an animation
+   build or a run of screens in their original order. */
 type EditorialRow = {
     key: string
-    kind: "full" | "pair" | "quad" | "offset"
+    kind: "full" | "pair" | "quad" | "offset" | "seq" | "carousel"
+    /* "carousel" only: frame shape passed through to CaseCarouselView. */
+    ratio?: string
     /* Small category eyebrow above the row ("Editorial design", "Corporate
        materials"...). Lets one section carry curatorial grouping without
        fragmenting the page into many short sections. */
     label?: Bi
     /* "offset" only: put the large image on the right instead of the left. */
     flip?: boolean
-    items: CaseImage[]
+    items: CaseMedia[]
 }
 /* A delivered billboard mockup, used exactly as supplied. The artwork is never
    recreated, recoloured or reframed — the file is the deliverable. */
@@ -840,13 +860,34 @@ function CaseCarouselView({
     ratio,
 }: {
     heading?: string
-    items: CaseImage[]
+    items: CaseMedia[]
     lang: Lang
     ratio?: string
 }) {
     const trackRef = useRef<HTMLDivElement | null>(null)
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+    const isStatic = useIsStaticRenderer()
     const [idx, setIdx] = useState(0)
     const count = items.length
+
+    /* Only the slide in view plays. Every other video is paused and rewound, so
+       a carousel mixing stills and motion never leaves work running out of
+       sight. Sources are attached to the current slide and its two neighbours
+       only, so opening the page does not fetch every clip at once. */
+    const near = (i: number) => Math.abs(i - idx) <= 1
+    useEffect(() => {
+        if (isStatic) return
+        videoRefs.current.forEach((v, i) => {
+            if (!v) return
+            if (i === idx) {
+                const p = v.play()
+                if (p && typeof p.catch === "function") p.catch(() => {})
+            } else if (!v.paused) {
+                v.pause()
+                v.currentTime = 0
+            }
+        })
+    }, [idx, isStatic])
 
     const scrollToIndex = (i: number) => {
         const track = trackRef.current
@@ -869,10 +910,12 @@ function CaseCarouselView({
               ? " is-tall"
               : ratio === "square"
                 ? " is-square"
-                : ""
+                : ratio === "screen"
+                  ? " is-screen"
+                  : ""
 
     return (
-        <div className="pd-carousel">
+        <div className={"pd-carousel" + (ratio === "screen" ? " is-screen" : "")}>
             {heading ? (
                 <Reveal blur>
                     <span className="pd-eyebrow pd-carousel-eyebrow">{heading}</span>
@@ -883,7 +926,29 @@ function CaseCarouselView({
                     {items.map((it, i) => (
                         <figure className={"pd-carousel-slide" + ratioClass} key={i}>
                             <span className="pd-carousel-media">
-                                <img src={it.src} alt="" loading="lazy" decoding="async" draggable={false} />
+                                {it.video && !isStatic ? (
+                                    <video
+                                        ref={(el) => {
+                                            videoRefs.current[i] = el
+                                        }}
+                                        className="pd-carousel-video"
+                                        src={near(i) ? it.video : undefined}
+                                        poster={it.src}
+                                        muted
+                                        loop
+                                        playsInline
+                                        preload="none"
+                                        aria-label={it.alt ? it.alt[lang] : ""}
+                                    />
+                                ) : (
+                                    <img
+                                        src={it.src}
+                                        alt={it.alt ? it.alt[lang] : ""}
+                                        loading="lazy"
+                                        decoding="async"
+                                        draggable={false}
+                                    />
+                                )}
                             </span>
                             {it.caption ? (
                                 <figcaption className="pd-carousel-cap">{it.caption[lang]}</figcaption>
@@ -925,6 +990,9 @@ function CaseCarouselView({
                             onClick={() => scrollToIndex(i)}
                         />
                     ))}
+                    <span className="pd-carousel-count" aria-hidden="true">
+                        {String(idx + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+                    </span>
                 </div>
             ) : null}
         </div>
@@ -1037,20 +1105,104 @@ function EditorialFigure({
     lang,
     delay = 0,
 }: {
-    item: CaseImage
+    item: CaseMedia
     lang: Lang
     delay?: number
 }) {
+    const isStatic = useIsStaticRenderer()
+    const ref = useRef<HTMLVideoElement | null>(null)
+    const [playing, setPlaying] = useState(false)
+    const alt = item.alt ? item.alt[lang] : ""
+
+    /* Ambient loops pause themselves when the visitor asks for reduced motion;
+       the poster frame stays, so the composition never collapses. */
+    useEffect(() => {
+        const v = ref.current
+        if (!v || !item.loop || typeof window === "undefined") return
+        const reduce =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        if (reduce) {
+            v.pause()
+            v.controls = true
+        }
+    }, [item.loop])
+
+    /* Click-to-play pieces load nothing but their poster until asked. */
+    const start = () => {
+        const v = ref.current
+        if (!v) return
+        v.controls = true
+        setPlaying(true)
+        const p = v.play()
+        if (p && typeof p.catch === "function") p.catch(() => {})
+    }
+
+    let media: ReactNode
+    if (item.video && !isStatic && item.loop) {
+        media = (
+            <video
+                ref={ref}
+                className="pd-emedia"
+                src={item.video}
+                poster={item.src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={alt}
+            />
+        )
+    } else if (item.video && !isStatic) {
+        media = (
+            <>
+                <video
+                    ref={ref}
+                    className="pd-emedia"
+                    src={item.video}
+                    poster={item.src}
+                    muted
+                    playsInline
+                    preload="none"
+                    aria-label={alt}
+                    onPlay={() => setPlaying(true)}
+                    onPause={() => setPlaying(false)}
+                />
+                {playing ? null : (
+                    <button
+                        type="button"
+                        className="pd-eplay"
+                        onClick={start}
+                        aria-label={lang === "es" ? "Reproducir " + alt : "Play " + alt}
+                    >
+                        <span className="pd-eplay-dot" aria-hidden="true" />
+                    </button>
+                )}
+            </>
+        )
+    } else {
+        media = (
+            <img
+                className="pd-emedia"
+                src={item.src}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+            />
+        )
+    }
+
     return (
         <Reveal blur delay={delay} tag="figure" className="pd-efig">
-            <span className="pd-eframe">
-                <img
-                    src={item.src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    draggable={false}
-                />
+            <span
+                className={"pd-eframe" + (item.video ? " is-media" : "")}
+                /* A <video> with preload="none" has no intrinsic size yet, so the
+                   frame carries the shape itself and the layout never jumps. */
+                style={item.video ? { aspectRatio: item.ratio || "6 / 5" } : undefined}
+            >
+                {media}
             </span>
             {item.caption ? (
                 <figcaption className="pd-ecap">{item.caption[lang]}</figcaption>
@@ -1069,20 +1221,32 @@ function EditorialRows({ rows, lang }: { rows: EditorialRow[]; lang: Lang }) {
                             <span className="pd-eyebrow pd-erow-label">{row.label[lang]}</span>
                         </Reveal>
                     ) : null}
-                    <div
-                        className={
-                            "pd-erow pd-erow--" + row.kind + (row.flip ? " is-flip" : "")
-                        }
-                    >
-                        {row.items.map((it, i) => (
-                            <EditorialFigure
-                                key={row.key + "-" + i}
-                                item={it}
+                    {row.kind === "carousel" ? (
+                        /* Screens belonging to one concept are browsed in place
+                           instead of stacking down the page. */
+                        <Reveal blur>
+                            <CaseCarouselView
+                                items={row.items}
                                 lang={lang}
-                                delay={0.05 * Math.min(i, 3)}
+                                ratio={row.ratio}
                             />
-                        ))}
-                    </div>
+                        </Reveal>
+                    ) : (
+                        <div
+                            className={
+                                "pd-erow pd-erow--" + row.kind + (row.flip ? " is-flip" : "")
+                            }
+                        >
+                            {row.items.map((it, i) => (
+                                <EditorialFigure
+                                    key={row.key + "-" + i}
+                                    item={it}
+                                    lang={lang}
+                                    delay={0.05 * Math.min(i, 3)}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             ))}
         </div>
@@ -4137,6 +4301,148 @@ html[data-aag-theme="dark"] .pd-bb-frame { background: #171716; }
 html[data-aag-theme="dark"] .pd-bv-cap,
 html[data-aag-theme="dark"] .pd-statement-note { color: var(--muted); }
 html[data-aag-theme="dark"] .pd-statement-big { color: var(--text); }
+
+/* ==========================================================================
+   MEDIA INSIDE EDITORIAL ROWS
+   A curated row can hold stills and motion side by side. Video frames keep the
+   same radius, hairline border and shadow as the image frames, so a row that
+   mixes the two still reads as one composition. Short ambient loops autoplay
+   muted; longer pieces wait behind a play control and load nothing but their
+   poster until the visitor asks for them.
+   ========================================================================== */
+.pd-eframe.is-media { background: #0b2a4a; }
+.pd-emedia {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.pd-efig:hover .pd-eframe.is-media .pd-emedia { transform: none; }
+.pd-eplay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: rgba(8, 26, 45, 0.28);
+    transition: background 0.35s ease;
+}
+.pd-eplay:hover { background: rgba(8, 26, 45, 0.14); }
+.pd-eplay:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+.pd-eplay-dot {
+    position: relative;
+    display: block;
+    width: clamp(44px, 4.4vw, 60px);
+    height: clamp(44px, 4.4vw, 60px);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.24);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.pd-eplay:hover .pd-eplay-dot { transform: scale(1.07); }
+/* Play triangle, drawn with a border so no icon asset is needed. */
+.pd-eplay-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 8px 0 8px 13px;
+    border-color: transparent transparent transparent #12233a;
+}
+
+/* ---------- sequence strip ----------
+   An even run of screens — an animation build, or a set of related states —
+   held in their original order. Flexible count, so the same kind serves a
+   three-up and a five-up without a bespoke rule. */
+.pd-erow--seq { display: flex; flex-wrap: nowrap; }
+.pd-erow--seq > .pd-efig { flex: 1 1 0; min-width: 0; }
+
+@media (max-width: 900px) {
+    .pd-erow--seq { flex-wrap: wrap; }
+    .pd-erow--seq > .pd-efig { flex: 1 1 calc(50% - clamp(14px, 2vw, 26px)); }
+}
+@media (max-width: 640px) {
+    .pd-erow--seq { flex-direction: column; }
+    .pd-erow--seq > .pd-efig { flex: 1 1 auto; }
+    .pd-eplay-dot { width: 46px; height: 46px; }
+}
+
+/* ---------- landscape brand video ----------
+   BrandVideo defaults to a portrait frame. When a case study hands it a
+   landscape or near-square piece, the frame takes the screen's own shape and
+   the media column widens to match, instead of squeezing it into the narrow
+   portrait column.
+   ========================================================================== */
+.pd-bv:not(.is-portrait) .pd-bv-frame { aspect-ratio: 6 / 5; }
+.pd-brand-grid:has(.pd-bv:not(.is-portrait)) {
+    grid-template-columns: 1fr minmax(300px, 480px);
+}
+@media (max-width: 900px) {
+    .pd-brand-grid:has(.pd-bv:not(.is-portrait)) { grid-template-columns: 1fr; }
+    .pd-brand:has(.pd-bv:not(.is-portrait)) .pd-brand-media { max-width: 100%; }
+}
+
+html[data-aag-theme="dark"] .pd-eframe.is-media { background: #0a1c2e; }
+
+/* ==========================================================================
+   CAROUSELS CARRYING MIXED MEDIA
+   A carousel slide can now hold a still or a real video, so the screens that
+   belong to one concept — category title, project film, award card — are
+   browsed in one frame instead of stacking down the page. The controls stay
+   the ones the portfolio already uses: the same round arrow, the same accent
+   dot, the same radius. Only a quiet counter is new.
+   ========================================================================== */
+.pd-carousel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #0b2a4a;
+}
+/* Event screens are 6:5. Capping the whole carousel — not just the media —
+   keeps the arrows hugging the artwork instead of floating in white space, and
+   stops one slide from running the full content width. */
+.pd-carousel.is-screen { max-width: 800px; margin-left: auto; margin-right: auto; }
+/* Where the column is wider than the capped carousel, the arrows step outside
+   the artwork instead of sitting on top of it, so a control never lands over a
+   wordmark. Below that width they overlay the frame, as they always have. */
+@media (min-width: 1000px) {
+    .pd-carousel.is-screen .pd-carousel-prev { left: -27px; }
+    .pd-carousel.is-screen .pd-carousel-next { right: -27px; }
+}
+.pd-carousel-slide.is-screen .pd-carousel-media { aspect-ratio: 6 / 5; background: #0b2a4a; }
+.pd-carousel-count {
+    margin-left: 6px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    align-self: center;
+}
+/* The dots row centres as a group; the counter rides along at its right. */
+.pd-carousel-dots { align-items: center; }
+
+/* A carousel standing in for an editorial row keeps that row's rhythm. */
+.pd-erow-group > .pd-carousel { margin-top: 4px; }
+
+@media (max-width: 640px) {
+    /* Touch swipe is the primary gesture here, but the arrows stay reachable —
+       pulled in tight to the frame so nothing sits outside the viewport. */
+    .pd-carousel-arrow { width: 38px; height: 38px; }
+    .pd-carousel-prev { left: 8px; }
+    .pd-carousel-next { right: 8px; }
+    .pd-carousel-count { font-size: 10px; }
+}
+
+html[data-aag-theme="dark"] .pd-carousel-slide.is-screen .pd-carousel-media,
+html[data-aag-theme="dark"] .pd-carousel-video { background: #0a1c2e; }
 `
 
 
@@ -5203,4 +5509,376 @@ const MAGTEL_RELATED: typeof RELATED = [
  */
 export function MagtelPage(props: ProjectDetailPageProps) {
     return <CaseStudyPage {...props} project={MAGTEL} related={MAGTEL_RELATED} />
+}
+
+/* =========================================================================
+   FUNDACIÓN MAGTEL — graphic, editorial and event communication (bilingual).
+   An internship inside the foundation's communication environment, working as
+   a graphic designer. Separate from the MAGTEL case study above: the group and
+   its foundation are two different brands with two different jobs.
+   Same template and design system as the other four case studies: only the
+   data changes. The event screens are the ordered run-of-show of the V Premios
+   Fundación Magtel, kept in their original numbering; exact duplicates (the
+   holding logo screen, repeated ten times, and four category screens shown
+   twice) appear once.
+   ========================================================================= */
+const FM = {
+    portada: "/portfolio/assets/fm-premios-logo.jpg",
+    auxi: "/portfolio/assets/fm-presidenta.jpg",
+    jurado: "/portfolio/assets/fm-jurado.jpg",
+    ponentes: "/portfolio/assets/fm-ponentes.jpg",
+    autoridad: "/portfolio/assets/fm-autoridad.jpg",
+    cierre: "/portfolio/assets/fm-logo.jpg",
+    memoria: "/portfolio/assets/fm-memoria-2024.jpg",
+    aperturaPoster: "/portfolio/assets/fm-apertura-poster.jpg",
+    aperturaVideo: "/portfolio/assets/fm-apertura.mp4",
+}
+
+/* Every motion piece is a local MP4 with a poster frame beside it, named
+   <clip>-poster.jpg. The screens run at 6:5, the shape they were authored in;
+   only the welcome reel (16:9) differs. */
+const fmv = (name: string) => ({
+    src: "/portfolio/assets/" + name + "-poster.jpg",
+    video: "/portfolio/assets/" + name + ".mp4",
+})
+
+const FUNDACION: CaseProject = {
+    category: {
+        es: "Diseño gráfico · Editorial y comunicación de eventos",
+        en: "Graphic Design · Editorial & Event Communication",
+    },
+    title: { es: "Fundación Magtel", en: "Fundación Magtel" },
+    year: "2025",
+    role: { es: "Diseño gráfico", en: "Graphic design" },
+    client: { es: "Fundación Magtel", en: "Fundación Magtel" },
+    lead: {
+        es: "Prácticas en el entorno de comunicación de la Fundación Magtel, colaborando como diseñadora gráfica en las piezas visuales de sus premios anuales y de su memoria.",
+        en: "An internship within Fundación Magtel's communication environment, contributing as a graphic designer to the visual pieces for its annual awards and its report.",
+    },
+    overview: {
+        es: [
+            "La Fundación Magtel es la entidad social del grupo Magtel. Trabaja en inserción sociolaboral, innovación tecnológica, innovación social y cooperación internacional, y cada año reconoce proyectos de otras organizaciones a través de los Premios Fundación Magtel.",
+            "Hice mis prácticas dentro de su entorno de comunicación, colaborando como diseñadora gráfica. Mi trabajo se centró en las piezas visuales de la V Edición de los premios —el sistema de pantallas del acto, las cabeceras de categoría y las tarjetas de premiado— y en piezas editoriales y corporativas como la memoria anual. Trabajé siempre dentro de una identidad ya definida: la mía fue una labor de aplicación, no de creación de la marca.",
+        ],
+        en: [
+            "Fundación Magtel is the Magtel group's social arm. It works in labour inclusion, technological innovation, social innovation and international cooperation, and every year it recognises projects by other organisations through the Premios Fundación Magtel.",
+            "I did my internship inside its communication environment, contributing as a graphic designer. My work centred on the visual pieces for the fifth edition of the awards — the screen system for the ceremony, the category titles and the award cards — and on editorial and corporate pieces such as the annual report. I always worked inside an identity that was already defined: my job was to apply it, not to create the brand.",
+        ],
+    },
+    services: {
+        es: [
+            "Diseño gráfico",
+            "Comunicación de eventos",
+            "Aplicaciones de identidad",
+            "Pantallas y soportes digitales",
+            "Diseño editorial",
+            "Comunicación corporativa",
+            "Motion y piezas audiovisuales",
+        ],
+        en: [
+            "Graphic design",
+            "Event communication",
+            "Identity applications",
+            "Screens and digital media",
+            "Editorial design",
+            "Corporate communication",
+            "Motion and audiovisual assets",
+        ],
+    },
+    quote: {
+        es: "Un acto no se diseña pantalla a pantalla, sino como una secuencia: cada pieza tiene que saber qué viene antes y qué viene después.",
+        en: "An event isn't designed screen by screen but as a sequence: every piece has to know what comes before it and what comes after.",
+    },
+    heroImage: FM.portada,
+    media1: { src: FM.portada },
+    sections: [
+        {
+            key: "role",
+            heading: { es: "Mi papel", en: "My role" },
+            body: {
+                es: [
+                    "Entré como diseñadora gráfica dentro del entorno de comunicación de la Fundación. Recibía los encargos, los interpretaba y los devolvía convertidos en piezas listas para proyectarse en el acto o para imprimirse.",
+                    "El trabajo se movió entre lo gráfico, lo editorial y lo audiovisual: el sistema de pantallas de los premios, las cabeceras animadas de cada categoría, las tarjetas de cada proyecto reconocido, las cortinillas de los vídeos y la maquetación de piezas corporativas como la memoria anual.",
+                    "La identidad de la Fundación ya estaba definida. Mi papel fue aplicarla con coherencia a formatos muy distintos y resolver las decisiones que el manual no llegaba a cubrir: cómo se comporta la marca en una pantalla de gran formato, cuánto texto aguanta una cartela, cómo enlazan una cabecera animada y el vídeo que viene detrás.",
+                ],
+                en: [
+                    "I joined as a graphic designer within the foundation's communication environment. Briefs came to me, I interpreted them and returned them as pieces ready to be projected at the ceremony or sent to print.",
+                    "The work moved between graphic, editorial and audiovisual: the screen system for the awards, the animated category titles, the cards for each recognised project, the video bumpers, and the layout of corporate pieces such as the annual report.",
+                    "The foundation's identity was already defined. My role was to apply it consistently across very different formats and to resolve the decisions the manual did not cover: how the brand behaves on a large-format screen, how much copy a caption can carry, how an animated title hands over to the video that follows it.",
+                ],
+            },
+        },
+    ],
+    brand: {
+        heading: { es: "El acto", en: "The ceremony" },
+        body: {
+            es: [
+                "La V Edición de los Premios Fundación Magtel reconoce proyectos en cuatro áreas: inserción sociolaboral, innovación tecnológica, cooperación internacional e innovación social.",
+                "Todo el acto se sostiene sobre una pantalla. Desde la bienvenida hasta la entrega final, lo que el público ve es una secuencia continua de piezas gráficas y audiovisuales que tienen que encadenarse sin costuras y sonar siempre a la misma institución.",
+            ],
+            en: [
+                "The fifth edition of the Premios Fundación Magtel recognises projects across four areas: labour inclusion, technological innovation, international cooperation and social innovation.",
+                "The whole ceremony rests on one screen. From the welcome to the final handover, what the audience sees is a continuous sequence of graphic and audiovisual pieces that have to link up seamlessly and always sound like the same institution.",
+            ],
+        },
+        video: {
+            src: FM.aperturaVideo,
+            poster: FM.aperturaPoster,
+            portrait: false,
+            caption: {
+                es: "Vídeo institucional de apertura — extracto",
+                en: "Opening institutional video — excerpt",
+            },
+            alt: {
+                es: "Vídeo institucional de apertura de la V Edición",
+                en: "Opening institutional video for the fifth edition",
+            },
+        },
+    },
+    statement: {
+        pre: { es: "El lema de la Fundación", en: "The foundation's line" },
+        big: { es: "Cuidando", en: "Cuidando" },
+        emphasis: { es: "tu Mundo", en: "tu Mundo" },
+        note: {
+            es: "Cuatro áreas de trabajo, una misma voz: la que sostiene tanto la memoria anual como cada pantalla del acto.",
+            en: "Four areas of work, one voice: the one holding up both the annual report and every screen of the ceremony.",
+        },
+    },
+    editorialHeading: { es: "Sistema visual del acto", en: "The event's visual system" },
+    editorialIntro: {
+        es: "La secuencia completa de pantallas, en el orden en que se proyectaron. Cada categoría repite la misma estructura —cabecera animada, vídeo del proyecto y tarjeta de premiado— para que el público reconozca en qué punto del acto está sin que nadie se lo explique. Cada bloque se recorre con las flechas, igual que se recorrió en la sala.",
+        en: "The full sequence of screens, in the order they were projected. Every category repeats the same structure — animated title, project film and award card — so the audience always knows where in the ceremony it is without being told. Each block is browsed with the arrows, the same way it ran in the room.",
+    },
+    editorial: [
+        {
+            key: "apertura",
+            kind: "full",
+            label: { es: "Apertura del acto", en: "Opening the event" },
+            items: [
+                { ...fmv("fm-desayuno"), ratio: "16 / 9", alt: { es: "Vídeo de bienvenida del acto", en: "Event welcome reel" }, caption: { es: "Vídeo de bienvenida — extracto", en: "Welcome reel — excerpt" } },
+            ],
+        },
+        {
+            key: "presentacion",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Apertura y presentación", en: "Opening and introductions" },
+            items: [
+                { src: FM.portada, caption: { es: "Cabecera de la V Edición", en: "V Edition title screen" } },
+                { src: FM.auxi, caption: { es: "Presentación institucional", en: "Institutional presentation" } },
+                { src: FM.jurado, caption: { es: "Composición del jurado", en: "The jury" } },
+            ],
+        },
+        {
+            key: "cifras",
+            kind: "full",
+            label: { es: "Las candidaturas, en cifras", en: "The entries, in figures" },
+            items: [
+                { ...fmv("fm-infografia"), loop: true, alt: { es: "Infografía animada de candidaturas", en: "Animated entries infographic" }, caption: { es: "Las candidaturas recibidas, animadas sobre el mapa.", en: "The entries received, animated over the map." } },
+            ],
+        },
+        {
+            key: "criterios",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Criterios de selección", en: "Selection criteria" },
+            items: [
+                { src: "/portfolio/assets/fm-criterios-1.jpg", caption: { es: "Criterio 1 de 5", en: "Criterion 1 of 5" } },
+                { src: "/portfolio/assets/fm-criterios-2.jpg", caption: { es: "Criterio 2 de 5", en: "Criterion 2 of 5" } },
+                { src: "/portfolio/assets/fm-criterios-3.jpg", caption: { es: "Criterio 3 de 5", en: "Criterion 3 of 5" } },
+                { src: "/portfolio/assets/fm-criterios-4.jpg", caption: { es: "Criterio 4 de 5", en: "Criterion 4 of 5" } },
+                { src: "/portfolio/assets/fm-criterios-5.jpg", caption: { es: "La lista completa", en: "The complete list" } },
+            ],
+        },
+        {
+            key: "insercion",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Inserción Sociolaboral", en: "Social & Labour Inclusion" },
+            items: [
+                { ...fmv("fm-insercion-intro"), alt: { es: "Cabecera animada de Inserción Sociolaboral", en: "Social & Labour Inclusion animated title" }, caption: { es: "Cabecera de categoría", en: "Category title screen" } },
+                { ...fmv("fm-insercion-accesit-video"), alt: { es: "Vídeo del proyecto con accésit", en: "Runner-up project video" }, caption: { es: "Vídeo del proyecto — accésit", en: "Project film — runner-up" } },
+                { ...fmv("fm-insercion-accesit"), caption: { es: "Accésit — Fundación Esperanza en Acción", en: "Runner-up — Fundación Esperanza en Acción" } },
+                { ...fmv("fm-insercion-ganador-video"), alt: { es: "Vídeo del proyecto ganador", en: "Winning project video" }, caption: { es: "Vídeo del proyecto — primer premio", en: "Project film — first prize" } },
+                { ...fmv("fm-insercion-ganador"), caption: { es: "Primer premio — Asociación La Maquinilla", en: "First prize — Asociación La Maquinilla" } },
+            ],
+        },
+        {
+            key: "tecnologica",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Innovación Tecnológica", en: "Technological Innovation" },
+            items: [
+                { ...fmv("fm-tecnologica-intro"), alt: { es: "Cabecera animada de Innovación Tecnológica", en: "Technological Innovation animated title" }, caption: { es: "Cabecera de categoría", en: "Category title screen" } },
+                { ...fmv("fm-tecnologica-accesit-video"), alt: { es: "Vídeo del proyecto con accésit", en: "Runner-up project video" }, caption: { es: "Vídeo del proyecto — accésit", en: "Project film — runner-up" } },
+                { ...fmv("fm-tecnologica-accesit"), caption: { es: "Accésit — Recisil", en: "Runner-up — Recisil" } },
+                { ...fmv("fm-tecnologica-ganador-video"), alt: { es: "Vídeo del proyecto ganador", en: "Winning project video" }, caption: { es: "Vídeo del proyecto — primer premio", en: "Project film — first prize" } },
+                { ...fmv("fm-tecnologica-ganador"), caption: { es: "Primer premio — Heral Enología", en: "First prize — Heral Enología" } },
+            ],
+        },
+        {
+            key: "cooperacion",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Cooperación Internacional", en: "International Cooperation" },
+            items: [
+                { ...fmv("fm-cooperacion-intro"), alt: { es: "Cabecera animada de Cooperación Internacional", en: "International Cooperation animated title" }, caption: { es: "Cabecera de categoría", en: "Category title screen" } },
+                { ...fmv("fm-cooperacion-accesit-video"), alt: { es: "Vídeo del proyecto con accésit", en: "Runner-up project video" }, caption: { es: "Vídeo del proyecto — accésit", en: "Project film — runner-up" } },
+                { ...fmv("fm-cooperacion-accesit"), caption: { es: "Accésit — Asociación SEVIHDA", en: "Runner-up — Asociación SEVIHDA" } },
+                { ...fmv("fm-cooperacion-ganador-video"), alt: { es: "Vídeo del proyecto ganador", en: "Winning project video" }, caption: { es: "Vídeo del proyecto — primer premio", en: "Project film — first prize" } },
+                { ...fmv("fm-cooperacion-ganador"), caption: { es: "Primer premio — Delwende al servicio de la vida", en: "First prize — Delwende al servicio de la vida" } },
+            ],
+        },
+        {
+            key: "social",
+            kind: "carousel",
+            ratio: "screen",
+            label: { es: "Innovación Social", en: "Social Innovation" },
+            items: [
+                { ...fmv("fm-social-intro"), alt: { es: "Cabecera animada de Innovación Social", en: "Social Innovation animated title" }, caption: { es: "Cabecera de categoría", en: "Category title screen" } },
+                { ...fmv("fm-social-accesit-video"), alt: { es: "Vídeo del proyecto con accésit", en: "Runner-up project video" }, caption: { es: "Vídeo del proyecto — accésit", en: "Project film — runner-up" } },
+                { ...fmv("fm-social-accesit"), caption: { es: "Accésit — PidGin", en: "Runner-up — PidGin" } },
+                { ...fmv("fm-social-ganador-video"), alt: { es: "Vídeo del proyecto ganador", en: "Winning project video" }, caption: { es: "Vídeo del proyecto — primer premio", en: "Project film — first prize" } },
+                { ...fmv("fm-social-ganador"), caption: { es: "Primer premio — Fundación Futuro Singular Córdoba", en: "First prize — Fundación Futuro Singular Córdoba" } },
+            ],
+        },
+        {
+            key: "cierre",
+            kind: "seq",
+            label: { es: "Ponentes, autoridades y cierre", en: "Speakers, officials and close" },
+            items: [
+                { src: FM.ponentes, caption: { es: "Ponentes", en: "Speakers" } },
+                { src: FM.autoridad, caption: { es: "Autoridades", en: "Officials" } },
+                { src: FM.cierre, caption: { es: "La marca cierra el acto igual que lo abre.", en: "The mark closes the event the same way it opens it." } },
+            ],
+        },
+    ],
+    billboard: {
+        heading: { es: "Diseño editorial — Memoria anual", en: "Editorial design — Annual Report" },
+        intro: {
+            es: "Fuera del acto, el trabajo siguió en formato largo. La memoria anual recoge la actividad de la Fundación durante el año y exige lo contrario que una pantalla: no un golpe de vista, sino una lectura sostenida. Colaboré en su diseño trasladando la misma identidad a una pieza impresa, donde el ritmo lo marcan la retícula y la jerarquía en lugar del montaje.",
+            en: "Away from the ceremony, the work carried on in long form. The annual report gathers the foundation's activity across the year and asks for the opposite of a screen: not a glance, but sustained reading. I collaborated on its design, carrying the same identity into a printed piece where grid and hierarchy set the rhythm instead of editing.",
+        },
+        scenes: [
+            {
+                key: "memoria-2024",
+                src: FM.memoria,
+                alt: {
+                    es: "Portada de la memoria anual 2024 de la Fundación Magtel",
+                    en: "Cover of Fundación Magtel's 2024 annual report",
+                },
+                caption: {
+                    es: "Memoria 2024 — \u201CCuidando tu Mundo\u201D",
+                    en: "2024 Annual Report — \u201CCuidando tu Mundo\u201D",
+                },
+            },
+        ],
+    },
+    learned: {
+        heading: { es: "Lo que me llevo", en: "What I learned" },
+        items: [
+            {
+                key: "evento",
+                title: { es: "Diseñar para un acto real", en: "Designing for a real event" },
+                text: {
+                    es: "Una pantalla de evento no se juzga en el ordenador, sino a diez metros y en el minuto exacto en el que aparece. Aprendí a diseñar pensando en la sala: tamaños, contraste y cuánto tiempo tiene realmente el público para leer.",
+                    en: "An event screen isn't judged on a monitor but from ten metres away, at the exact minute it appears. I learned to design with the room in mind: sizes, contrast and how long the audience actually has to read.",
+                },
+            },
+            {
+                key: "secuencia",
+                title: { es: "Coherencia a lo largo de una secuencia", en: "Consistency across a sequence" },
+                text: {
+                    es: "Cuarenta y siete pantallas seguidas no perdonan una incoherencia. Mantener la misma retícula, los mismos pesos y las mismas transiciones de principio a fin fue tan importante como resolver cada pieza por separado.",
+                    en: "Forty-seven screens in a row don't forgive an inconsistency. Holding the same grid, weights and transitions from start to finish mattered as much as resolving each piece on its own.",
+                },
+            },
+            {
+                key: "identidad",
+                title: { es: "Aplicar una identidad existente", en: "Applying an existing identity" },
+                text: {
+                    es: "Trabajar dentro de una marca ya definida enseña a leer un manual y también a decidir dónde termina. Las cabeceras de categoría fueron eso: traducir un sistema pensado para papel a una pieza en movimiento.",
+                    en: "Working inside an already-defined brand teaches you to read a manual and also to tell where it ends. The category titles were exactly that: translating a system made for print into something that moves.",
+                },
+            },
+            {
+                key: "editorial",
+                title: { es: "Editorial en contexto corporativo", en: "Editorial in a corporate context" },
+                text: {
+                    es: "La memoria anual me obligó a pensar en páginas y no en composiciones sueltas: retícula, jerarquía y ritmo sostenidos a lo largo de un documento entero.",
+                    en: "The annual report forced me to think in pages rather than isolated compositions: grid, hierarchy and rhythm sustained across a whole document.",
+                },
+            },
+            {
+                key: "formatos",
+                title: { es: "Lo físico y lo digital", en: "Physical and digital" },
+                text: {
+                    es: "La misma identidad tenía que funcionar proyectada en gran formato y también impresa y sostenida en la mano. Cada soporte pedía sus propios ajustes sin romper el conjunto.",
+                    en: "The same identity had to work projected at large format and also printed and held in the hand. Each medium asked for its own adjustments without breaking the whole.",
+                },
+            },
+            {
+                key: "equipo",
+                title: { es: "Trabajar con comunicación", en: "Working with a comms team" },
+                text: {
+                    es: "Las piezas dependían de una escaleta, de otros equipos y de plazos que no controlaba yo. Aprendí a preguntar pronto —qué, para quién, en qué momento del acto— y a entregar en un formato que el siguiente pudiera usar sin volver a preguntarme.",
+                    en: "The pieces depended on a run-of-show, on other teams and on deadlines I didn't control. I learned to ask early — what, for whom, at what point in the ceremony — and to hand over in a format the next person could use without coming back to me.",
+                },
+            },
+        ],
+    },
+    closing: {
+        eyebrow: { es: "Para terminar", en: "To close" },
+        text: {
+            es: "En la Fundación entendí que diseñar comunicación para un acto es diseñar tiempo, no sólo composiciones. Cada pantalla dura lo que dura, aparece cuando le toca y tiene que entregarle el relevo a la siguiente. Desde entonces pienso los encargos como secuencia: dónde entra esta pieza, qué la precede y qué viene después.",
+            en: "At the foundation I understood that designing communication for an event means designing time, not just compositions. Every screen lasts what it lasts, appears when it should and has to hand over to the next one. Since then I think of briefs as a sequence: where this piece comes in, what precedes it and what follows.",
+        },
+    },
+    order: ["brand", "statement", "editorial", "billboard", "learned", "closing"],
+}
+
+const FUNDACION_RELATED: typeof RELATED = [
+    {
+        key: "magtel",
+        category: { es: "Comunicación corporativa", en: "Corporate communication" },
+        title: { es: "Magtel", en: "Magtel" },
+        info: { es: "Gráfico y editorial · 2024", en: "Graphic & editorial · 2024" },
+        href: "/magtel",
+        img: "/portfolio/assets/h013BrlBVVq5AmFxFlPNmWo2VM.jpg",
+    },
+    {
+        key: "chroma",
+        category: { es: "Editorial", en: "Editorial" },
+        title: { es: "Chroma", en: "Chroma" },
+        info: { es: "Revista sobre el color · 2024", en: "A magazine about colour · 2024" },
+        href: "/chroma",
+        img: "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png",
+    },
+    {
+        key: "neon",
+        category: { es: "Branding", en: "Branding" },
+        title: { es: "The Neon Museum", en: "The Neon Museum" },
+        info: { es: "Rebranding · 2024", en: "Rebranding · 2024" },
+        href: "/the-neon-museum",
+        img: "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png",
+    },
+    {
+        key: "bokoba",
+        category: { es: "Packaging", en: "Packaging" },
+        title: { es: "Bokobá", en: "Bokobá" },
+        info: { es: "Identidad y packaging · 2024", en: "Identity & packaging · 2024" },
+        href: "/bokoba",
+        img: "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png",
+    },
+]
+
+/**
+ * Fundacion Magtel - case study
+ * @framerIntrinsicWidth 1280
+ * @framerIntrinsicHeight 2400
+ * @framerSupportedLayoutWidth any-prefer-fixed
+ * @framerSupportedLayoutHeight auto
+ */
+export function FundacionMagtelPage(props: ProjectDetailPageProps) {
+    return <CaseStudyPage {...props} project={FUNDACION} related={FUNDACION_RELATED} />
 }
