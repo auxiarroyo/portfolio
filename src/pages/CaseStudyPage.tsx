@@ -5882,3 +5882,364 @@ const FUNDACION_RELATED: typeof RELATED = [
 export function FundacionMagtelPage(props: ProjectDetailPageProps) {
     return <CaseStudyPage {...props} project={FUNDACION} related={FUNDACION_RELATED} />
 }
+
+/* =========================================================================
+   PINTA CANINA — brand concept for dog-walking products (bilingual).
+   Same template and design system as the other five case studies: only the
+   data changes. The brand's own argument is that the everyday object is the
+   frame and the painting is the print, so the page is composed the same way —
+   the mockups are given room to be looked at, and the copy stays out of their
+   way. Every asset here is a supplied mockup, used exactly as delivered.
+   ========================================================================= */
+const PC = {
+    bolsa: "/portfolio/assets/pc-bolsa.jpg",
+    papeleria: "/portfolio/assets/pc-papeleria.jpg",
+    tarjeta: "/portfolio/assets/pc-tarjeta.jpg",
+    sobres: "/portfolio/assets/pc-sobres.jpg",
+    totebag: "/portfolio/assets/pc-totebag.jpg",
+    valla: "/portfolio/assets/pc-valla.jpg",
+}
+
+const PINTA: CaseProject = {
+    category: {
+        es: "Branding · Dirección de arte",
+        en: "Branding · Art Direction",
+    },
+    title: { es: "Pinta Canina", en: "Pinta Canina" },
+    year: "2025",
+    role: {
+        es: "Concepto · Identidad visual · Dirección de arte",
+        en: "Concept · Visual identity · Art direction",
+    },
+    client: { es: "Proyecto propio", en: "Self-initiated project" },
+    lead: {
+        es: "Complementos y accesorios para pasear perros que tratan el paseo de cada día como un acto creativo, y al perro como la musa.",
+        en: "Dog-walking products and accessories that treat the everyday walk as a creative act, and the dog as the muse.",
+    },
+    overview: {
+        es: [
+            "Pinta Canina es una marca de complementos y accesorios para pasear perros. Nace de una observación sencilla: casi todas las marcas del sector hablan el mismo idioma visual —pasteles, tipografías redondeadas, ilustración amable— y ese idioma acaba diciendo muy poco del animal que camina al lado y todavía menos de quien lo pasea.",
+            "La propuesta invierte el punto de partida. En lugar de tratar al perro como mascota, lo trata como lo que ha sido durante siglos dentro de la pintura: un motivo, una presencia, una musa. Cada pieza lleva impresa una obra en la que el perro es el protagonista, y el objeto cotidiano —una bolsa, un sobre, una tarjeta— se convierte en el marco.",
+        ],
+        en: [
+            "Pinta Canina is a brand of dog-walking products and accessories. It starts from a simple observation: almost every brand in the category speaks the same visual language — pastels, rounded type, friendly illustration — and that language ends up saying very little about the animal walking beside you, and even less about the person walking it.",
+            "The proposal inverts the starting point. Instead of treating the dog as a pet, it treats it as what it has been inside painting for centuries: a motif, a presence, a muse. Every piece carries a work of art in which the dog is the subject, and the everyday object — a bag, an envelope, a card — becomes the frame.",
+        ],
+    },
+    services: {
+        es: [
+            "Concepto de marca",
+            "Naming",
+            "Identidad visual",
+            "Dirección de arte",
+            "Papelería corporativa",
+            "Packaging",
+            "Publicidad exterior",
+        ],
+        en: [
+            "Brand concept",
+            "Naming",
+            "Visual identity",
+            "Art direction",
+            "Corporate stationery",
+            "Packaging",
+            "Out-of-home advertising",
+        ],
+    },
+    quote: {
+        es: "Si hay una cosa que nadie ha podido comprar con dinero, esa es el movimiento de la cola de un perro.",
+        en: "If there is one thing nobody has ever managed to buy with money, it is the wag of a dog's tail.",
+    },
+    heroImage: PC.bolsa,
+    /* Same file as the hero: the template skips the intro figure when both
+       match, so the bag is met full-bleed first and read whole later, inside
+       the applications, instead of twice in a row. */
+    media1: { src: PC.bolsa },
+    sections: [
+        {
+            key: "idea",
+            heading: { es: "La idea", en: "The idea" },
+            body: {
+                es: [
+                    "Todos los días, a la misma hora, millones de personas salen a la calle con su perro. Es probablemente el gesto más repetido y menos pensado de la vida urbana: una rutina obligatoria que casi nadie se detiene a mirar.",
+                    "Pinta Canina parte de ahí. Si el paseo es el rato en el que más tiempo pasamos mirando a nuestro perro, merece tratarse como lo que ya es sin que nos demos cuenta: un acto creativo. No se trata de decorar la rutina, sino de reconocer que dentro de ella ya hay algo digno de mirarse.",
+                ],
+                en: [
+                    "Every day, at the same hour, millions of people step outside with their dog. It is probably the most repeated and least considered gesture in city life: a compulsory routine almost nobody stops to look at.",
+                    "Pinta Canina starts there. If the walk is when we spend the most time looking at our dog, it deserves to be treated as what it already is without our noticing: a creative act. The point is not to decorate the routine, but to recognise that something worth looking at is already inside it.",
+                ],
+            },
+        },
+        {
+            key: "problema",
+            heading: { es: "El problema", en: "The problem" },
+            body: {
+                es: [
+                    "El sector de los accesorios para animales comparte un mismo repertorio: colores pastel, tipografías redondeadas, huellas, ilustración infantil y un tono que se dirige al dueño como si fuera un niño. Es un lenguaje cómodo, y por eso está en todas partes.",
+                    "El resultado es un mercado en el que casi todo se parece y en el que el diseño no aporta criterio, sólo simpatía. Una marca que quiera decir algo distinto tiene que empezar por dejar de hablar así.",
+                ],
+                en: [
+                    "The pet-accessories category shares one repertoire: pastel colours, rounded type, paw prints, childish illustration and a tone that addresses the owner as if they were a child. It is a comfortable language, which is exactly why it is everywhere.",
+                    "The result is a market where almost everything looks alike and where design contributes no point of view, only friendliness. A brand that wants to say something different has to start by refusing to speak that way.",
+                ],
+            },
+        },
+        {
+            key: "oportunidad",
+            heading: { es: "La oportunidad", en: "The opportunity" },
+            body: {
+                es: [
+                    "Si el problema es el registro infantil, la salida no es el registro serio: es cambiar de referente. Dejar de mirar el catálogo de la competencia y mirar hacia otro sitio.",
+                    "El perro no es sólo un compañero. Es una fuente de inspiración: forma parte de nuestra cultura visual, de nuestros rituales, de nuestra personalidad y de nuestra manera de expresarnos. Ahí es donde Pinta Canina encuentra un territorio que el sector tenía vacío.",
+                ],
+                en: [
+                    "If the problem is the childish register, the answer is not the serious one: it is changing the reference. To stop looking at the competitor's catalogue and look somewhere else entirely.",
+                    "A dog is not only a companion. It is a source of inspiration: part of our visual culture, our rituals, our personality and the way we express ourselves. That is where Pinta Canina finds a territory the category had left empty.",
+                ],
+            },
+        },
+        {
+            key: "musas",
+            heading: { es: "El perro como musa", en: "The dog as muse" },
+            body: {
+                es: [
+                    "El perro lleva siglos dentro del arte. Está en el retrato de corte y en la pintura flamenca, en la vanguardia y en el expresionismo, en la fotografía, en la ilustración y en la escultura. Ha sido símbolo de fidelidad, de lujo, de compañía y de puro placer de pintar.",
+                    "Pinta Canina recoge esa tradición y la trae al presente sin solemnidad. Las obras no se explican ni se cuelgan como en un museo: se imprimen en las cosas que uno coge al salir de casa. El cuadro deja la pared y se va de paseo.",
+                ],
+                en: [
+                    "The dog has been inside art for centuries. It appears in court portraiture and Flemish painting, in the avant-garde and in expressionism, in photography, illustration and sculpture. It has stood for loyalty, for luxury, for company, and for the sheer pleasure of painting.",
+                    "Pinta Canina takes that tradition and brings it into the present without solemnity. The works are not explained or hung as they would be in a museum: they are printed on the things you pick up on your way out. The painting leaves the wall and goes for a walk.",
+                ],
+            },
+        },
+    ],
+    statement: {
+        pre: { es: "La marca, en una línea", en: "The brand, in one line" },
+        big: { es: "El paseo,", en: "The walk," },
+        emphasis: { es: "un acto artístico.", en: "an artistic act." },
+        note: {
+            es: "Y el perro en el centro: no como mascota, sino como musa contemporánea. Todo el sistema visual se construye a partir de esa sola frase.",
+            en: "And the dog at the centre: not as a pet, but as a contemporary muse. The whole visual system is built out of that single line.",
+        },
+    },
+    editorialHeading: { es: "La marca", en: "The brand" },
+    editorialIntro: {
+        es: "La identidad traduce la idea sin ilustrarla. Un logotipo en capitales de serifa fina, una cursiva para la voz de la marca, papel crudo, verde oliva y negro; ningún pastel, ninguna huella, ningún guiño. El color y la alegría los pone siempre la obra, nunca el envoltorio: la marca se comporta como la cartela discreta de un cuadro y deja que el protagonismo sea del perro pintado. Sobre esa base, cada aplicación decide cuánto espacio le cede a la pintura.",
+        en: "The identity translates the idea without illustrating it. A wordmark in fine serif capitals, an italic for the brand's voice, uncoated paper, olive green and black; no pastels, no paw prints, no winks. Colour and joy always come from the artwork, never from the packaging: the brand behaves like the discreet label beside a painting and lets the painted dog take the room. On that base, each application decides how much space it gives up to the picture.",
+    },
+    editorial: [
+        {
+            key: "papeleria",
+            kind: "full",
+            label: { es: "El sistema, en papel", en: "The system, on paper" },
+            items: [
+                {
+                    src: PC.papeleria,
+                    alt: {
+                        es: "Sistema de papelería de Pinta Canina: carpeta, sobres y tarjeta sobre fondo verde oliva",
+                        en: "Pinta Canina stationery system: folder, envelopes and card on an olive-green background",
+                    },
+                    caption: {
+                        es: "Carpeta, sobre americano, sobre de bolsa y tarjeta. El logotipo se estampa en oro sobre negro y en seco sobre crudo; la pintura sólo aparece cuando el soporte se abre.",
+                        en: "Folder, envelope, string-and-button envelope and card. The wordmark is foiled in gold on black and blind-embossed on uncoated stock; the painting only appears once the piece is opened.",
+                    },
+                },
+            ],
+        },
+        {
+            key: "correspondencia",
+            kind: "pair",
+            label: { es: "Tarjeta y correspondencia", en: "Card and correspondence" },
+            items: [
+                {
+                    src: PC.tarjeta,
+                    alt: {
+                        es: "Tarjeta de visita de Pinta Canina: anverso con un perro pintado y reverso en seco",
+                        en: "Pinta Canina business card: painted dog on the front, blind-embossed reverse",
+                    },
+                    caption: {
+                        es: "Tarjeta de visita. Por delante, la obra a sangre; por detrás, sólo el logotipo en seco y los datos en cursiva. Los dos lados de la marca en una pieza de 85 × 55 mm.",
+                        en: "Business card. Full-bleed artwork on one side; on the other, only the blind-embossed wordmark and the details set in italic. Both halves of the brand in one 85 × 55 mm piece.",
+                    },
+                },
+                {
+                    src: PC.sobres,
+                    alt: {
+                        es: "Sobre de Pinta Canina forrado por dentro con la pintura de un dálmata",
+                        en: "Pinta Canina envelope lined inside with a painting of a dalmatian",
+                    },
+                    caption: {
+                        es: "Sobre forrado. Cerrado no enseña nada; abierto, la obra ocupa toda la solapa. La marca se guarda el golpe de color para el momento en que alguien la abre.",
+                        en: "Lined envelope. Closed, it shows nothing; open, the artwork fills the whole flap. The brand saves its burst of colour for the moment someone opens it.",
+                    },
+                },
+            ],
+        },
+        {
+            key: "paseo",
+            kind: "offset",
+            label: { es: "Piezas para el paseo", en: "Pieces for the walk" },
+            items: [
+                {
+                    src: PC.bolsa,
+                    alt: {
+                        es: "Bolsa de papel de Pinta Canina colgada del picaporte de una puerta",
+                        en: "Pinta Canina paper bag hanging from a door handle",
+                    },
+                    caption: {
+                        es: "Bolsa de la tienda. Colgada del picaporte, junto a la puerta, es lo último que se ve antes de salir: un cuadro esperando a que empiece el paseo.",
+                        en: "Shop bag. Hanging from the door handle, it is the last thing you see on your way out: a painting waiting for the walk to begin.",
+                    },
+                },
+                {
+                    src: PC.totebag,
+                    alt: {
+                        es: "Tote bag de Pinta Canina sobre la hierba con una pintura de perros jugando a las cartas",
+                        en: "Pinta Canina tote bag on the grass, printed with a painting of dogs playing cards",
+                    },
+                    caption: {
+                        es: "Tote de algodón. La obra se imprime encuadrada, con su margen, para que se lea como un cuadro colgado y no como un estampado.",
+                        en: "Cotton tote. The artwork is printed framed, with its own margin, so it reads as a hung painting rather than as a pattern.",
+                    },
+                },
+            ],
+        },
+    ],
+    learned: {
+        heading: { es: "Lo que me llevo", en: "What I learned" },
+        items: [
+            {
+                key: "categoria",
+                title: {
+                    es: "Mirar fuera de la categoría",
+                    en: "Looking outside the category",
+                },
+                text: {
+                    es: "Cuando todas las referencias de un sector se parecen, seguir mirándolas sólo produce una variante más. El salto de este proyecto no salió de estudiar a la competencia, sino de cambiar de estantería: historia del arte en lugar de tiendas de mascotas.",
+                    en: "When every reference in a category looks alike, staying with them only produces one more variant. This project's leap didn't come from studying competitors but from changing shelves: art history instead of pet shops.",
+                },
+            },
+            {
+                key: "concepto",
+                title: {
+                    es: "Un concepto que aguante todo el sistema",
+                    en: "A concept that holds the whole system",
+                },
+                text: {
+                    es: "«El paseo como acto creativo» no es un eslogan colocado al final: es la regla que decide qué lleva pintura y qué no, dónde va el oro y por qué el sobre se guarda la obra por dentro. Un concepto sirve cuando resuelve decisiones concretas.",
+                    en: "\u201CThe walk as a creative act\u201D isn't a line added at the end: it's the rule that decides what carries artwork and what doesn't, where the gold foil goes, and why the envelope keeps the painting inside. A concept earns its place when it settles concrete decisions.",
+                },
+            },
+            {
+                key: "contencion",
+                title: { es: "Contener la marca", en: "Holding the brand back" },
+                text: {
+                    es: "La tentación era hacer una identidad tan expresiva como las obras. Habría competido con ellas. Reducir la marca a una serifa, una cursiva y dos tintas fue lo que permitió que la pintura respirara.",
+                    en: "The temptation was to make an identity as expressive as the artworks. It would have competed with them. Reducing the brand to one serif, one italic and two inks was what let the painting breathe.",
+                },
+            },
+            {
+                key: "soportes",
+                title: { es: "Un mismo sistema, muchos soportes", en: "One system, many media" },
+                text: {
+                    es: "La misma idea tenía que funcionar en una tarjeta de 85 mm y en una valla de varios metros. Cada formato pedía una proporción distinta entre obra y marca, y decidir esa proporción pieza a pieza fue buena parte del trabajo.",
+                    en: "The same idea had to work on an 85 mm card and on a billboard several metres wide. Each format asked for a different balance between artwork and brand, and settling that balance piece by piece was much of the work.",
+                },
+            },
+            {
+                key: "acabados",
+                title: { es: "El acabado también comunica", en: "Finishing communicates too" },
+                text: {
+                    es: "Estampación en seco, oro sobre negro, papel crudo, algodón: los acabados dicen tanto como la tipografía. Pensar la marca en materiales y no sólo en pantalla cambió el resultado.",
+                    en: "Blind embossing, gold on black, uncoated stock, cotton: finishes say as much as typography does. Thinking about the brand in materials rather than only on screen changed the outcome.",
+                },
+            },
+            {
+                key: "cotidiano",
+                title: { es: "Diseñar para lo cotidiano", en: "Designing for the everyday" },
+                text: {
+                    es: "La pieza más importante de la marca no es la más elaborada: es la bolsa que cuelga del picaporte. Aprendí a diseñar pensando en dónde acaba el objeto de verdad y en qué momento del día se mira.",
+                    en: "The brand's most important piece isn't the most elaborate one: it's the bag hanging from the door handle. I learned to design with the object's real resting place in mind, and the moment of the day when it's actually seen.",
+                },
+            },
+        ],
+    },
+    billboard: {
+        heading: { es: "El paseo, en la calle", en: "The walk, on the street" },
+        intro: {
+            es: "La última pieza devuelve la marca a su sitio. La valla no anuncia un producto: cuelga un cuadro en la calle, a la altura del banco donde alguien se sienta mientras su perro descansa. Dos galgos, una frase y el logotipo. Delante pasa un perro de verdad, y el anuncio se completa solo.",
+            en: "The final piece returns the brand to where it belongs. The billboard doesn't advertise a product: it hangs a painting on the street, level with the bench where someone sits while their dog rests. Two greyhounds, one line and the wordmark. A real dog walks past, and the ad completes itself.",
+        },
+        scenes: [
+            {
+                key: "valla-serrano",
+                src: PC.valla,
+                alt: {
+                    es: "Valla publicitaria de Pinta Canina en una fachada urbana, con dos galgos pintados y un perro pasando por delante",
+                    en: "Pinta Canina billboard on a city facade, with two painted greyhounds and a real dog walking past",
+                },
+                caption: {
+                    es: "Publicidad exterior — «Si hay una cosa que nadie ha podido comprar con dinero, esa es el movimiento de la cola de un perro».",
+                    en: "Out-of-home — \u201CIf there is one thing nobody has ever managed to buy with money, it is the wag of a dog's tail.\u201D",
+                },
+            },
+        ],
+    },
+    closing: {
+        eyebrow: { es: "Para terminar", en: "To close" },
+        text: {
+            es: "Pinta Canina no es una tienda de accesorios con cuadros encima. Es una manera de mirar: la de quien sale a la calle cada tarde con su perro y decide que ese rato merece la misma atención que una obra. Si la marca funciona, el objeto acaba siendo lo de menos y lo que queda es el paseo.",
+            en: "Pinta Canina isn't an accessories shop with paintings on top. It's a way of looking: the way of someone who steps outside every afternoon with their dog and decides that stretch of time deserves the same attention as a work of art. If the brand works, the object ends up being the least of it and what remains is the walk.",
+        },
+    },
+    order: ["statement", "editorial", "learned", "billboard", "closing"],
+}
+
+const PINTA_RELATED: typeof RELATED = [
+    {
+        key: "bokoba",
+        category: { es: "Branding · Packaging", en: "Branding · Packaging" },
+        title: { es: "Bokobá", en: "Bokobá" },
+        info: { es: "Packaging · 2024", en: "Packaging · 2024" },
+        href: "/bokoba",
+        img: "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png",
+    },
+    {
+        key: "neon",
+        category: { es: "Branding · Rebranding", en: "Branding · Rebranding" },
+        title: { es: "The Neon Museum", en: "The Neon Museum" },
+        info: { es: "Identidad visual · 2024", en: "Visual identity · 2024" },
+        href: "/the-neon-museum",
+        img: "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png",
+    },
+    {
+        key: "chroma",
+        category: { es: "Editorial · Print", en: "Editorial · Print" },
+        title: { es: "Chroma", en: "Chroma" },
+        info: { es: "Diseño editorial · 2024", en: "Editorial design · 2024" },
+        href: "/chroma",
+        img: "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png",
+    },
+    {
+        key: "fundacion",
+        category: {
+            es: "Gráfico · Comunicación de eventos",
+            en: "Graphic · Event Communication",
+        },
+        title: { es: "Fundación Magtel", en: "Fundación Magtel" },
+        info: { es: "Diseño gráfico · 2025", en: "Graphic design · 2025" },
+        href: "/fundacion-magtel",
+        img: "/portfolio/assets/fm-premios-logo.jpg",
+    },
+]
+
+/**
+ * Pinta Canina — case study
+ * @framerIntrinsicWidth 1280
+ * @framerIntrinsicHeight 2400
+ * @framerSupportedLayoutWidth any-prefer-fixed
+ * @framerSupportedLayoutHeight auto
+ */
+export function PintaCaninaPage(props: ProjectDetailPageProps) {
+    return <CaseStudyPage {...props} project={PINTA} related={PINTA_RELATED} />
+}

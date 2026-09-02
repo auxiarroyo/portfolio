@@ -174,6 +174,13 @@ export const ROUTES = [
         props: {},
     },
     {
+        path: "/pinta-canina",
+        module: "CaseStudyPage",
+        export: "PintaCaninaPage",
+        title: "Pinta Canina — Auxi Arroyo García",
+        props: {},
+    },
+    {
         path: "/charging-page",
         module: "ChargingPage",
         export: "default",

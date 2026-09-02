@@ -347,6 +347,26 @@ const PROJECTS: Project[] = [
         },
     },
     {
+        id: "pinta-canina",
+        category: "branding",
+        catLabel: {
+            es: "Branding · Dirección de arte",
+            en: "Branding · Art Direction",
+        },
+        /* Same shop bag that opens the case study, so the card and the story
+           read as one project. */
+        cover: "/portfolio/assets/pc-bolsa.jpg",
+        href: "/pinta-canina",
+        es: {
+            title: "Pinta Canina",
+            description: "Marca de complementos para pasear perros que convierte el paseo diario en un acto creativo y al perro en la musa.",
+        },
+        en: {
+            title: "Pinta Canina",
+            description: "A dog-walking accessories brand that turns the daily walk into a creative act and the dog into the muse.",
+        },
+    },
+    {
         id: "bokoba",
         category: "graphic",
         catLabel: { es: "Branding · Packaging", en: "Branding · Packaging" },
