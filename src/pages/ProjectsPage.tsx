@@ -367,6 +367,23 @@ const PROJECTS: Project[] = [
         },
     },
     {
+        id: "canzu",
+        category: "branding",
+        catLabel: { es: "Branding · Packaging", en: "Branding · Packaging" },
+        /* Same packaging shot that opens the case study, so the card and the
+           story read as one project. */
+        cover: "/portfolio/assets/cz-pack.jpg",
+        href: "/canzu",
+        es: {
+            title: "CANZU",
+            description: "Marca de accesorios para perros hecha con denim reciclado: material viejo, propósito nuevo.",
+        },
+        en: {
+            title: "CANZU",
+            description: "A dog-accessories brand made with recycled denim: old material, new purpose.",
+        },
+    },
+    {
         id: "bokoba",
         category: "graphic",
         catLabel: { es: "Branding · Packaging", en: "Branding · Packaging" },

@@ -264,6 +264,10 @@ type EditorialRow = {
     label?: Bi
     /* "offset" only: put the large image on the right instead of the left. */
     flip?: boolean
+    /* One paragraph for the whole row, set above the frames. Use it when the
+       argument belongs to the group rather than to any single image, instead
+       of repeating a caption under each one. */
+    intro?: Bi
     items: CaseMedia[]
 }
 /* A delivered billboard mockup, used exactly as supplied. The artwork is never
@@ -295,6 +299,17 @@ type BrandBlock = {
    weight and `emphasis` in the bold one, mirroring how the brand itself locks
    the two halves of the phrase together. */
 type StatementBlock = { pre?: Bi; big: Bi; emphasis?: Bi; note?: Bi }
+/* The naming block: a brand name presented as the construction that produced
+   it. The lockup reads the name as one line, the glossary underneath says what
+   each part contributes, and the note closes the argument. Opt-in: a project
+   without a naming block renders nothing. */
+type NamingBlock = {
+    heading?: Bi
+    intro?: Bi
+    lockup: { a: string; op1: string; b: string; op2: string; result: string }
+    terms: { key: string; word: string; gloss: Bi }[]
+    note?: Bi
+}
 
 type CaseProject = {
     category: Bi
@@ -326,12 +341,18 @@ type CaseProject = {
     brand?: BrandBlock
     /* Large editorial statement used as a divider between acts. */
     statement?: StatementBlock
+    /* Naming construction shown as an equation (see NamingBlock). */
+    naming?: NamingBlock
+    /* Opt in to the corrected, more generous vertical rhythm. Left off for the
+       case studies that were composed against the current spacing. */
+    airy?: boolean
     /* A single browsable carousel placed by `order` (variants, applications). */
     rollups?: CaseCarousel
     /* "What I learned" cards. */
     learned?: LearnedBlock
-    /* Final reflection — a single calm statement that closes the story. */
-    closing?: { eyebrow?: Bi; text: Bi }
+    /* Final reflection. `coda` is an optional second, shorter statement that
+       lands the ending instead of letting one long paragraph trail off. */
+    closing?: { eyebrow?: Bi; text: Bi; coda?: Bi }
     /* Render order of the blocks that follow the story sections. Omit to keep
        the default sequence. Unknown or unset keys are simply skipped, so a
        project only lists what it actually uses. */
@@ -1221,6 +1242,11 @@ function EditorialRows({ rows, lang }: { rows: EditorialRow[]; lang: Lang }) {
                             <span className="pd-eyebrow pd-erow-label">{row.label[lang]}</span>
                         </Reveal>
                     ) : null}
+                    {row.intro ? (
+                        <Reveal blur delay={0.04}>
+                            <p className="pd-para pd-erow-intro">{row.intro[lang]}</p>
+                        </Reveal>
+                    ) : null}
                     {row.kind === "carousel" ? (
                         /* Screens belonging to one concept are browsed in place
                            instead of stacking down the page. */
@@ -1641,6 +1667,69 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
         )
     }
 
+    if (p.naming) {
+        const nm = p.naming
+        storyBlocks.naming = (
+            <section
+                className="aag-section pd-naming-sec"
+                id="pd-naming"
+                key="naming"
+                aria-label={nm.heading ? nm.heading[lang] : "Naming"}
+            >
+                {nm.heading ? (
+                    <Reveal blur>
+                        <span className="pd-eyebrow">{nm.heading[lang]}</span>
+                    </Reveal>
+                ) : null}
+                {nm.intro ? (
+                    <Reveal blur delay={0.04}>
+                        <p className="pd-para pd-naming-intro">{nm.intro[lang]}</p>
+                    </Reveal>
+                ) : null}
+                <Reveal blur delay={0.08}>
+                    {/* Each operator is grouped with the term it introduces and
+                        the group never breaks, so a narrow screen wraps the line
+                        as "can" / "+ azul" / "= canzu" instead of stranding a
+                        lone plus sign at the end of a line. */}
+                    <p className="pd-naming-lockup">
+                        <span className="pd-naming-group">
+                            <span className="pd-naming-term">{nm.lockup.a}</span>
+                        </span>
+                        <span className="pd-naming-group">
+                            <span className="pd-naming-op" aria-hidden="true">
+                                {nm.lockup.op1}
+                            </span>
+                            <span className="pd-naming-term">{nm.lockup.b}</span>
+                        </span>
+                        <span className="pd-naming-group">
+                            <span className="pd-naming-op" aria-hidden="true">
+                                {nm.lockup.op2}
+                            </span>
+                            <span className="pd-naming-term pd-naming-term--result">
+                                {nm.lockup.result}
+                            </span>
+                        </span>
+                    </p>
+                </Reveal>
+                <Reveal blur delay={0.12}>
+                    <dl className="pd-naming-defs">
+                        {nm.terms.map((term) => (
+                            <div className="pd-naming-def" key={term.key}>
+                                <dt className="pd-naming-dt">{term.word}</dt>
+                                <dd className="pd-naming-dd">{term.gloss[lang]}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </Reveal>
+                {nm.note ? (
+                    <Reveal blur delay={0.16}>
+                        <p className="pd-para pd-naming-note">{nm.note[lang]}</p>
+                    </Reveal>
+                ) : null}
+            </section>
+        )
+    }
+
     if (p.editorial && p.editorial.length > 0) {
         storyBlocks.editorial = (
             <section
@@ -1808,6 +1897,13 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
                 <Reveal blur delay={0.05}>
                     <p className="pd-lead-statement pd-closing-text">{p.closing.text[lang]}</p>
                 </Reveal>
+                {p.closing.coda ? (
+                    <Reveal blur delay={0.1}>
+                        <p className="pd-lead-statement pd-closing-text pd-closing-coda">
+                            {p.closing.coda[lang]}
+                        </p>
+                    </Reveal>
+                ) : null}
             </section>
         )
     }
@@ -1815,6 +1911,7 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
     const DEFAULT_BLOCK_ORDER = [
         "brand",
         "statement",
+        "naming",
         "editorial",
         "carousels",
         "gallery",
@@ -1828,7 +1925,7 @@ export default function CaseStudyPage(props: ProjectDetailPageProps) {
 
     return (
         <div
-            className={`aag-root${isStatic ? " aag-static" : ""}`}
+            className={`aag-root${isStatic ? " aag-static" : ""}${p.airy ? " pd-airy" : ""}`}
             style={{
                 width: "100%",
                 position: "relative",
@@ -4443,6 +4540,119 @@ html[data-aag-theme="dark"] .pd-eframe.is-media { background: #0a1c2e; }
 
 html[data-aag-theme="dark"] .pd-carousel-slide.is-screen .pd-carousel-media,
 html[data-aag-theme="dark"] .pd-carousel-video { background: #0a1c2e; }
+
+/* ==========================================================================
+   NAMING. A brand name shown as the construction that produced it.
+   Opt-in block: only a project that defines a naming block renders it, so the
+   other case studies are untouched. The lockup is one line in the heaviest
+   weight the type system carries, with the operators dropped to half size in
+   the accent so the eye reads three words and not five. The glossary below
+   sits under a hairline and gives each term its own column, with the term
+   underlined in the accent: the definitions are part of the composition
+   rather than captions hung off it.
+   ========================================================================== */
+.pd-naming-sec { padding-top: clamp(56px, 9vw, 120px); }
+/* The section's three paragraphs need a specificity boost: the global reset
+   .aag-root p { margin: 0 } outranks a bare single class and would flatten
+   the spacing this composition depends on. */
+.pd-naming-sec .pd-naming-intro { margin-top: 18px; max-width: 620px; }
+.pd-naming-sec .pd-naming-lockup {
+    margin-top: clamp(34px, 5vw, 70px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: clamp(2px, 0.6vw, 8px) clamp(14px, 2.2vw, 32px);
+    font-size: clamp(40px, 8.2vw, 104px);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--text);
+}
+.pd-naming-op {
+    font-size: 0.46em;
+    font-weight: 300;
+    letter-spacing: 0;
+    color: var(--accent);
+}
+.pd-naming-group {
+    display: inline-flex;
+    align-items: baseline;
+    gap: clamp(8px, 1.4vw, 20px);
+    white-space: nowrap;
+}
+.pd-naming-term--result { color: var(--accent); }
+.pd-naming-defs {
+    margin: clamp(28px, 3.8vw, 50px) 0 0;
+    padding-top: clamp(18px, 2.4vw, 30px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 3vw, 46px);
+}
+.pd-naming-def {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+.pd-naming-dt {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--accent);
+}
+.pd-naming-dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+.pd-naming-sec .pd-naming-note { margin-top: clamp(36px, 4.6vw, 58px); max-width: 620px; }
+@media (max-width: 860px) {
+    .pd-naming-defs { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+    .pd-naming-defs { grid-template-columns: 1fr; gap: 24px; }
+}
+html[data-aag-theme="dark"] .pd-naming-lockup { color: var(--text); }
+
+/* ==========================================================================
+   GENEROUS SPACING (opt-in, via project.airy)
+   Three of the template's paragraphs ask for a top margin that never lands:
+   the global reset .aag-root p { margin: 0 } is a class plus a type selector,
+   so it outranks a bare single class and silently flattens them. That is why
+   a statement and its note sit on top of each other. Rather than change the
+   spacing of the five case studies that were built and signed off against the
+   current look, the corrected rhythm is scoped to projects that opt in.
+   ========================================================================== */
+.aag-root.pd-airy .pd-statement-big { margin-top: clamp(20px, 2.4vw, 32px); }
+.aag-root.pd-airy .pd-statement-note { margin-top: clamp(26px, 3.2vw, 42px); }
+.aag-root.pd-airy .pd-bb-intro { margin-top: clamp(16px, 2vw, 26px); }
+.aag-root.pd-airy .pd-section { padding-top: clamp(66px, 9.5vw, 132px); }
+.aag-root.pd-airy .pd-section-body { gap: 26px; }
+.aag-root.pd-airy .pd-statement-sec,
+.aag-root.pd-airy .pd-naming-sec { padding-top: clamp(78px, 12vw, 160px); }
+.aag-root.pd-airy .pd-editorial,
+.aag-root.pd-airy .pd-brand { padding-top: clamp(78px, 11vw, 150px); }
+.aag-root.pd-airy .pd-closing { padding-top: clamp(78px, 11vw, 150px); }
+.aag-root.pd-airy .pd-editorial-rows { gap: clamp(56px, 8vw, 116px); }
+.aag-root.pd-airy .pd-erow-group { gap: clamp(16px, 2.2vw, 26px); }
+
+/* A row's own paragraph. Replaces the per-image captions on rows where the
+   argument belongs to the group rather than to any single frame, so the
+   mockups are looked at rather than read past. */
+.pd-erow-group .pd-erow-intro {
+    max-width: 660px;
+    margin-top: 2px;
+    margin-bottom: clamp(6px, 1vw, 12px);
+}
+
+/* The closing coda: a second, shorter statement that lands the ending. */
+.pd-closing .pd-closing-coda { margin-top: clamp(22px, 2.8vw, 38px); }
 `
 
 
@@ -6242,4 +6452,465 @@ const PINTA_RELATED: typeof RELATED = [
  */
 export function PintaCaninaPage(props: ProjectDetailPageProps) {
     return <CaseStudyPage {...props} project={PINTA} related={PINTA_RELATED} />
+}
+
+/* =========================================================================
+   CANZU. Dog accessories made from recycled denim (bilingual).
+   Same template and design system as the other six case studies. Two shared
+   additions were needed: the opt-in naming block, because the brand's premise
+   is a word built out of other words, and the opt-in airy spacing, because
+   this story is mostly conceptual and needs the room.
+
+   Every image is a supplied mockup. Nothing was recoloured, recomposed or
+   redesigned. The detail frames are crops of those same files: the monogram
+   on the tissue paper, the wordmark on the canvas, the stitch along the cards.
+
+   The rows carry one paragraph each instead of a caption under every frame,
+   so the mockups are looked at rather than read past.
+   ========================================================================= */
+const CZ = {
+    pack: "/portfolio/assets/cz-pack.jpg",
+    tote: "/portfolio/assets/cz-tote.jpg",
+    cards: "/portfolio/assets/cz-cards.jpg",
+    pattern: "/portfolio/assets/cz-pattern.jpg",
+    cardsCol: "/portfolio/assets/cz-cards-col.jpg",
+    cardThanks: "/portfolio/assets/cz-card-thanks.jpg",
+    toteLogo: "/portfolio/assets/cz-tote-logo.jpg",
+}
+
+/* The denim blue the brand actually prints in, lifted from the wordmark on
+   the canvas tote. Passed explicitly so the cursor, the row labels and the
+   naming operators carry CANZU's colour instead of the portfolio's default
+   coral. It is the one place this case study departs from the others. */
+const CZ_ACCENT = "#4b7099"
+
+const CANZU: CaseProject = {
+    category: { es: "Branding · Packaging", en: "Branding · Packaging" },
+    title: { es: "CANZU", en: "CANZU" },
+    year: "2026",
+    role: {
+        es: "Concepto · Naming · Identidad visual · Dirección de arte",
+        en: "Concept · Naming · Visual identity · Art direction",
+    },
+    client: { es: "Proyecto propio", en: "Self-initiated project" },
+    lead: {
+        es: "Accesorios para perros hechos con denim reciclado: una marca que trata el tejido usado como materia prima y no como residuo.",
+        en: "Dog accessories made with recycled denim: a brand that treats used fabric as raw material, not as waste.",
+    },
+    overview: {
+        es: [
+            "CANZU es una marca de accesorios para perros construida sobre una sola decisión de material: partir de denim reciclado. No es un acabado ni un argumento añadido al final. Es el punto de partida del que salen la forma, el color, la tipografía y el sistema gráfico.",
+            "Me puse un encargo concreto: comprobar si un proyecto de este sector aguanta sin sus recursos de siempre, sin pasteles, sin huellas y sin ternura, hablando en cambio el idioma del producto duradero. Taller, costura, oficio y un material que no disimula de dónde viene.",
+        ],
+        en: [
+            "CANZU is a dog-accessories brand built on a single material decision: start from recycled denim. It isn't a finish or an argument added at the end. It's the starting point that the form, the colour, the typography and the graphic system all come out of.",
+            "I set myself a specific brief: find out whether a project in this category holds up without its usual devices, without pastels, paw prints or cuteness, speaking instead the language of things built to last. Workshop, stitching, craft, and a material that doesn't hide where it came from.",
+        ],
+    },
+    services: {
+        es: [
+            "Concepto de marca",
+            "Naming",
+            "Identidad visual",
+            "Sistema gráfico",
+            "Dirección de arte",
+            "Packaging",
+            "Papelería corporativa",
+        ],
+        en: [
+            "Brand concept",
+            "Naming",
+            "Visual identity",
+            "Graphic system",
+            "Art direction",
+            "Packaging",
+            "Corporate stationery",
+        ],
+    },
+    quote: {
+        es: "Denim europeo de los perros libres.",
+        en: "European denim for dogs that run free.",
+    },
+    heroImage: CZ.pack,
+    /* Same file as the hero: the template skips the intro figure when both
+       match, so the box is met cropped and full-bleed first and read whole
+       later, inside the applications, instead of twice in a row. */
+    media1: { src: CZ.pack },
+    airy: true,
+    sections: [
+        {
+            key: "contexto",
+            heading: { es: "El contexto", en: "The context" },
+            body: {
+                es: [
+                    "Vivir con un perro se ha convertido en un mercado. Cada temporada aparecen más collares, arneses, camas y bolsas, y casi todo se fabrica igual que cualquier otro producto de consumo rápido: sintéticos baratos, cadenas largas y una vida útil corta.",
+                    "No hace falta ninguna cifra para verlo. Basta con preguntarse cuánto de lo que compramos para un animal está pensado para durar lo que dura el animal.",
+                    "Casi nada. Y un accesorio que se rompe en una temporada es un residuo con un año de retraso.",
+                ],
+                en: [
+                    "Living with a dog has become a market. Every season brings more collars, harnesses, beds and bags, and nearly all of it is made like any other fast-moving product: cheap synthetics, long chains, a short useful life.",
+                    "You don't need a statistic to see it. You only have to ask how much of what we buy for an animal is built to last as long as the animal does.",
+                    "Almost none of it. And an accessory that breaks in a season is waste running a year late.",
+                ],
+            },
+        },
+        {
+            key: "idea",
+            heading: { es: "La idea", en: "The idea" },
+            body: {
+                es: [
+                    "CANZU parte de lo contrario: en lugar de fabricar tejido nuevo, usar el que ya existe. El denim reciclado se recoge, se selecciona y se convierte en accesorios pensados para aguantar años de uso diario.",
+                    "La marca no promete un producto sin impacto, porque no lo hay. Promete algo más pequeño y más cierto: un material que ya se fabricó una vez, y una pieza diseñada para no tener que fabricarse otra.",
+                    "De ahí sale todo lo demás.",
+                ],
+                en: [
+                    "CANZU starts from the opposite idea: instead of making new fabric, use the fabric that already exists. Recycled denim is collected, sorted and turned into accessories built to take years of daily use.",
+                    "The brand doesn't promise a product with no impact, because there isn't one. It promises something smaller and truer: a material already made once, and a piece designed so it doesn't have to be made again.",
+                    "Everything else comes out of that.",
+                ],
+            },
+        },
+        {
+            key: "material",
+            heading: { es: "Por qué denim", en: "Why denim" },
+            body: {
+                es: [
+                    "El denim es un tejido de trabajo. Nació para resistir: sarga de algodón densa, pensada para el roce, el lavado y el tiempo.",
+                    "Es de los pocos materiales cotidianos que mejoran con el uso. El desgaste no lo estropea, lo marca. Por eso el denim reciclado no es un material de segunda: llega con una historia encima, y no hay dos piezas iguales.",
+                    "También tiene raíz europea, y su propio nombre lo recuerda. «Denim» se ha asociado tradicionalmente a la sarga de Nîmes, en Francia, y «jean» a la ciudad de Génova. Ropa de oficio desde el principio.",
+                    "Para un accesorio que va a recibir tirones, barro y lavados, esa resistencia no es nostalgia. Es la razón técnica de la elección.",
+                ],
+                en: [
+                    "Denim is a work fabric. It was made to resist: dense cotton twill, built for friction, washing and time.",
+                    "It's one of the few everyday materials that improve with use. Wear doesn't spoil it, it marks it. Which is why recycled denim isn't a second-rate material: it arrives with a history on it, and no two pieces come out the same.",
+                    "It has European roots too, and its own name remembers them. «Denim» has traditionally been associated with the serge of Nîmes, in France, and «jean» with the city of Genoa. Workwear from the start.",
+                    "For an accessory that will take pulling, mud and washing, that resistance isn't nostalgia. It's the technical reason for the choice.",
+                ],
+            },
+        },
+        {
+            key: "reparar",
+            heading: { es: "Reparar a la vista", en: "Repair in plain sight" },
+            body: {
+                es: [
+                    "El sistema visual se apoya en dos tradiciones textiles japonesas, y las toma como referencia conceptual, no estética.",
+                    "El boro son tejidos remendados y reconstruidos con parches durante generaciones, hasta que la prenda es más remiendo que original. El sashiko es la puntada corrida visible con la que se refuerzan y reparan esos tejidos.",
+                    "Lo que interesa de las dos es su postura: la reparación no se disimula, se enseña. Un remiendo visible no es un defecto. Es la prueba de que algo mereció arreglarse.",
+                    "CANZU no es una marca japonesa ni lo pretende. Se queda sólo con esa idea, la de que la costura puede ser el grafismo, y la traduce a un lenguaje propio.",
+                ],
+                en: [
+                    "The visual system leans on two Japanese textile traditions, taken as a conceptual reference rather than an aesthetic one.",
+                    "Boro is cloth patched and rebuilt over generations until the garment is more repair than original. Sashiko is the visible running stitch used to reinforce and mend that cloth.",
+                    "What matters about both is their stance: repair isn't hidden, it's shown. A visible mend isn't a flaw. It's evidence that something was worth fixing.",
+                    "CANZU isn't a Japanese brand and doesn't pretend to be. It keeps only that idea, that stitching can be the graphic element, and translates it into a language of its own.",
+                ],
+            },
+        },
+    ],
+    statement: {
+        pre: { es: "La marca, en una línea", en: "The brand, in one line" },
+        big: { es: "Material viejo.", en: "Old material." },
+        emphasis: { es: "Propósito nuevo.", en: "New purpose." },
+        note: {
+            es: "Si el material ya ha vivido una vez, el diseño no tiene que inventar nada. Sólo tiene que darle un motivo para volver a la calle.",
+            en: "If the material has already lived once, design doesn't have to invent anything. It only has to give it a reason to go back out.",
+        },
+    },
+    naming: {
+        heading: { es: "El nombre", en: "The name" },
+        intro: {
+            es: "El nombre tenía que decir dos cosas a la vez: de qué animal hablamos y de qué está hecho el producto.",
+            en: "The name had to say two things at once: which animal we're talking about, and what the product is made of.",
+        },
+        lockup: { a: "Can", op1: "+", b: "Azul", op2: "=", result: "Canzu" },
+        terms: [
+            {
+                key: "can",
+                word: "Can",
+                gloss: {
+                    es: "La raíz latina de canis. Sigue viva en can, cane, chien y en todo lo canino.",
+                    en: "The Latin root of canis. Still alive in can, cane, chien and in everything canine.",
+                },
+            },
+            {
+                key: "azul",
+                word: "Azul",
+                gloss: {
+                    es: "El color por el que cualquiera reconoce el denim, en cualquier sitio.",
+                    en: "Spanish for blue. The colour anyone recognises denim by, anywhere.",
+                },
+            },
+            {
+                key: "canzu",
+                word: "Canzu",
+                gloss: {
+                    es: "Corto, rotundo y fácil de decir en cualquier idioma.",
+                    en: "Short, solid and easy to say in any language.",
+                },
+            },
+        ],
+        note: {
+            es: "Hay una tercera lectura que apareció sola y se quedó. En inglés, can es poder: lo que se es capaz de hacer. Y ese acabó siendo el argumento de la marca, porque con un material que ya existe se puede hacer algo mejor.",
+            en: "There's a third reading that turned up on its own and stayed. In English, can is what you're able to do. That ended up being the brand's argument, because with a material that already exists you can make something better.",
+        },
+    },
+    editorialHeading: { es: "La identidad", en: "The identity" },
+    editorialIntro: {
+        es: "La identidad es una extensión del material. Una serifa egipcia de trazo pesado, la paleta que ya está en el tejido y poco más. No hay verde en ninguna parte: la sostenibilidad la cuenta el material, no un color prestado.",
+        en: "The identity is an extension of the material. A heavy slab serif, the palette already present in the fabric, and little else. There's no green anywhere: the material makes the sustainability argument, not a borrowed colour.",
+    },
+    editorial: [
+        {
+            key: "logotipo",
+            kind: "full",
+            label: {
+                es: "Logotipo y sistema tipográfico",
+                en: "Wordmark and type system",
+            },
+            intro: {
+                es: "El logotipo es una egipcia en mayúsculas, de remates cuadrados y trazo pesado: la tipografía de los talleres y los rótulos de trabajo, no la de una tienda de mascotas. A su lado, una grotesca ligera se ocupa de los datos. Dos voces, ninguna decorativa, alternándose cara a cara por todo el sistema de tarjetas.",
+                en: "The wordmark is a slab serif in capitals, square-bracketed and heavy-stemmed: the typography of workshops and trade signage, not of a pet shop. Beside it, a light grotesque handles the details. Two voices, neither decorative, alternating face to face across the card system.",
+            },
+            items: [
+                {
+                    src: CZ.cards,
+                    alt: {
+                        es: "Sistema de tarjetas de visita de CANZU alternando caras azul marino con el logotipo y caras claras con los datos de contacto",
+                        en: "CANZU business-card system alternating navy faces carrying the wordmark with pale faces carrying the contact details",
+                    },
+                },
+            ],
+        },
+        {
+            key: "voz",
+            kind: "pair",
+            label: { es: "El logotipo, de cerca", en: "The wordmark, up close" },
+            intro: {
+                es: "De cerca se ve de qué está hecha la marca. Sobre algodón crudo la tinta se abre en la trama y deja el trazo ligeramente comido, como se imprimía la ropa de trabajo. Dentro de la caja, ese mismo logotipo se reduce hasta caber en una pegatina de cierre: CZ, dos letras y nada más.",
+                en: "Up close you can see what the brand is made of. On raw cotton the ink breaks over the weave and leaves the stroke slightly eaten away, the way workwear was printed. Inside the box, that same wordmark shrinks until it fits on a seal sticker: CZ, two letters and nothing more.",
+            },
+            items: [
+                {
+                    src: CZ.toteLogo,
+                    alt: {
+                        es: "Primer plano del logotipo de CANZU serigrafiado en azul denim sobre lona de algodón crudo, con el descriptor debajo",
+                        en: "Close-up of the CANZU wordmark screen-printed in denim blue on raw cotton canvas, with the descriptor beneath",
+                    },
+                },
+                {
+                    src: CZ.cardThanks,
+                    alt: {
+                        es: "Tarjeta de agradecimiento de CANZU con el logotipo, la pegatina CZ y una fotografía de un parche de denim en una máquina de coser",
+                        en: "CANZU thank-you card with the wordmark, the CZ sticker and a photograph of a denim patch under a sewing machine",
+                    },
+                },
+            ],
+        },
+        {
+            key: "sistema",
+            kind: "pair",
+            label: {
+                es: "Sistema gráfico · Coser y componer",
+                en: "Graphic system · Sew and compose",
+            },
+            intro: {
+                es: "El sistema gráfico no decora la marca: la construye igual que se construye el producto. Las letras del logotipo se cortan, se giran y se vuelven a montar sobre una retícula, unidas por líneas discontinuas que son literalmente una puntada. De ahí sale un monograma que se imprime en marino sobre marino, en el papel de seda y en el reverso de las tarjetas, y un pespunte que recorre los bordes como el remate de una prenda. Cortar, unir, rematar: las mismas operaciones que se hacen con el tejido, hechas con el alfabeto.",
+                en: "The graphic system doesn't decorate the brand, it builds it the way the product is built. The wordmark's letters are cut, rotated and reassembled on a grid, held together by dashed lines that are literally a stitch. Out of that comes a monogram printed navy on navy, across the tissue paper and the back of the cards, and a topstitch running along the edges like a garment's finish. Cut, join, finish: the same operations performed on the fabric, performed on the alphabet.",
+            },
+            items: [
+                {
+                    src: CZ.pattern,
+                    alt: {
+                        es: "Detalle del papel de seda de CANZU con el monograma fragmentado de las letras y la línea de puntada discontinua",
+                        en: "Detail of CANZU tissue paper showing the fragmented letter monogram and the dashed stitch line",
+                    },
+                },
+                {
+                    src: CZ.cardsCol,
+                    alt: {
+                        es: "Detalle del sistema de tarjetas de CANZU: logotipo en azul lavado sobre marino y jerarquía tipográfica en el reverso claro",
+                        en: "Detail of the CANZU card system: wordmark in washed blue on navy, and the type hierarchy on the pale reverse",
+                    },
+                },
+            ],
+        },
+        {
+            key: "aplicaciones",
+            kind: "pair",
+            label: { es: "Aplicaciones", en: "Applications" },
+            intro: {
+                es: "El sistema se estira sin esfuerzo porque nunca dependió de un color de moda ni de un adorno. Sobre cartón sin blanquear, sobre algodón crudo o sobre cartulina, la marca se comporta siempre igual: el logotipo manda, el monograma se retira al fondo y el pespunte marca el límite. El gasto se concentra en lo que protege el producto, no en lo que lo envuelve, y lo que llega a casa se puede volver a usar o reciclar sin que haya que explicarlo.",
+                en: "The system stretches without effort because it never depended on a fashionable colour or an ornament. On unbleached board, on raw cotton or on card, the brand behaves the same way: the wordmark leads, the monogram retreats into the background and the topstitch marks the edge. The spend goes into what protects the product rather than what wraps it, and what arrives at someone's home can be reused or recycled without needing to be explained.",
+            },
+            items: [
+                {
+                    src: CZ.pack,
+                    alt: {
+                        es: "Caja de envío de CANZU abierta, con papel de seda azul denim estampado, tarjeta de agradecimiento y pegatina CZ",
+                        en: "An open CANZU shipping box with printed denim-blue tissue paper, thank-you card and CZ seal sticker",
+                    },
+                },
+                {
+                    src: CZ.tote,
+                    alt: {
+                        es: "Tote bag de algodón crudo de CANZU con el logotipo en azul denim, apoyada sobre una silla de cuero negro",
+                        en: "CANZU raw cotton tote bag carrying the wordmark in denim blue, resting on a black leather chair",
+                    },
+                },
+            ],
+        },
+    ],
+    brand: {
+        heading: { es: "Producir con criterio", en: "Producing with judgement" },
+        body: {
+            es: [
+                "El posicionamiento se apoya en decisiones concretas, no en promesas. Partir de denim reciclado evita fabricar tejido nuevo. Diseñar para que la pieza aguante años reduce cuántas veces hay que reponerla. Plantear la producción en Europa acorta la cadena y permite saber quién cose.",
+                "Nada de esto hace que el producto sea neutro. Un accesorio fabricado sigue gastando agua, energía y transporte, y decir lo contrario sería vender humo.",
+                "Lo que sí se sostiene es más modesto: se parte de algo que ya existía, se diseña para que dure y se sale del ciclo de comprar y tirar cada temporada. Por eso aquí no hay hojas, ni verdes, ni sellos inventados. El argumento está en el material y en cómo está hecha la pieza, que es donde se puede defender.",
+            ],
+            en: [
+                "The positioning rests on concrete decisions rather than promises. Starting from recycled denim avoids making new fabric. Designing the piece to last years reduces how often it has to be replaced. Planning production in Europe shortens the chain and makes it possible to know who does the sewing.",
+                "None of this makes the product neutral. A manufactured accessory still spends water, energy and transport, and saying otherwise would be selling smoke.",
+                "What does hold up is more modest: it starts from something that already existed, it's designed to last, and it steps out of the buy-and-bin cycle of a seasonal product. Which is why there are no leaves here, no greens and no invented seals. The argument sits in the material and in how the piece is made, and that's where it can be defended.",
+            ],
+        },
+    },
+    learned: {
+        heading: { es: "Lo que me llevo", en: "What I learned" },
+        items: [
+            {
+                key: "material",
+                title: {
+                    es: "Empezar por el material",
+                    en: "Starting from the material",
+                },
+                text: {
+                    es: "El material suele elegirse al final, cuando la marca ya está decidida. Aquí fue al revés, y eso resolvió solo el color, la tipografía y hasta el patrón. Cuando el punto de partida es físico, las decisiones gráficas dejan de ser arbitrarias.",
+                    en: "Material usually gets picked last, once the brand is already settled. Here it went the other way round, and that alone resolved the colour, the typography and even the pattern. When the starting point is physical, graphic decisions stop being arbitrary.",
+                },
+            },
+            {
+                key: "nombre",
+                title: {
+                    es: "Un nombre que ya es el concepto",
+                    en: "A name that is already the concept",
+                },
+                text: {
+                    es: "Can y azul no es un juego de palabras decorativo: describe literalmente el producto. Cuando el nombre carga con el concepto, la marca necesita explicarse mucho menos y todo lo demás puede hablar más bajo.",
+                    en: "Can and azul isn't a decorative pun: it literally describes the product. When the name carries the concept, the brand needs to explain itself far less and everything else can speak more quietly.",
+                },
+            },
+            {
+                key: "registro",
+                title: {
+                    es: "Salir del registro del sector",
+                    en: "Leaving the category's register",
+                },
+                text: {
+                    es: "El reflejo en productos para animales es la ternura. Renunciar a ella daba miedo, porque parecía dejar la marca fría. La calidez acabó viniendo del material y del acabado, que cuesta más de conseguir y mucho más de copiar.",
+                    en: "The reflex in pet products is cuteness. Giving it up felt risky, as if it would leave the brand cold. The warmth ended up coming from the material and the finish, which is harder to achieve and much harder to copy.",
+                },
+            },
+            {
+                key: "patron",
+                title: {
+                    es: "Dejar que el patrón cargue con la idea",
+                    en: "Letting the pattern carry the idea",
+                },
+                text: {
+                    es: "Descoser las letras y volver a montarlas dice lo mismo que tres párrafos sobre economía circular, y no hay que leerlo. Es la pieza del sistema que más trabaja y la que menos se explica.",
+                    en: "Unpicking the letters and reassembling them says the same thing as three paragraphs on circular design, and nobody has to read it. It's the hardest-working part of the system and the least explained.",
+                },
+            },
+            {
+                key: "sostenibilidad",
+                title: {
+                    es: "Sostenibilidad sin decorado",
+                    en: "Sustainability without the set dressing",
+                },
+                text: {
+                    es: "Lo más difícil fue quitar: el verde, las hojas, los porcentajes que no podía demostrar. Afirmar menos hizo la marca más creíble, y me obligó a poner el argumento en el producto y no en el mensaje.",
+                    en: "The hardest part was taking things out: the green, the leaves, the percentages I couldn't back up. Claiming less made the brand more credible, and forced the argument into the product instead of the messaging.",
+                },
+            },
+            {
+                key: "acabados",
+                title: { es: "La costura como grafismo", en: "Stitching as graphic" },
+                text: {
+                    es: "El pespunte, el borde deshilachado y el remache no son adornos: son cómo está hecho el objeto. Usarlos como elementos gráficos hizo que identidad y producto hablaran el mismo idioma sin ilustrar nada.",
+                    en: "The topstitch, the frayed edge and the rivet aren't ornaments: they're how the object is made. Using them as graphic elements made identity and product speak the same language without illustrating anything.",
+                },
+            },
+        ],
+    },
+    closing: {
+        eyebrow: { es: "Para terminar", en: "To close" },
+        text: {
+            es: "Al final esto no va de accesorios para perros. Va de mirar un objeto cotidiano, de los que nadie discute, y preguntarse por qué se fabrica como se fabrica. El denim que lleva una de estas piezas ya tuvo una vida: alguien lo llevó puesto, lo gastó y lo dio por terminado.",
+            en: "In the end this isn't about dog accessories. It's about looking at an everyday object, the kind nobody questions, and asking why it gets made the way it does. The denim in one of these pieces already had a life: someone wore it, wore it out and called it finished.",
+        },
+        coda: {
+            es: "CANZU sólo se ocupa del capítulo siguiente. El nombre lo dice en dos idiomas a la vez: el perro, y lo que se puede hacer.",
+            en: "CANZU only takes care of the next chapter. The name says it in two languages at once: the dog, and what can be done.",
+        },
+    },
+    order: ["statement", "naming", "editorial", "brand", "learned", "closing"],
+}
+
+/* Same four neighbours Framer lists, pointed at the repo's local cover images.
+   The site vendors every asset, so nothing loads from a remote host. */
+const CANZU_RELATED: typeof RELATED = [
+    {
+        key: "pinta-canina",
+        category: {
+            es: "Branding · Dirección de arte",
+            en: "Branding · Art Direction",
+        },
+        title: { es: "Pinta Canina", en: "Pinta Canina" },
+        info: { es: "Identidad visual · 2025", en: "Visual identity · 2025" },
+        href: "/pinta-canina",
+        img: "/portfolio/assets/pc-bolsa.jpg",
+    },
+    {
+        key: "bokoba",
+        category: { es: "Branding · Packaging", en: "Branding · Packaging" },
+        title: { es: "Bokobá", en: "Bokobá" },
+        info: { es: "Packaging · 2024", en: "Packaging · 2024" },
+        href: "/bokoba",
+        img: "/portfolio/assets/J4xbn8KEm1QwxJewAfew9lOzAvw.png",
+    },
+    {
+        key: "neon",
+        category: { es: "Branding · Rebranding", en: "Branding · Rebranding" },
+        title: { es: "The Neon Museum", en: "The Neon Museum" },
+        info: { es: "Identidad visual · 2024", en: "Visual identity · 2024" },
+        href: "/the-neon-museum",
+        img: "/portfolio/assets/9WOJrSua7HrXJix9NDhgeyiuOw.png",
+    },
+    {
+        key: "chroma",
+        category: { es: "Editorial · Print", en: "Editorial · Print" },
+        title: { es: "Chroma", en: "Chroma" },
+        info: { es: "Diseño editorial · 2024", en: "Editorial design · 2024" },
+        href: "/chroma",
+        img: "/portfolio/assets/g4yBChKIzhvrn48BYpcQjBoNXk.png",
+    },
+]
+
+/**
+ * CANZU case study
+ * @framerIntrinsicWidth 1280
+ * @framerIntrinsicHeight 2400
+ * @framerSupportedLayoutWidth any-prefer-fixed
+ * @framerSupportedLayoutHeight auto
+ */
+export function CanzuPage(props: ProjectDetailPageProps) {
+    return (
+        <CaseStudyPage
+            {...props}
+            project={CANZU}
+            related={CANZU_RELATED}
+            accent={CZ_ACCENT}
+        />
+    )
 }

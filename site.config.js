@@ -181,6 +181,13 @@ export const ROUTES = [
         props: {},
     },
     {
+        path: "/canzu",
+        module: "CaseStudyPage",
+        export: "CanzuPage",
+        title: "CANZU — Auxi Arroyo García",
+        props: {},
+    },
+    {
         path: "/charging-page",
         module: "ChargingPage",
         export: "default",
